@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0f1d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Radyo Kırkyama | Boğaziçi Koleji</title>
+  
+  <!-- Favicon & PWA Manifest -->
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="apple-touch-icon" href="assets/logo.svg">
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Arka Plan Atmosferik Işıklar (Glow) -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <div class="app-layout">
+    <!-- SOL KENAR ÇUBUĞU (SIDEBAR) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">
+          <img src="assets/logo.svg" alt="Radyo Kırkyama Logo" class="brand-icon">
+          <div class="brand-text">
+            <h1 class="brand-title">Kırkyama</h1>
+            <span class="brand-subtitle">BOĞAZİÇİ KOLEJİ</span>
+          </div>
+        </div>
+        <button class="icon-btn mobile-close-sidebar" id="closeSidebarBtn" title="Menüyü Kapat">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">MENÜ</div>
+        <button class="nav-item active" data-view="discover">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          <span>Keşfet</span>
+        </button>
+        <button class="nav-item" data-view="favorites">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span>Favorilerim</span>
+          <span class="badge" id="favCountBadge">0</span>
+        </button>
+        <button class="nav-item" data-view="queue-mobile">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Şarkı Kuyruğu</span>
+          <span class="badge" id="queueCountBadge">0</span>
+        </button>
+
+        <div class="nav-section-title">KATEGORİLER</div>
+        <div class="category-list">
+          <button class="category-item active" data-category="all">
+            <span class="cat-dot dot-all"></span>
+            <span>Tüm Şarkılar</span>
+          </button>
+          <button class="category-item" data-category="lofi">
+            <span class="cat-dot dot-lofi"></span>
+            <span>Lofi & Odaklanma</span>
+          </button>
+          <button class="category-item" data-category="school">
+            <span class="cat-dot dot-school"></span>
+            <span>Okul Teneffüs Kuşağı</span>
+          </button>
+          <button class="category-item" data-category="soundtrack">
+            <span class="cat-dot dot-soundtrack"></span>
+            <span>Kült Film Müzikleri</span>
+          </button>
+          <button class="category-item" data-category="classical">
+            <span class="cat-dot dot-classical"></span>
+            <span>Klasik Başyapıtlar</span>
+          </button>
+          <button class="category-item" data-category="turkce">
+            <span class="cat-dot dot-turkce"></span>
+            <span>Türkçe Seçkiler</span>
+          </button>
+          <button class="category-item" data-category="yabanci">
+            <span class="cat-dot dot-yabanci"></span>
+            <span>Yabancı Seçkiler</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Alt Bilgi / Canlı Sunucu Rozeti -->
+      <div class="sidebar-footer">
+        <div class="server-status-pill">
+          <span class="status-indicator" id="serverStatusIndicator"></span>
+          <div class="status-texts">
+            <span class="status-title" id="serverStatusTitle">Yerel Demo Modu</span>
+            <span class="status-sub" id="serverStatusSub">Telegram MTProto Hazır</span>
+          </div>
+        </div>
+        <div class="school-tag">
+          <span>Boğaziçi Koleji &bull; 0 TL Sınırsız Bulut</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ANA İÇERİK ALANI -->
+    <main class="main-content">
+      <!-- ÜST ÇUBUK (TOPBAR) -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-btn mobile-menu-toggle" id="openSidebarBtn" title="Menüyü Aç">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="search-box">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="searchInput" placeholder="Şarkı, sanatçı veya albüm ara..." autocomplete="off">
+            <button class="clear-search-btn" id="clearSearchBtn" title="Temizle">&times;</button>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Hızlı Sunucu Ayarı Modal Butonu -->
+          <button class="icon-btn" id="serverSettingsBtn" title="Sunucu Bağlantı Ayarları">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+          <!-- PWA Yükle Butonu -->
+          <button class="install-pwa-btn" id="installPwaBtn" style="display: none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Uygulamayı Yükle</span>
+          </button>
+          <!-- Kuyruk Paneli Aç/Kapa Butonu -->
+          <button class="icon-btn queue-toggle-btn" id="toggleQueueBtn" title="Çalma Sırası">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- İÇERİK GÖVDE -->
+      <div class="content-scroll">
+        <!-- ÖNE ÇIKAN HERO ALANI -->
+        <section class="hero-banner" id="heroBanner">
+          <div class="hero-glass">
+            <div class="hero-badge">GÜNÜN PARÇASI</div>
+            <h2 class="hero-title" id="heroTitle">Midnight Study Session</h2>
+            <p class="hero-desc" id="heroDesc">Lofi & Odaklanma kuşağında ders çalışırken zihnini tazeleyecek özel ritimler.</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" id="heroPlayBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Hemen Dinle</span>
+              </button>
+              <button class="btn btn-secondary" id="heroQueueBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Sıraya Ekle</span>
+              </button>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <img id="heroCover" src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=500&auto=format&fit=crop&q=80" alt="Hero Cover">
+            <div class="hero-vinyl"></div>
+          </div>
+        </section>
+
+        <!-- KATEGORİ YATAY FİLTRE HAPLARI -->
+        <section class="filter-chips-container">
+          <button class="chip active" data-category="all">Tümü</button>
+          <button class="chip" data-category="lofi">☕ Lofi & Odaklanma</button>
+          <button class="chip" data-category="school">🔔 Teneffüs Kuşağı</button>
+          <button class="chip" data-category="soundtrack">🎬 Kült Film Müzikleri</button>
+          <button class="chip" data-category="classical">🎻 Klasik Başyapıtlar</button>
+          <button class="chip" data-category="turkce">🇹🇷 Türkçe Seçkiler</button>
+          <button class="chip" data-category="yabanci">🌍 Yabancı Seçkiler</button>
+        </section>
+
+        <!-- ŞARKI LİSTESİ ALANI -->
+        <section class="song-section">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title" id="sectionTitle">Tüm Şarkılar</h3>
+              <p class="section-subtitle" id="sectionSubtitle">Toplam <span id="songCount">0</span> parça listeleniyor</p>
+            </div>
+            <div class="section-controls">
+              <button class="btn-pill" id="playAllBtn" title="Tümünü Çal">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Tümünü Çal</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tablo Başlıkları (Desktop) -->
+          <div class="song-table-header">
+            <div class="col-num">#</div>
+            <div class="col-title">BAŞLIK</div>
+            <div class="col-album">ALBÜM</div>
+            <div class="col-category">KATEGORİ</div>
+            <div class="col-time">SÜRE</div>
+            <div class="col-action"></div>
+          </div>
+
+          <!-- Dinamik Şarkı Listesi Container -->
+          <div class="song-list" id="songList">
+            <!-- JavaScript ile doldurulacak -->
+          </div>
+
+          <!-- Arama Sonucu Bulunamadı Durumu -->
+          <div class="empty-state" id="emptyState" style="display: none;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            <h4>Sonuç Bulunamadı</h4>
+            <p>Aradığınız kriterlere uygun parça bulunamadı. Lütfen farklı bir arama yapmayı deneyin.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- SAĞ YAN ŞARKI KUYRUĞU (UP NEXT DRAWER) -->
+    <aside class="queue-drawer" id="queueDrawer">
+      <div class="queue-header">
+        <div class="queue-title-wrap">
+          <h4>Çalma Sırası</h4>
+          <span class="queue-badge" id="queueDrawerBadge">0</span>
+        </div>
+        <div class="queue-header-actions">
+          <button class="btn-text-danger" id="clearQueueBtn" title="Kuyruğu Temizle">Temizle</button>
+          <button class="icon-btn" id="closeQueueBtn" title="Kapat">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="queue-now-playing" id="queueNowPlaying">
+        <!-- Şu an çalan özet kartı -->
+      </div>
+
+      <div class="queue-section-divider">SIRADAKİLER</div>
+      <div class="queue-items-list" id="queueItemsList">
+        <!-- Kuyruktaki şarkılar -->
+      </div>
+    </aside>
+  </div>
+
+  <!-- SABİT ALT ÇALAR ÇUBUĞU (BOTTOM PLAYER BAR) -->
+  <footer class="bottom-player" id="bottomPlayer">
+    <!-- İlerleme Çubuğu (Barın Tam Tepesinde İnce Çizgi veya Slider) -->
+    <div class="progress-bar-container" id="progressBarContainer">
+      <div class="progress-buffered" id="progressBuffered"></div>
+      <div class="progress-played" id="progressPlayed"></div>
+      <input type="range" class="progress-seek-input" id="progressSeek" min="0" max="100" value="0" step="0.1">
+    </div>
+
+    <div class="player-content">
+      <!-- SOL: ÇALAN PARÇA BİLGİSİ -->
+      <div class="player-left">
+        <div class="track-cover-wrap">
+          <img id="playerCover" src="assets/logo.svg" alt="Now Playing">
+          <div class="track-sound-wave" id="trackSoundWave">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="track-meta">
+          <div class="track-title" id="playerTitle">Bir parça seçin</div>
+          <div class="track-artist" id="playerArtist">Boğaziçi Koleji Radyosu</div>
+        </div>
+        <button class="icon-btn fav-btn" id="playerFavBtn" title="Favorilere Ekle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+
+      <!-- ORTA: OYNATMA KONTROLLERİ VE ZAMAN -->
+      <div class="player-center">
+        <div class="player-controls">
+          <button class="icon-btn ctrl-btn" id="shuffleBtn" title="Karışık Çal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+          </button>
+          
+          <button class="icon-btn ctrl-btn" id="prevBtn" title="Önceki Şarkı">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="3"/></svg>
+          </button>
+
+          <button class="play-pause-btn" id="playPauseBtn" title="Oynat / Durdur">
+            <!-- Play SVG -->
+            <svg class="play-svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+            <!-- Pause SVG -->
+            <svg class="pause-svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          </button>
+
+          <button class="icon-btn ctrl-btn" id="nextBtn" title="Sonraki Şarkı">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="3"/></svg>
+          </button>
+
+          <button class="icon-btn ctrl-btn" id="repeatBtn" title="Tekrar Çal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            <span class="repeat-one-indicator" id="repeatOneIndicator">1</span>
+          </button>
+        </div>
+
+        <div class="player-timeline">
+          <span class="time-text" id="currentTime">00:00</span>
+          <div class="timeline-bar">
+            <!-- Ekran küçükse orta bar ilerleme kontrolünü de sağlar -->
+          </div>
+          <span class="time-text" id="totalDuration">00:00</span>
+        </div>
+      </div>
+
+      <!-- SAĞ: SES SEVİYESİ VE EK SEÇENEKLER -->
+      <div class="player-right">
+        <button class="speed-btn" id="playbackSpeedBtn" title="Oynatma Hızı">1x</button>
+        
+        <div class="volume-box">
+          <button class="icon-btn" id="volumeBtn" title="Sesi Aç / Kapat">
+            <svg id="volumeHighIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            <svg id="volumeMuteIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+          </button>
+          <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.8">
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SUNUCU AYARLARI MODALI (Canlı Render & Yerel Stream Bağlantısı İçin) -->
+  <div class="modal-backdrop" id="serverSettingsModal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4>Stream Sunucusu Bağlantısı</h4>
+        <button class="icon-btn modal-close" id="closeSettingsModalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          Şarkılar Telegram kanalından (<strong>-1004471052728</strong>) Stream Server aracılığıyla anlık çözülüp dinletilir.
+        </p>
+        
+        <div class="form-group">
+          <label for="serverUrlInput">Stream Server URL:</label>
+          <input type="url" id="serverUrlInput" placeholder="http://localhost:3001 veya https://radyo-kirkyama.onrender.com">
+          <small class="form-hint">Canlıya geçince Render'dan aldığınız HTTPS linkini buraya girebilirsiniz.</small>
+        </div>
+
+        <div class="form-group">
+          <label>Çalma Modu:</label>
+          <div class="radio-toggle-group">
+            <label class="radio-label">
+              <input type="radio" name="playMode" value="auto" checked>
+              <span>Otomatik (Önce Telegram Stream, hata olursa Demo)</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="playMode" value="serverOnly">
+              <span>Sadece Telegram Stream Server</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="playMode" value="demoOnly">
+              <span>Çevrimdışı / Demo Sesleri</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="server-test-box">
+          <button class="btn btn-secondary" id="testServerBtn">Sunucu Bağlantısını Test Et</button>
+          <span class="test-result" id="serverTestResult"></span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="cancelSettingsBtn">İptal</button>
+        <button class="btn btn-primary" id="saveSettingsBtn">Ayarları Kaydet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST BİLDİRİM -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Gizli HTML5 Audio Nesnesi (app.js tarafından kontrol edilir) -->
+  <audio id="audioEngine" preload="metadata"></audio>
+
+  <!-- Uygulama Scripti -->
+  <script src="app.js"></script>
+</body>
+</html>
