@@ -1,0 +1,3192 @@
+/* ==========================================================================
+   RADYO KIRKYAMA JOURNAL — BOĞAZİÇİ KOLEJİ KÜLTÜR YAYINI
+   Tasarım: Editorial Müzik Dergisi, Asimetrik Mizanpaj & Küratör Çizgisi
+   ========================================================================== */
+
+:root {
+  --bg-editorial: #0d0e12;
+  --bg-column-left: #0f1015;
+  --bg-column-right: #13151b;
+  --bg-card: rgba(22, 24, 32, 0.65);
+  --bg-card-hover: rgba(30, 33, 44, 0.85);
+
+  --text-linen: #f3efe9;       /* Keten Fildişi */
+  --text-sub: #a6a096;         /* Sıcak Kum Grisi */
+  --text-muted: #615c54;       /* Dingin Kül */
+  --text-pure: #ffffff;
+
+  --border-thin: rgba(243, 239, 233, 0.08);
+  --border-medium: rgba(243, 239, 233, 0.16);
+  --border-accent: rgba(243, 239, 233, 0.32);
+
+  --gold-accent: #d4a373;      /* Rafine Şampanya Altını */
+  --live-green: #10b981;
+
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --masthead-height: 72px;
+  --ribbon-height: 48px;
+  --player-height: 82px;
+
+  --aura-1: rgba(212, 163, 115, 0.18);
+  --aura-2: rgba(99, 102, 241, 0.12);
+
+  --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  height: 100%;
+  overscroll-behavior-y: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--bg-editorial);
+  color: var(--text-linen);
+  font-family: var(--sans);
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  user-select: none;
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ==========================================================================
+   YAŞAYAN EDİTORİAL IŞIK AURASI (BACKGROUND MESH)
+   ========================================================================== */
+.editorial-aura {
+  position: fixed;
+  inset: -100px;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  filter: blur(140px);
+  opacity: 0.6;
+  transition: all 2s ease;
+}
+.aura-orb {
+  position: absolute;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  transition: all 2s ease;
+}
+.orb-1 {
+  width: 700px;
+  height: 700px;
+  top: -150px;
+  right: 15%;
+  background: var(--aura-1);
+  animation: orb-drift-1 25s infinite alternate ease-in-out;
+}
+.orb-2 {
+  width: 650px;
+  height: 650px;
+  bottom: -100px;
+  left: 10%;
+  background: var(--aura-2);
+  animation: orb-drift-2 30s infinite alternate ease-in-out reverse;
+}
+@keyframes orb-drift-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-80px, 60px) scale(1.15); }
+}
+@keyframes orb-drift-2 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(90px, -50px) scale(0.9); }
+}
+
+/* ==========================================================================
+   UYGULAMA KAPSAYICISI (JOURNAL WRAPPER)
+   ========================================================================== */
+.journal-wrapper {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--player-height));
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   1. MASTHEAD (ÜST DERGİ BAŞLIĞI)
+   ========================================================================== */
+.masthead {
+  height: var(--masthead-height);
+  padding: 0 40px;
+  background: rgba(13, 14, 18, 0.85);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-bottom: 1px solid var(--border-thin);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  z-index: 20;
+}
+
+.masthead-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.brand-insignia {
+  width: 38px;
+  height: 38px;
+  filter: drop-shadow(0 2px 10px rgba(212, 163, 115, 0.3));
+}
+.brand-typography {
+  display: flex;
+  flex-direction: column;
+}
+.brand-masthead {
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--text-pure);
+  line-height: 1.1;
+}
+.brand-curation {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--text-sub);
+  text-transform: uppercase;
+}
+
+/* Minimalist Arama Girişi (Quill Search) */
+.search-quill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 380px;
+}
+.quill-icon {
+  position: absolute;
+  left: 0;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.search-quill input {
+  width: 100%;
+  padding: 8px 24px 8px 28px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-medium);
+  color: var(--text-pure);
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  transition: var(--transition-fast);
+}
+.search-quill input:focus {
+  outline: none;
+  border-bottom-color: var(--gold-accent);
+}
+.search-quill input::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+}
+.quill-clear {
+  position: absolute;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: none;
+}
+.quill-clear:hover {
+  color: var(--text-linen);
+}
+
+/* Sağ Eylemler & Rozet */
+.masthead-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.live-signal-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+.live-signal-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--live-green);
+  box-shadow: 0 0 8px var(--live-green);
+  animation: signal-pulse 2s infinite;
+}
+@keyframes signal-pulse {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.8; }
+}
+.live-signal-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--text-pure);
+  text-transform: uppercase;
+}
+
+.action-monocle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-thin);
+  color: var(--text-sub);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  position: relative;
+}
+.action-monocle:hover {
+  color: var(--text-pure);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--border-medium);
+}
+.queue-mini-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: var(--gold-accent);
+  color: #0d0e12;
+  font-size: 0.65rem;
+  font-weight: 800;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   KÜTÜPHANE / SESSİZ ÇALIŞMA MODU BUTONU (LO-FI FOCUS MONOCLE)
+   ========================================================================== */
+.study-mode-btn {
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.study-mode-btn .study-moon-icon {
+  color: var(--text-sub);
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.25s ease, fill 0.25s ease;
+}
+
+.study-mode-btn .study-pulse-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f59e0b;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.25s ease;
+}
+
+/* Aktif Kütüphane / Sessiz Çalışma Modu Buton Görünümü */
+.study-mode-btn.active {
+  background: rgba(245, 158, 11, 0.14) !important;
+  border-color: rgba(245, 158, 11, 0.45) !important;
+  color: #f59e0b !important;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.3) !important;
+}
+
+.study-mode-btn.active .study-moon-icon {
+  transform: rotate(-14deg) scale(1.1);
+  fill: rgba(245, 158, 11, 0.25);
+  color: #f59e0b;
+}
+
+.study-mode-btn.active .study-pulse-dot {
+  opacity: 1;
+  transform: scale(1);
+  box-shadow: 0 0 8px #f59e0b;
+  animation: study-lamp-pulse 2.2s infinite ease-in-out;
+}
+
+@keyframes study-lamp-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.4); opacity: 0.45; }
+}
+
+/* ==========================================================================
+   KÜTÜPHANE / SESSİZ ÇALIŞMA MODU TEMASI (LO-FI ZEN ATMOSPHERE)
+   ========================================================================== */
+body.study-mode {
+  --bg-editorial: #07080a;
+  --bg-column-left: #0a0b0e;
+  --bg-column-right: #0d0e12;
+  --bg-card: rgba(18, 16, 14, 0.82);
+  --bg-card-hover: rgba(28, 24, 20, 0.95);
+  --text-linen: #e8e2d8;
+  --text-sub: #968f84;
+  --text-muted: #595349;
+  --gold-accent: #f59e0b;
+  --border-thin: rgba(245, 158, 11, 0.09);
+  --border-medium: rgba(245, 158, 11, 0.18);
+  --aura-1: rgba(217, 119, 6, 0.12);
+  --aura-2: rgba(180, 83, 9, 0.06);
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Dinlendirici Loş Işık Perdesi (Lo-Fi Library Vignette) */
+body.study-mode::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  background: radial-gradient(circle at 50% 45%, transparent 55%, rgba(4, 5, 7, 0.55) 100%);
+  transition: opacity 0.6s ease;
+}
+
+body.study-mode .masthead {
+  background: rgba(7, 8, 10, 0.95);
+  border-bottom-color: rgba(245, 158, 11, 0.15);
+}
+
+body.study-mode .editions-ribbon {
+  background: rgba(7, 8, 10, 0.9);
+  border-bottom-color: rgba(245, 158, 11, 0.12);
+}
+
+body.study-mode .edition-tab.active {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.35);
+  color: #f59e0b;
+}
+
+body.study-mode .edition-tab.active::after {
+  background: #f59e0b;
+  box-shadow: 0 0 10px #f59e0b;
+}
+
+body.study-mode .swiss-player {
+  background: rgba(10, 11, 14, 0.97);
+  border-top-color: rgba(245, 158, 11, 0.18);
+}
+
+body.study-mode .swiss-seek-played,
+body.study-mode .swiss-progress-played {
+  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+}
+
+/* Now Playing Screen Study Mode Uyumu */
+body.study-mode .mobile-now-playing {
+  background: #060709;
+}
+
+body.study-mode .mnp-backdrop-image {
+  filter: blur(75px) saturate(130%) brightness(0.24);
+}
+
+body.study-mode .mnp-backdrop-tint {
+  background: linear-gradient(180deg, rgba(6, 7, 9, 0.75) 0%, rgba(6, 7, 9, 0.55) 45%, rgba(6, 7, 9, 0.98) 92%);
+}
+
+body.study-mode .mnp-header-label {
+  color: #f59e0b;
+}
+
+body.study-mode .mnp-stream-badge span:last-child {
+  color: #f59e0b;
+}
+
+body.study-mode .mnp-stream-dot {
+  background: #f59e0b;
+  box-shadow: 0 0 10px #f59e0b;
+}
+
+/* ==========================================================================
+   ZEN FOCUS SCREEN — TAM KARARTMA & SAF MÜZİĞE ODAKLANMA MODU
+   ========================================================================== */
+.zen-focus-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #000000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: max(24px, env(safe-area-inset-top, 24px)) max(24px, env(safe-area-inset-right, 24px)) max(32px, env(safe-area-inset-bottom, 32px)) max(24px, env(safe-area-inset-left, 24px));
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.zen-focus-screen.active {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.zen-ambient-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 540px;
+  height: 540px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.09) 0%, rgba(217, 119, 6, 0.03) 45%, transparent 70%);
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+  animation: zen-glow-pulse 6s infinite ease-in-out;
+}
+
+@keyframes zen-glow-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+  50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.45; }
+}
+
+.zen-topbar {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+
+.zen-mode-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--text-sub);
+}
+
+.zen-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
+}
+
+.zen-close-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #c9c3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.zen-close-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.zen-close-btn:active {
+  transform: scale(0.92);
+}
+
+.zen-center-stage {
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  margin: auto;
+  z-index: 2;
+  padding: 20px 0;
+}
+
+.zen-typography {
+  margin-bottom: 38px;
+}
+
+.zen-song-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1.2;
+  color: #fbf7ee;
+  margin-bottom: 14px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.9);
+}
+
+.zen-song-artist {
+  font-family: var(--sans);
+  font-size: clamp(0.85rem, 2.5vw, 1.05rem);
+  font-weight: 400;
+  color: #f59e0b;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.zen-progress-wrap {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto 38px auto;
+}
+
+.zen-progress-bar {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.zen-progress-played {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+  transition: width 0.15s linear;
+}
+
+.zen-time-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: #736f68;
+  margin-top: 10px;
+  font-family: monospace;
+  letter-spacing: 0.5px;
+}
+
+.zen-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+}
+
+.zen-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.zen-btn-prev, .zen-btn-next {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.zen-btn-prev:hover, .zen-btn-next:hover {
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.zen-btn-prev:active, .zen-btn-next:active {
+  transform: scale(0.92);
+}
+
+.zen-btn-play {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: #fbf7ee;
+  color: #08080a;
+  box-shadow: 0 0 32px rgba(245, 158, 11, 0.22), 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+.zen-btn-play:hover {
+  transform: scale(1.06);
+  background: #ffffff;
+  box-shadow: 0 0 42px rgba(245, 158, 11, 0.35);
+}
+
+.zen-btn-play:active {
+  transform: scale(0.93);
+}
+
+.zen-footer {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  z-index: 2;
+}
+
+.zen-quiet-hint {
+  font-size: 0.72rem;
+  color: #555048;
+  letter-spacing: 0.6px;
+}
+
+.pwa-install-pill {
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgba(243, 239, 233, 0.1);
+  border: 1px solid var(--border-medium);
+  color: var(--text-pure);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.pwa-install-pill:hover {
+  background: var(--text-pure);
+  color: #0d0e12;
+}
+
+/* ==========================================================================
+   2. ANA MİZANPAJ (2 ASİMETRİK SÜTUN)
+   ========================================================================== */
+.journal-stage {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 460px 1fr;
+  overflow: hidden;
+  position: relative;
+}
+
+/* SOL SÜTUN: KÜRATÖR VİTRİNİ & EDEBİ HİKAYE */
+.stage-curator {
+  background: var(--bg-column-left);
+  border-right: 1px solid var(--border-thin);
+  padding: 36px 40px 100px 40px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.stage-curator::-webkit-scrollbar {
+  width: 4px;
+}
+.stage-curator::-webkit-scrollbar-thumb {
+  background: var(--border-thin);
+  border-radius: 2px;
+}
+
+.curator-meta-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.curator-rule {
+  width: 24px;
+  height: 1px;
+  background: var(--gold-accent);
+}
+.curator-edition-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gold-accent);
+  text-transform: uppercase;
+}
+
+/* Büyük Kare Afiş */
+.feature-artwork-canvas {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.75), 0 0 30px rgba(212, 163, 115, 0.1);
+  border: 1px solid var(--border-medium);
+}
+.feature-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.feature-artwork-canvas:hover .feature-image {
+  transform: scale(1.03);
+}
+.feature-vignette {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+/* Edebi Hikaye Alanı (Liner Notes) */
+.feature-prose {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.feature-headline {
+  font-family: var(--serif);
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--text-pure);
+  letter-spacing: -0.5px;
+}
+.feature-byline {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--gold-accent);
+}
+
+.curator-liner-notes {
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 2px solid var(--border-medium);
+  padding: 12px 18px;
+  border-radius: 0 10px 10px 0;
+}
+.liner-notes-heading {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-sub);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.liner-notes-text {
+  font-size: 0.92rem;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+
+.feature-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn-editorial-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 30px;
+  border-radius: 999px;
+  background: var(--text-pure);
+  color: #0d0e12;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.92rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
+  transition: var(--transition-fast);
+}
+.btn-editorial-play:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(255, 255, 255, 0.35);
+}
+.btn-editorial-queue {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-pure);
+  border: 1px solid var(--border-medium);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.btn-editorial-queue:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--border-accent);
+}
+
+/* ==========================================================================
+   SAĞ SÜTUN: REPERTUAR İNDEKSİ & ŞARKI LİSTESİ (THE REPERTOIRE)
+   ========================================================================== */
+.stage-repertoire {
+  background: var(--bg-column-right);
+  padding: 36px 48px 120px 48px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.stage-repertoire::-webkit-scrollbar {
+  width: 5px;
+}
+.stage-repertoire::-webkit-scrollbar-thumb {
+  background: var(--border-thin);
+  border-radius: 2px;
+}
+
+.repertoire-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--border-thin);
+  padding-bottom: 14px;
+}
+.repertoire-tab-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.repertoire-quick-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.rep-nav-tab {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 4px;
+  color: var(--text-muted);
+  transition: var(--transition-fast);
+  position: relative;
+}
+.tab-title-serif {
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+}
+.rep-nav-tab:hover {
+  color: var(--text-linen);
+}
+.rep-nav-tab.active {
+  color: var(--text-pure);
+}
+.rep-nav-tab.active .tab-title-serif {
+  font-weight: 700;
+}
+.rep-nav-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gold-accent);
+}
+.tab-divider {
+  color: var(--border-medium);
+  font-size: 1.1rem;
+  font-weight: 300;
+}
+.tab-count-tag {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-sub);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-thin);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+/* Sanatçı Galerisi Stilleri */
+.artists-archive-intro {
+  margin-bottom: 20px;
+}
+.artists-archive-intro p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--text-sub);
+  line-height: 1.5;
+}
+
+.artists-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 16px;
+  padding-bottom: 20px;
+}
+.artist-card-box {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border-thin);
+  border-radius: 18px;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.28s ease;
+}
+.artist-card-box:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(212, 163, 115, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+.artist-avatar-circle {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  border: 2px solid var(--border-medium);
+  transition: transform 0.3s ease;
+}
+.artist-card-box:hover .artist-avatar-circle {
+  transform: scale(1.05);
+  border-color: var(--gold-accent);
+}
+.artist-card-name {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-pure);
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+.artist-card-genre {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--gold-accent);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.artist-card-pill {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-thin);
+}
+
+/* ==========================================================================
+   SEVDİĞİM ALBÜMLER & SOUNDTRACK VİTRİNİ
+   ========================================================================== */
+.albums-archive-header {
+  margin-bottom: 22px;
+}
+.albums-archive-intro {
+  margin-bottom: 14px;
+}
+.albums-archive-intro p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--text-sub);
+  line-height: 1.5;
+}
+.albums-filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.albums-filter-pills::-webkit-scrollbar {
+  display: none;
+}
+.album-filter-pill {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border-thin);
+  border-radius: 999px;
+  padding: 7px 18px;
+  color: var(--text-sub);
+  font-family: var(--sans);
+  font-size: 0.83rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.album-filter-pill:hover {
+  color: var(--text-pure);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+.album-filter-pill.active {
+  background: linear-gradient(135deg, rgba(212, 163, 115, 0.22) 0%, rgba(212, 163, 115, 0.08) 100%);
+  border-color: rgba(212, 163, 115, 0.55);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 0 16px rgba(212, 163, 115, 0.18);
+  transform: translateY(-1px);
+}
+.albums-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+  gap: 18px;
+  padding-bottom: 30px;
+}
+.album-card-box {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border-thin);
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+.album-card-box:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(212, 163, 115, 0.45);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5);
+}
+.album-cover-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #141720;
+}
+.album-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+.album-card-box:hover .album-cover-img {
+  transform: scale(1.06);
+}
+.album-cover-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(13, 14, 18, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--gold-accent);
+  border: 1px solid rgba(212, 163, 115, 0.3);
+  letter-spacing: 0.4px;
+  z-index: 2;
+}
+.album-cover-badge.soundtrack {
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.4);
+  background: rgba(15, 23, 42, 0.88);
+}
+.album-play-overlay {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--gold-accent);
+  color: #0d0e12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+.album-card-box:hover .album-play-overlay {
+  opacity: 1;
+  transform: scale(1);
+}
+.album-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.album-card-title {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-pure);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.album-card-artist {
+  font-size: 0.82rem;
+  color: var(--text-linen);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.album-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 0.74rem;
+  color: var(--text-sub);
+}
+.album-card-count {
+  color: var(--gold-accent);
+  font-weight: 600;
+}
+
+.btn-editorial-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: rgba(243, 239, 233, 0.08);
+  border: 1px solid var(--border-medium);
+  color: var(--text-pure);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.btn-editorial-pill:hover {
+  background: rgba(243, 239, 233, 0.16);
+  border-color: var(--border-accent);
+}
+
+/* İndeks Tablo Başlığı */
+.index-table-head {
+  display: grid;
+  grid-template-columns: 44px 5fr 3fr 2.5fr 70px 80px;
+  padding: 6px 14px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-thin);
+}
+
+/* Şarkı Satırları */
+.index-track-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.track-manuscript-row {
+  display: grid;
+  grid-template-columns: 44px 5fr 3fr 2.5fr 70px 80px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  background: transparent;
+  border: 1px solid transparent;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .track-manuscript-row:hover {
+    background: rgba(255, 255, 255, 0.035);
+    border-color: var(--border-thin);
+  }
+}
+.track-manuscript-row:active {
+  background: rgba(255, 255, 255, 0.05);
+}
+.track-manuscript-row.playing {
+  background: rgba(212, 163, 115, 0.08);
+  border-color: rgba(212, 163, 115, 0.25);
+}
+
+/* Kolon 1: Numara */
+.row-index-cell {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+}
+.track-manuscript-row.playing .row-index-cell {
+  color: var(--gold-accent);
+}
+
+.row-mini-play {
+  display: none;
+  color: var(--gold-accent);
+}
+@media (hover: hover) and (pointer: fine) {
+  .track-manuscript-row:hover .row-num-text {
+    display: none;
+  }
+  .track-manuscript-row:hover .row-mini-play {
+    display: block;
+  }
+}
+.track-manuscript-row.playing .row-num-text {
+  display: none;
+}
+.track-manuscript-row.playing .row-mini-bars {
+  display: flex;
+}
+
+/* Kolon 2: Eser & Sanatçı */
+.row-title-cell {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  overflow: hidden;
+}
+.row-stamp-cover {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-thin);
+}
+.row-titles-wrap {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.row-primary-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-pure);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.track-manuscript-row.playing .row-primary-title {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--gold-accent);
+}
+.row-composer-name {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: color 0.18s ease;
+  display: inline-block;
+}
+.row-composer-name:hover {
+  color: var(--gold-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Kolon 3: Albüm */
+.row-album-cell {
+  font-size: 0.84rem;
+  color: var(--text-sub);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 12px;
+}
+
+/* Kolon 4: Kuşak Etiketi */
+.row-genre-cell {
+  padding-right: 12px;
+}
+.edition-tag-mini {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-sub);
+  border: 1px solid var(--border-thin);
+}
+
+/* Kolon 5: Süre */
+.row-time-cell {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Kolon 6: Eylemler */
+.row-actions-cell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+@media (hover: hover) and (pointer: fine) {
+  .track-manuscript-row:hover .row-actions-cell {
+    opacity: 1;
+  }
+}
+.action-glyph {
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) and (pointer: fine) {
+  .action-glyph:hover {
+    color: var(--text-pure);
+    transform: scale(1.15);
+  }
+}
+.action-glyph:active {
+  transform: scale(0.92);
+}
+.action-glyph.liked {
+  color: #ef4444 !important;
+}
+
+/* Hareketli Ses Barları */
+.row-mini-bars {
+  display: none;
+  align-items: flex-end;
+  gap: 2px;
+  height: 13px;
+  width: 13px;
+}
+.row-mini-bars span {
+  width: 2.5px;
+  background: var(--gold-accent);
+  border-radius: 1px;
+  animation: bar-dance 0.8s ease-in-out infinite alternate;
+}
+.row-mini-bars span:nth-child(1) { height: 50%; animation-delay: 0.1s; }
+.row-mini-bars span:nth-child(2) { height: 100%; animation-delay: 0.3s; }
+.row-mini-bars span:nth-child(3) { height: 40%; animation-delay: 0.2s; }
+@keyframes bar-dance {
+  0% { height: 20%; }
+  100% { height: 100%; }
+}
+
+/* Boş Durum */
+.empty-manuscript {
+  text-align: center;
+  padding: 80px 20px;
+}
+.empty-title {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text-pure);
+  margin-bottom: 6px;
+}
+.empty-desc {
+  font-size: 0.88rem;
+  color: var(--text-sub);
+}
+
+/* ==========================================================================
+   4. ÇEKMECE (JOURNAL DRAWER)
+   ========================================================================== */
+.journal-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 360px;
+  background: rgba(15, 16, 21, 0.95);
+  backdrop-filter: blur(40px);
+  border-left: 1px solid var(--border-medium);
+  box-shadow: -15px 0 40px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  z-index: 50;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.journal-drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-thin);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+.drawer-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.drawer-title-wrap h4 {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-pure);
+}
+.drawer-badge {
+  background: var(--gold-accent);
+  color: #0d0e12;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+.drawer-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.drawer-clear-btn {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.drawer-clear-btn:hover {
+  text-decoration: underline;
+}
+.drawer-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-sub);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.drawer-current-slot {
+  margin-bottom: 20px;
+}
+.drawer-np-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(212, 163, 115, 0.1);
+  border: 1px solid rgba(212, 163, 115, 0.25);
+}
+.drawer-np-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.drawer-np-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--gold-accent);
+  letter-spacing: 1px;
+}
+.drawer-np-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.drawer-np-artist {
+  font-size: 0.75rem;
+  color: var(--text-sub);
+}
+
+.drawer-section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.drawer-scroll-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.drawer-scroll-list::-webkit-scrollbar {
+  width: 4px;
+}
+.drawer-scroll-list::-webkit-scrollbar-thumb {
+  background: var(--border-thin);
+}
+
+.drawer-queue-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-thin);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.drawer-queue-row:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.drawer-queue-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+/* ==========================================================================
+   5. SABİT ALT ÇALAR (SWISS HOROLOGY MINIMAL PLAYER)
+   ========================================================================== */
+.swiss-player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--player-height);
+  background: rgba(13, 14, 18, 0.94);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-top: 1px solid var(--border-thin);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+/* Saç Teli Kadar İnce İlerleme Rayı (Seek Rail) */
+.swiss-progress-rail {
+  position: relative;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: height 0.15s ease;
+}
+.swiss-progress-rail:hover {
+  height: 6px;
+}
+.swiss-progress-buffered {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  width: 0%;
+  pointer-events: none;
+}
+.swiss-progress-played {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-accent), #f3efe9);
+  width: 0%;
+  pointer-events: none;
+  box-shadow: 0 0 10px rgba(212, 163, 115, 0.5);
+}
+.swiss-seek-slider {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  opacity: 0;
+  cursor: pointer;
+  margin: 0;
+  z-index: 5;
+}
+
+/* Çalar Gövdesi */
+.swiss-player-hull {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+}
+
+/* Sol Eser Künyesi */
+.swiss-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 320px;
+}
+.swiss-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--border-thin);
+}
+.swiss-meta {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.swiss-track-name {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-pure);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.swiss-track-artist {
+  font-size: 0.78rem;
+  color: var(--text-sub);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.swiss-fav-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  margin-left: 6px;
+  transition: var(--transition-fast);
+}
+.swiss-fav-btn:hover {
+  color: var(--text-linen);
+}
+.swiss-fav-btn.active svg {
+  fill: #ef4444;
+  color: #ef4444;
+}
+
+/* Orta Oynatma Kontrolleri */
+.swiss-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex: 1;
+  max-width: 460px;
+}
+.swiss-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.swiss-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-sub);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  position: relative;
+}
+.swiss-btn:hover {
+  color: var(--text-pure);
+}
+.swiss-btn.active {
+  color: var(--gold-accent);
+}
+.swiss-repeat-one {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 0.58rem;
+  font-weight: 800;
+  background: var(--gold-accent);
+  color: #0d0e12;
+  border-radius: 50%;
+  width: 11px;
+  height: 11px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.swiss-btn.repeat-one .swiss-repeat-one {
+  display: flex;
+}
+
+.swiss-play-dial {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--text-pure);
+  color: #0d0e12;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.25);
+  transition: var(--transition-fast);
+}
+.swiss-play-dial:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(255, 255, 255, 0.4);
+}
+.swiss-play-dial:active {
+  transform: scale(0.96);
+}
+
+.swiss-time-track {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.time-sep {
+  opacity: 0.5;
+}
+
+/* Sağ Çalma Hızı & Ses */
+.swiss-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  width: 320px;
+}
+.swiss-speed-trigger {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-thin);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.swiss-speed-trigger:hover {
+  color: var(--text-pure);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.swiss-volume-dock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.swiss-volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 85px;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  outline: none;
+  cursor: pointer;
+}
+.swiss-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-pure);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+  transition: transform 0.15s;
+}
+.swiss-volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+  background: var(--gold-accent);
+}
+
+/* ==========================================================================
+   6. MODAL & TOAST BİLDİRİMLERİ (EDİTORİAL DOKU)
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+.modal-card {
+  width: 100%;
+  max-width: 500px;
+  background: #121319;
+  border: 1px solid var(--border-medium);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+  animation: modal-in 0.25s ease-out;
+}
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border-thin);
+  padding-bottom: 12px;
+}
+.modal-header h4 {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-pure);
+}
+.modal-close-cross {
+  background: transparent;
+  border: none;
+  color: var(--text-sub);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.modal-desc {
+  font-size: 0.85rem;
+  color: var(--text-sub);
+  line-height: 1.5;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-sub);
+}
+.form-group input[type="url"],
+.form-group input[type="text"] {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-thin);
+  color: var(--text-pure);
+  font-family: var(--sans);
+  font-size: 0.88rem;
+}
+.form-group input:focus {
+  border-color: var(--gold-accent);
+  outline: none;
+}
+.form-hint {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.radio-toggle-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--text-sub);
+  cursor: pointer;
+}
+.radio-label input {
+  accent-color: var(--gold-accent);
+}
+
+.server-test-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.test-result {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.test-result.success { color: var(--live-green); }
+.test-result.error { color: #ef4444; }
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.btn-editorial-cancel {
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-sub);
+  border: 1px solid var(--border-thin);
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-editorial-save {
+  padding: 10px 24px;
+  border-radius: 999px;
+  background: var(--text-pure);
+  color: #0d0e12;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+/* Toast Bildirimleri */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 2000;
+  pointer-events: none;
+}
+.toast {
+  padding: 12px 20px;
+  background: rgba(18, 20, 26, 0.96);
+  border: 1px solid var(--border-medium);
+  border-radius: 12px;
+  color: var(--text-pure);
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(15px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: toast-in 0.3s ease;
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   7. MOBİL VE TABLET UYUMLULUK (RESPONSIVE & APP-LIKE PWA)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .journal-stage {
+    grid-template-columns: 360px 1fr;
+  }
+  .stage-curator {
+    padding: 28px 20px 100px 20px;
+  }
+  .stage-repertoire {
+    padding: 28px 24px 100px 24px;
+  }
+  .index-table-head,
+  .track-manuscript-row {
+    grid-template-columns: 36px 4fr 3fr 60px 70px;
+  }
+  .th-genre,
+  .row-genre-cell {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   MOBİL (<= 860px): LIST-FIRST + AÇILIR NOW PLAYING BOTTOM SHEET
+   ========================================================================== */
+@media (max-width: 860px) {
+  /* 1. Kapsayıcı ve Ana Düzen */
+  .journal-wrapper {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  /* 2. Üst Bar (Kompakt Masthead) */
+  .masthead {
+    height: calc(52px + env(safe-area-inset-top, 0px));
+    padding: 0 16px;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .brand-insignia {
+    width: 30px;
+    height: 30px;
+  }
+  .brand-masthead {
+    font-size: 1.25rem;
+  }
+  .brand-curation {
+    font-size: 0.58rem;
+    letter-spacing: 1.5px;
+  }
+  /* Arama Çubuğu Masaüstünde Görünür, Mobilde Gizlenir (Sadece arama ikonuna basılınca açılır) */
+  .search-quill {
+    display: none !important;
+  }
+  .masthead-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .masthead-actions .live-signal-badge,
+  .masthead-actions #serverSettingsBtn {
+    display: none !important;
+  }
+  .live-station-dock {
+    padding: 4px 10px;
+    gap: 6px;
+  }
+  .live-signal-text {
+    font-size: 0.65rem;
+  }
+
+  .action-monocle {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-sub);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.2s ease;
+  }
+  .action-monocle:active {
+    transform: scale(0.92);
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .mobile-search-btn {
+    display: inline-flex !important;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
+  }
+  .mobile-search-tray {
+    position: absolute;
+    top: calc(52px + env(safe-area-inset-top, 0px));
+    left: 0;
+    right: 0;
+    z-index: 180;
+    height: 56px;
+    padding: 0 16px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    background: rgba(14, 16, 22, 0.98);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-bottom: 1px solid var(--border-medium);
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  }
+  .mobile-search-tray.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .mobile-search-capsule {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(212, 163, 115, 0.35);
+    border-radius: 999px;
+    height: 38px;
+    padding: 0 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .mobile-search-capsule:focus-within {
+    border-color: var(--gold-accent);
+    box-shadow: 0 0 14px rgba(212, 163, 115, 0.25);
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .mobile-search-icon {
+    color: var(--gold-accent);
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  #mobileSearchInput {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 0.88rem;
+    outline: none;
+    font-family: var(--sans);
+    padding: 0;
+  }
+  #mobileSearchInput::placeholder {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.84rem;
+  }
+  .mobile-search-clear {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    line-height: 1;
+    padding: 0 4px;
+    cursor: pointer;
+    display: none;
+  }
+  .mobile-search-cancel {
+    background: transparent;
+    border: none;
+    color: var(--gold-accent);
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0 8px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  /* 3. Ana Sahne: Önce Müzik (Repertuar / Sanatçı / Albüm Doğrudan Ekranda) */
+  .journal-stage {
+    display: block;
+    height: calc(100dvh - 52px - 64px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    height: calc(100vh - 52px - 64px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* 5. Sağ Sütun (Repertuar) Ana Ekrana Tam Oturur */
+  .stage-repertoire {
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    padding: 16px max(16px, env(safe-area-inset-right, 0px)) calc(88px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  }
+
+  .repertoire-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+  }
+  .tab-title-serif {
+    font-size: 1.28rem;
+  }
+  .repertoire-quick-controls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .btn-editorial-pill {
+    padding: 6px 12px;
+    font-size: 0.76rem;
+  }
+
+  /* Tablo Başlığı Mobilde Gizlenir */
+  .index-table-head {
+    display: none;
+  }
+
+  /* Şarkı Satırları: Dokunmatik & Kompakt */
+  .track-manuscript-row {
+    grid-template-columns: 28px 1fr 64px;
+    padding: 10px 8px;
+    gap: 10px;
+    min-height: 52px;
+    border-radius: 12px;
+  }
+  .row-num-text {
+    font-size: 0.72rem;
+  }
+  .row-stamp-cover {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+  }
+  .row-primary-title {
+    font-size: 0.88rem;
+    line-height: 1.25;
+  }
+  .row-composer-name {
+    font-size: 0.75rem;
+  }
+  .row-album-cell,
+  .row-genre-cell,
+  .row-time-cell {
+    display: none;
+  }
+  .row-actions-cell {
+    gap: 4px;
+  }
+  .action-glyph {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  /* Sanatçı Galerisi Grid'i Mobilde 2 Kolon */
+  .artists-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .artist-card-box {
+    padding: 16px 10px;
+    border-radius: 14px;
+  }
+  .artist-avatar-circle {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 8px;
+  }
+  .artist-card-name {
+    font-size: 1.05rem;
+  }
+  .artist-card-genre {
+    font-size: 0.65rem;
+  }
+  .artist-card-pill {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+  }
+
+  /* Albüm Galerisi Grid'i Mobilde 2 Kolon */
+  .albums-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .album-card-box {
+    padding: 10px;
+    border-radius: 14px;
+  }
+  .album-card-title {
+    font-size: 0.98rem;
+  }
+  .album-card-artist {
+    font-size: 0.76rem;
+  }
+  .album-play-overlay {
+    opacity: 1;
+    transform: scale(0.85);
+    width: 32px;
+    height: 32px;
+    bottom: 6px;
+    right: 6px;
+  }
+
+  /* Mobilde Sol Küratör Sütunu Gizlenir; Şarkı Listesi Doğrudan Sahne Alır */
+  .stage-curator {
+    display: none !important;
+  }
+
+  /* ==========================================================================
+     7. MOBİL ALT MİNİ ÇALAR (SWISS MINI-PLAYER)
+     ========================================================================== */
+  .swiss-player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(64px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    background: rgba(18, 20, 26, 0.96);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-top: 1px solid var(--border-medium);
+    z-index: 100;
+  }
+
+  .swiss-progress-rail {
+    height: 4px;
+    cursor: pointer;
+    position: relative;
+  }
+  .swiss-progress-rail::after {
+    content: '';
+    position: absolute;
+    top: -14px;
+    bottom: -14px;
+    left: 0;
+    right: 0;
+  }
+  .swiss-seek-slider {
+    height: 4px;
+  }
+
+  .swiss-player-hull {
+    height: 60px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .swiss-left {
+    flex: 1;
+    max-width: calc(100% - 110px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .swiss-thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  .swiss-meta {
+    overflow: hidden;
+  }
+  .swiss-track-name {
+    font-size: 0.88rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .swiss-track-artist {
+    font-size: 0.74rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .swiss-fav-btn {
+    display: none;
+  }
+
+  .swiss-center {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .swiss-controls {
+    gap: 8px;
+  }
+  .swiss-btn {
+    display: none;
+  }
+  .swiss-btn#nextBtn {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    align-items: center;
+    justify-content: center;
+  }
+  .swiss-play-dial {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+  }
+  .swiss-time-track {
+    display: none;
+  }
+  .swiss-right {
+    display: none;
+  }
+
+  .journal-drawer {
+    width: 100%;
+    z-index: 350;
+    padding-top: calc(20px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: max(20px, env(safe-area-inset-right, 0px));
+  }
+  .drawer-close-btn {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Masaüstünde Mobil Öğeler Gizlenir */
+@media (min-width: 861px) {
+  .mobile-search-btn,
+  .mobile-search-tray,
+  .mobile-now-playing {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   8. APPLE MUSIC & SPOTIFY TARZI TAM EKRAN NOW PLAYING (MOBİL)
+   ========================================================================== */
+.mobile-now-playing {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: #0d0e12;
+  overflow: hidden;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-now-playing.open {
+  transform: translateY(0);
+}
+
+/* Dinamik Bulanık Arka Plan */
+.mnp-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.mnp-backdrop-image {
+  position: absolute;
+  inset: -30%;
+  width: 160%;
+  height: 160%;
+  object-fit: cover;
+  filter: blur(70px) saturate(190%) brightness(0.35);
+  transform: scale(1.15);
+  transition: opacity 0.6s ease;
+}
+
+.mnp-backdrop-tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(13, 14, 18, 0.65) 0%, rgba(13, 14, 18, 0.45) 45%, rgba(13, 14, 18, 0.96) 92%);
+}
+
+.mnp-backdrop-mesh {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 28%, rgba(212, 163, 115, 0.16), transparent 72%);
+}
+
+/* Güvenli Kapsayıcı */
+.mnp-safe-container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  height: 100dvh;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) max(22px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(22px, env(safe-area-inset-left, 0px));
+  box-sizing: border-box;
+}
+
+/* Üst Bar */
+.mnp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.mnp-icon-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-linen);
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.mnp-icon-btn:active {
+  transform: scale(0.92);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.mnp-header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px 16px;
+}
+
+.mnp-grab-pill {
+  width: 42px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.32);
+  border-radius: 999px;
+  margin-bottom: 6px;
+}
+
+.mnp-header-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gold-accent);
+  text-transform: uppercase;
+}
+
+.mnp-queue-btn {
+  position: relative;
+}
+
+.mnp-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: var(--gold-accent);
+  color: #0d0e12;
+  font-size: 0.65rem;
+  font-weight: 800;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+/* Orta: Dev Kapak Alanı */
+.mnp-artwork-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  min-height: 0;
+}
+
+.mnp-artwork-wrapper {
+  width: min(78vw, 320px);
+  height: min(78vw, 320px);
+  max-height: 42vh;
+  aspect-ratio: 1 / 1;
+  border-radius: 24px;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(212, 163, 115, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  transform: scale(0.92);
+  opacity: 0.88;
+  transition: transform 0.48s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.48s ease, opacity 0.48s ease;
+}
+
+.mobile-now-playing.playing .mnp-artwork-wrapper {
+  transform: scale(1);
+  opacity: 1;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.95), 0 0 55px rgba(212, 163, 115, 0.28);
+}
+
+.mnp-artwork-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
+  display: block;
+}
+
+.mnp-artwork-gloss {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.16) 0%, transparent 45%);
+  pointer-events: none;
+}
+
+/* Alt Kontrol Paneli */
+.mnp-controls-stage {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Eser Künyesi & Favori */
+.mnp-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mnp-titles {
+  flex: 1;
+  overflow: hidden;
+}
+
+.mnp-track-title {
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 5.5vw, 1.85rem);
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mnp-track-subtitle {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  color: var(--gold-accent);
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Favori Butonu (Lüks Frosted Glass Monocle) */
+.mnp-fav-btn {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.mnp-fav-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  transform: scale(1.08);
+}
+
+.mnp-fav-btn:active {
+  transform: scale(1.22);
+}
+
+.mnp-fav-btn.liked {
+  background: rgba(244, 63, 94, 0.15) !important;
+  border-color: rgba(244, 63, 94, 0.45) !important;
+  color: #f43f5e !important;
+  box-shadow: 0 0 18px rgba(244, 63, 94, 0.35) !important;
+}
+
+.mnp-fav-btn.liked .mnp-heart-empty {
+  display: none !important;
+}
+
+.mnp-fav-btn.liked .mnp-heart-filled {
+  display: block !important;
+}
+
+/* İlerleme Çubuğu (Scrubber) */
+.mnp-scrub-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mnp-scrub-rail {
+  position: relative;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.mnp-scrub-track {
+  width: 100%;
+  height: 4.5px;
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mnp-scrub-buffered {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+}
+
+.mnp-scrub-played {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold-accent) 0%, #ffffff 100%);
+  border-radius: 999px;
+}
+
+.mnp-scrub-slider {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  margin: 0;
+}
+
+.mnp-time-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  padding: 0 1px;
+}
+
+/* ==========================================================================
+   ANA OYNATMA KONTROLLERİ (THUMB-ZONE DOKUNMATİK BUTONLAR)
+   ========================================================================== */
+.mnp-transport-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+}
+
+/* Kesin Reset: Tarayıcının varsayılan beyaz buton çerçevesini ve arka planını sıfırlar */
+.mnp-transport-row button,
+.mnp-btn,
+.mnp-btn-play,
+.mnp-btn-prev,
+.mnp-btn-next,
+.mnp-btn-sm {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Karışık Çal & Tekrarla Butonları */
+.mnp-btn-sm {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.6);
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mnp-btn-sm:hover,
+.mnp-btn-sm:active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.08);
+}
+
+.mnp-btn-sm.active {
+  color: var(--gold-accent);
+}
+
+.mnp-btn-sm.active::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  width: 4px;
+  height: 4px;
+  background: var(--gold-accent);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--gold-accent);
+}
+
+.mnp-repeat-badge {
+  display: none;
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  font-size: 0.55rem;
+  font-weight: 800;
+  background: var(--gold-accent);
+  color: #0d0e12;
+  border-radius: 50%;
+  width: 13px;
+  height: 13px;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.mnp-repeat-badge.show {
+  display: flex;
+}
+
+/* Önceki ve Sonraki Parça Butonları (Frosted Glass Rings) */
+.mnp-btn-prev,
+.mnp-btn-next {
+  width: 54px;
+  height: 54px;
+  min-width: 54px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mnp-btn-prev:hover,
+.mnp-btn-next:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  transform: scale(1.06);
+}
+
+.mnp-btn-prev:active,
+.mnp-btn-next:active {
+  transform: scale(0.92);
+  background: rgba(255, 255, 255, 0.22) !important;
+}
+
+/* Dev Oynat/Durdur Çarkı (Satin Pearl Dial) */
+.mnp-btn-play {
+  width: 70px;
+  height: 70px;
+  min-width: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffffff 0%, #ece6dc 100%) !important;
+  color: #0d0e12 !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55), 0 0 38px rgba(212, 163, 115, 0.35) !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
+}
+
+.mnp-btn-play:hover {
+  transform: scale(1.05);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65), 0 0 48px rgba(212, 163, 115, 0.45) !important;
+}
+
+.mnp-btn-play:active {
+  transform: scale(0.93);
+}
+
+.mnp-play-icon {
+  margin-left: 3px;
+}
+
+/* Alt Araçlar (Footer Row) */
+.mnp-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 2px;
+}
+
+.mnp-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--text-linen);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.mnp-pill-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(212, 163, 115, 0.4);
+  color: var(--gold-accent);
+}
+
+.mnp-pill-btn:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.mnp-stream-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.mnp-stream-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+  animation: stream-pulse 1.8s infinite;
+}
+
+/* ==========================================================================
+   SANATÇI HAKKINDA AÇILIR KARTI (ARTIST MONOGRAPH OVERLAY SHEET)
+   ========================================================================== */
+.mnp-story-sheet {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  max-height: 70vh;
+  background: rgba(18, 20, 26, 0.96);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(212, 163, 115, 0.35);
+  border-radius: 24px;
+  padding: 20px 22px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(212, 163, 115, 0.15);
+  transform: translateY(110%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+}
+
+.mnp-story-sheet.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mnp-story-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-thin);
+  padding-bottom: 12px;
+}
+
+.mnp-story-head h4 {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--gold-accent);
+}
+
+.mnp-story-close {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-thin);
+  color: var(--text-linen);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: var(--transition-fast);
+}
+
+.mnp-story-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.mnp-story-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height: 45vh;
+  padding-right: 4px;
+}
+
+.mnp-artist-profile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-thin);
+  border-radius: 14px;
+}
+
+.mnp-artist-avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--gold-accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+}
+
+.mnp-artist-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.mnp-artist-name {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mnp-artist-genre {
+  font-size: 0.72rem;
+  color: var(--gold-accent);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.mnp-artist-bio {
+  font-size: 0.92rem;
+  color: var(--text-linen);
+  line-height: 1.7;
+}
+
+.mnp-story-foot {
+  border-top: 1px solid var(--border-thin);
+  padding-top: 10px;
+}
+
+.mnp-view-artist-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(212, 163, 115, 0.12);
+  border: 1px solid rgba(212, 163, 115, 0.35);
+  color: var(--gold-accent);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mnp-view-artist-btn:hover {
+  background: var(--gold-accent);
+  color: #0d0e12;
+}
+
+.mnp-view-artist-btn:active {
+  transform: scale(0.97);
+}

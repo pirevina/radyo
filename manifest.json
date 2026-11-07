@@ -1,0 +1,20 @@
+{
+  "name": "Radyo Kırkyama Journal - Boğaziçi Koleji",
+  "short_name": "Radyo Kırkyama",
+  "description": "Boğaziçi Koleji Sıfır Maliyetli Müzik ve Kültür Yayını",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d0e12",
+  "theme_color": "#0d0e12",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/logo.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["music", "education", "entertainment"]
+}

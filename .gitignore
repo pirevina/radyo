@@ -1,0 +1,41 @@
+# ==========================================
+# GÜVENLİK - KESİNLİKLE GİTHUB'A GİTMEYECEKLER
+# ==========================================
+# Çevre değişkenleri ve gizli anahtarlar (API_ID, API_HASH, TOKEN)
+.env
+.env.*
+*.env
+stream-server/.env
+stream-server/.env.*
+
+# Telegram aktif oturum dizgileri ve session dosyaları
+session.txt
+stream-server/session.txt
+*.session
+*.session-journal
+
+# ==========================================
+# BAĞIMLILIKLAR & BOYUTLU PAKETLER
+# ==========================================
+node_modules/
+stream-server/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==========================================
+# GEÇİCİ ÇALIŞMA DOSYALARI
+# ==========================================
+scratch/
+.system_generated/
+*.tmp
+*.temp
+*.log
+
+# ==========================================
+# İŞLETİM SİSTEMİ & EDİTÖR
+# ==========================================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
