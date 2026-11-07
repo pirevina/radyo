@@ -1,4 +1,4 @@
-const CACHE_NAME = 'radyo-kirkyama-v1';
+const CACHE_NAME = 'radyo-kirkyama-v3.8';
 const STATIC_ASSETS = [
   './',
   './index.html',
