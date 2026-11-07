@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0e12">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Radyo Kırkyama">
+  <title>Radyo Kırkyama Journal | Boğaziçi Koleji Kültür Yayını</title>
+  
+  <!-- Favicon & PWA Manifest -->
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="apple-touch-icon" href="assets/logo.svg">
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Google Fonts: Cormorant Garamond (Lüks Dergi Serif) & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css?v=3.8">
+</head>
+<body>
+
+  <!-- YAŞAYAN EDİTORİAL IŞIK AURASI -->
+  <div class="editorial-aura" id="editorialAura">
+    <div class="aura-orb orb-1" id="auraOrb1"></div>
+    <div class="aura-orb orb-2" id="auraOrb2"></div>
+  </div>
+
+  <div class="journal-wrapper">
+    <!-- 1. ÜST DERGİ BAŞLIĞI (MASTHEAD) -->
+    <header class="masthead">
+      <div class="masthead-brand">
+        <img src="assets/logo.svg" alt="Kırkyama Logo" class="brand-insignia">
+        <div class="brand-typography">
+          <h1 class="brand-masthead">Kırkyama Journal</h1>
+          <span class="brand-curation">BOĞAZİÇİ KOLEJİ &bull; KÜLTÜR & MÜZİK YAYINI</span>
+        </div>
+      </div>
+
+      <!-- Minimalist Arama Girişi -->
+      <div class="search-quill">
+        <svg class="quill-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" placeholder="Repertuarda ara (eser, besteci, albüm)..." autocomplete="off">
+        <button class="quill-clear" id="clearSearchBtn" title="Temizle">&times;</button>
+      </div>
+
+      <!-- Sağ Eylemler & Canlı Yayın Göstergesi -->
+      <div class="masthead-actions">
+        <!-- Mobil Arama Butonu (Mobilde Görünür) -->
+        <button class="action-monocle mobile-search-btn" id="mobileSearchToggleBtn" title="Repertuarda Ara">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+
+        <!-- Odaklanma Modu (Zen Focus) -->
+        <button class="action-monocle study-mode-btn" id="studyModeToggleBtn" title="Odaklanma Modu (Zen Focus)">
+          <svg class="study-moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <span class="study-pulse-dot" id="studyPulseDot"></span>
+        </button>
+
+        <div class="live-signal-badge" id="serverStatusBadge" title="Canlı Telegram Stream Durumu">
+          <span class="live-signal-dot" id="serverStatusIndicator"></span>
+          <span class="live-signal-text" id="serverStatusTitle">CANLI YAYIN</span>
+        </div>
+
+        <button class="action-monocle" id="serverSettingsBtn" title="Yayın Sunucusu Ayarları">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+
+        <button class="action-monocle queue-trigger" id="toggleQueueBtn" title="Çalma Sırası">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          <span class="queue-mini-badge" id="queueCountBadge">0</span>
+        </button>
+
+        <button class="pwa-install-pill" id="installPwaBtn" style="display: none;">
+          <span>Uygulamayı Kur</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobil Açılır Arama Çekmecesi (Mobile Search Tray) -->
+    <div class="mobile-search-tray" id="mobileSearchTray">
+      <div class="mobile-search-capsule">
+        <svg class="mobile-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="mobileSearchInput" placeholder="Eser, besteci, albüm ara..." autocomplete="off">
+        <button class="mobile-search-clear" id="mobileSearchClearBtn" title="Temizle">&times;</button>
+      </div>
+      <button class="mobile-search-cancel" id="mobileSearchCancelBtn">Vazgeç</button>
+    </div>
+
+    <!-- 2. TEMATİK ŞERİT -->
+    <nav class="editions-ribbon">
+      <div class="editions-label">TEMATİK</div>
+      <div class="editions-scroll">
+        <button class="edition-tab active" data-category="all">
+          <span class="ed-name">Tüm Eserler</span>
+        </button>
+        <button class="edition-tab" data-category="school">
+          <span class="ed-name">Teneffüs Zili</span>
+        </button>
+        <button class="edition-tab" data-category="lofi">
+          <span class="ed-name">Kütüphane & Odaklanma</span>
+        </button>
+        <button class="edition-tab" data-category="soundtrack">
+          <span class="ed-name">Kült Film Skorları</span>
+        </button>
+        <button class="edition-tab" data-category="classical">
+          <span class="ed-name">Klasik Başyapıtlar</span>
+        </button>
+        <button class="edition-tab" data-category="turkce">
+          <span class="ed-name">Boğaziçi Akustik & Türkçe</span>
+        </button>
+        <button class="edition-tab" data-category="yabanci">
+          <span class="ed-name">Yabancı Seçkiler</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- 3. ANA MİZANPAJ (2 ASİMETRİK SÜTUN) -->
+    <div class="journal-stage">
+      
+      <!-- SOL SÜTUN: KÜRATÖR VİTRİNİ & EDEBİ HİKAYE (THE FEATURE) -->
+      <section class="stage-curator" id="curatorSection">
+        <div class="curator-meta-badge">
+          <span class="curator-rule"></span>
+          <span class="curator-edition-text" id="curatorEditionText">HAFTANIN VİTRİNİ &bull; BAŞYAPIT</span>
+        </div>
+
+        <div class="feature-artwork-canvas">
+          <img class="feature-image" id="heroCover" src="https://images.unsplash.com/photo-1543258103-a62bdc069871?w=800&auto=format&fit=crop&q=80" alt="Vitrin Kapağı">
+          <div class="feature-vignette"></div>
+        </div>
+
+        <div class="feature-prose">
+          <h2 class="feature-headline" id="heroTitle">A Mad Russian's Christmas</h2>
+          <div class="feature-byline" id="heroArtist">Trans-Siberian Orchestra &bull; Christmas Eve and Other Stories</div>
+          
+          <div class="curator-liner-notes">
+            <h4 class="liner-notes-heading">Küratörün Parça Notu (Liner Notes)</h4>
+            <p class="liner-notes-text" id="heroDesc">
+              Kış gecelerinin edebi zarafetiyle örülmüş görkemli bir senfoni. Çaykovski'nin Fındıkkıran temalarından esinlenen bu eser, klasik orkestra disiplini ile modern senfonik rock dinamizmini birleştiriyor.
+            </p>
+          </div>
+
+          <div class="feature-actions">
+            <button class="btn-editorial-play" id="heroPlayBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Hemen Dinle</span>
+            </button>
+            <button class="btn-editorial-queue" id="heroQueueBtn" title="Sıraya Ekle">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Sıraya Ekle</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SAĞ SÜTUN: REPERTUAR İNDEKSİ & SANATÇI ARŞİVİ (THE REPERTOIRE) -->
+      <section class="stage-repertoire">
+        <!-- İkili Sekme: Eserler | Sanatçı Arşivi -->
+        <div class="repertoire-header">
+          <div class="repertoire-tab-toggle">
+            <button class="rep-nav-tab active" id="tabTracksView">
+              <span class="tab-title-serif">Repertuar</span>
+              <span class="tab-count-tag" id="songCount">0</span>
+            </button>
+            <span class="tab-divider">/</span>
+            <button class="rep-nav-tab" id="tabArtistsView">
+              <span class="tab-title-serif">Sanatçı Arşivi & Monografiler</span>
+              <span class="tab-count-tag" id="artistCount">10</span>
+            </button>
+          </div>
+
+          <div class="repertoire-quick-controls">
+            <button class="btn-editorial-pill" id="backToArtistsBtn" style="display: none;">
+              <span>&larr; Tüm Sanatçılara Dön</span>
+            </button>
+            <button class="btn-editorial-pill" id="playAllBtn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Baştan Çal</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 1. GÖRÜNÜM: ESERLER LİSTESİ -->
+        <div id="tracksViewWrapper">
+          <!-- İndeks Tablo Başlıkları -->
+          <div class="index-table-head">
+            <div class="th-num">NO</div>
+            <div class="th-title">ESER & BESTECİ / SANATÇI</div>
+            <div class="th-album">ALBÜM KÜNYESİ</div>
+            <div class="th-genre">KUŞAK</div>
+            <div class="th-time">SÜRE</div>
+            <div class="th-actions"></div>
+          </div>
+
+          <!-- Dinamik Şarkı Akışı -->
+          <div class="index-track-list" id="songList">
+            <!-- JS ile doldurulacak -->
+          </div>
+        </div>
+
+        <!-- 2. GÖRÜNÜM: SANATÇI ARŞİVİ GALERİSİ -->
+        <div id="artistsViewWrapper" style="display: none;">
+          <div class="artists-archive-intro">
+            <p>Boğaziçi Koleji müzik arşivine kayıtlı kült sanatçılar, monografiler ve özel diskografiler.</p>
+          </div>
+          <div class="artists-gallery-grid" id="artistsGrid">
+            <!-- JS ile sanatçı kartları render edilecek -->
+          </div>
+        </div>
+
+        <!-- Arama Sonucu Bulunamadı Durumu -->
+        <div class="empty-manuscript" id="emptyState" style="display: none;">
+          <h4 class="empty-title">Eser Bulunamadı</h4>
+          <p class="empty-desc">Aradığınız kriterlere uygun kayıt arşivimizde bulunamadı. Lütfen arama terimini değiştirin.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- SAĞDAN SÜZÜLEN ŞARKI KUYRUĞU ÇEKMECESİ (DRAWER) -->
+  <aside class="journal-drawer" id="queueDrawer">
+    <div class="drawer-masthead">
+      <div class="drawer-title-wrap">
+        <h4>Çalma Sırası</h4>
+        <span class="drawer-badge" id="queueDrawerBadge">0</span>
+      </div>
+      <div class="drawer-controls">
+        <button class="drawer-clear-btn" id="clearQueueBtn">Kuyruğu Boşalt</button>
+        <button class="drawer-close-btn" id="closeQueueBtn">&times;</button>
+      </div>
+    </div>
+
+    <div class="drawer-current-slot" id="queueNowPlaying">
+      <!-- Şu an çalan özet -->
+    </div>
+
+    <div class="drawer-section-label">SIRADAKİ ESERLER</div>
+    <div class="drawer-scroll-list" id="queueItemsList">
+      <!-- Kuyruk listesi -->
+    </div>
+  </aside>
+
+  <!-- 4. SABİT ALT ÇALAR (SWISS HOROLOGY MINIMAL PLAYER) -->
+  <footer class="swiss-player" id="bottomPlayer">
+    <!-- İpeksi İnce İlerleme Çizgisi -->
+    <div class="swiss-progress-rail" id="progressBarContainer">
+      <div class="swiss-progress-buffered" id="progressBuffered"></div>
+      <div class="swiss-progress-played" id="progressPlayed"></div>
+      <input type="range" class="swiss-seek-slider" id="progressSeek" min="0" max="100" value="0" step="0.1">
+    </div>
+
+    <div class="swiss-player-hull">
+      <!-- Sol: Eser Künyesi (Mobilde Vitrini Açar) -->
+      <div class="swiss-left" id="swissPlayerTrigger">
+        <img class="swiss-thumb" id="playerCover" src="https://images.unsplash.com/photo-1543258103-a62bdc069871?w=600&auto=format&fit=crop&q=80" alt="Thumb">
+        <div class="swiss-meta">
+          <div class="swiss-track-name" id="playerTitle">A Mad Russian's Christmas</div>
+          <div class="swiss-track-artist" id="playerArtist">Trans-Siberian Orchestra</div>
+        </div>
+        <button class="swiss-fav-btn" id="playerFavBtn" title="Favorilere Ekle">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+
+      <!-- Orta: Oynatma Mekanizması -->
+      <div class="swiss-center">
+        <div class="swiss-controls">
+          <button class="swiss-btn" id="shuffleBtn" title="Karışık Çal">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+          </button>
+          
+          <button class="swiss-btn" id="prevBtn" title="Önceki Eser">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2.5"/></svg>
+          </button>
+
+          <button class="swiss-play-dial" id="playPauseBtn" title="Oynat / Durdur">
+            <!-- Play SVG -->
+            <svg class="play-svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+            <!-- Pause SVG -->
+            <svg class="pause-svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          </button>
+
+          <button class="swiss-btn" id="nextBtn" title="Sonraki Eser">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2.5"/></svg>
+          </button>
+
+          <button class="swiss-btn" id="repeatBtn" title="Tekrarla">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            <span class="swiss-repeat-one" id="repeatOneIndicator">1</span>
+          </button>
+        </div>
+
+        <div class="swiss-time-track">
+          <span class="time-readout" id="currentTime">00:00</span>
+          <span class="time-sep">/</span>
+          <span class="time-readout" id="totalDuration">04:42</span>
+        </div>
+      </div>
+
+      <!-- Sağ: Hassas Ayarlar & Ses -->
+      <div class="swiss-right">
+        <button class="swiss-speed-trigger" id="playbackSpeedBtn" title="Çalma Hızı">1.0x</button>
+        
+        <div class="swiss-volume-dock">
+          <button class="swiss-btn" id="volumeBtn" title="Sesi Kapat / Aç">
+            <svg id="volumeHighIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            <svg id="volumeMuteIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+          </button>
+          <input type="range" class="swiss-volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.85">
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- APPLE MUSIC & SPOTIFY TARZI TAM EKRAN ÇALAR (MOBILE NOW PLAYING SCREEN) -->
+  <div class="mobile-now-playing" id="mobileNowPlayingScreen" aria-hidden="true">
+    
+    <!-- 1. Arka Plan Dinamik Bulanık Görsel Katmanı (Apple Music Ambient Aura) -->
+    <div class="mnp-backdrop">
+      <img class="mnp-backdrop-image" id="mnpBackdropImg" src="https://images.unsplash.com/photo-1543258103-a62bdc069871?w=800&auto=format&fit=crop&q=80" alt="Ambient Backdrop">
+      <div class="mnp-backdrop-tint"></div>
+      <div class="mnp-backdrop-mesh"></div>
+    </div>
+
+    <div class="mnp-safe-container">
+      
+      <!-- 2. Üst Bar (Header & Swipe Handle) -->
+      <div class="mnp-header" id="mnpHeader">
+        <button class="mnp-icon-btn mnp-close-btn" id="mnpCloseBtn" title="Kapat">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+
+        <div class="mnp-header-center" id="mnpHeaderCenter">
+          <div class="mnp-grab-pill"></div>
+          <div class="mnp-header-label" id="mnpHeaderCategory">ŞU AN ÇALINIYOR</div>
+        </div>
+
+        <button class="mnp-icon-btn mnp-queue-btn" id="mnpQueueBtn" title="Çalma Sırası">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+            <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+          </svg>
+          <span class="mnp-badge" id="mnpQueueBadge">0</span>
+        </button>
+      </div>
+
+      <!-- 3. Orta: Dev Kapak Alanı (Vinyl / Album Art Hero) -->
+      <div class="mnp-artwork-stage">
+        <div class="mnp-artwork-wrapper" id="mnpArtworkWrapper">
+          <img class="mnp-artwork-img" id="mnpArtworkImg" src="https://images.unsplash.com/photo-1543258103-a62bdc069871?w=800&auto=format&fit=crop&q=80" alt="Album Artwork">
+          <div class="mnp-artwork-gloss"></div>
+        </div>
+      </div>
+
+      <!-- 4. Alt Alan: Başlık, Scrubber, Butonlar ve Eylemler -->
+      <div class="mnp-controls-stage">
+        
+        <!-- Eser Bilgisi & Favori -->
+        <div class="mnp-meta-row">
+          <div class="mnp-titles">
+            <h1 class="mnp-track-title" id="mnpTrackTitle">A Mad Russian's Christmas</h1>
+            <div class="mnp-track-subtitle" id="mnpTrackSubtitle">Trans-Siberian Orchestra</div>
+          </div>
+          <button class="mnp-fav-btn" id="mnpFavBtn" title="Beğen">
+            <svg class="mnp-heart-empty" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <svg class="mnp-heart-filled" width="24" height="24" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2" style="display:none;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </div>
+
+        <!-- İlerleme Çubuğu (Scrubber) & Süre -->
+        <div class="mnp-scrub-section">
+          <div class="mnp-scrub-rail" id="mnpScrubRail">
+            <div class="mnp-scrub-track">
+              <div class="mnp-scrub-buffered" id="mnpScrubBuffered"></div>
+              <div class="mnp-scrub-played" id="mnpScrubPlayed"></div>
+            </div>
+            <input type="range" class="mnp-scrub-slider" id="mnpScrubSlider" min="0" max="100" value="0" step="0.1">
+          </div>
+          <div class="mnp-time-row">
+            <span class="mnp-time-cur" id="mnpTimeCur">00:00</span>
+            <span class="mnp-time-dur" id="mnpTimeDur">04:42</span>
+          </div>
+        </div>
+
+        <!-- Ana Oynatma Kontrolleri (Thumb-Zone) -->
+        <div class="mnp-transport-row">
+          <button class="mnp-btn mnp-btn-sm" id="mnpShuffleBtn" title="Karışık Çal">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+          </button>
+
+          <button class="mnp-btn mnp-btn-prev" id="mnpPrevBtn" title="Önceki Eser">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5a1 1 0 0 1 1 1v12a1 1 0 1 1-2 0V6a1 1 0 0 1 1-1zm13.1 1.25a1 1 0 0 0-1.52-.85L8.5 11.15a1 1 0 0 0 0 1.7l9.08 5.75a1 1 0 0 0 1.52-.85V6.25z"/></svg>
+          </button>
+
+          <button class="mnp-btn mnp-btn-play" id="mnpPlayPauseBtn" title="Oynat / Durdur">
+            <svg class="mnp-play-icon" width="28" height="28" viewBox="0 0 24 24" fill="#0d0e12"><polygon points="7 4 20 12 7 20 7 4"/></svg>
+            <svg class="mnp-pause-icon" width="28" height="28" viewBox="0 0 24 24" fill="#0d0e12" style="display:none;"><rect x="6" y="4" width="4" height="16" rx="1.5"/><rect x="14" y="4" width="4" height="16" rx="1.5"/></svg>
+          </button>
+
+          <button class="mnp-btn mnp-btn-next" id="mnpNextBtn" title="Sonraki Eser">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18 5a1 1 0 0 1 1 1v12a1 1 0 1 1-2 0V6a1 1 0 0 1 1-1zM4.9 6.25a1 1 0 0 1 1.52-.85L15.5 11.15a1 1 0 0 1 0 1.7l-9.08 5.75a1 1 0 0 1-1.52-.85V6.25z"/></svg>
+          </button>
+
+          <button class="mnp-btn mnp-btn-sm" id="mnpRepeatBtn" title="Tekrarla">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            <span class="mnp-repeat-badge" id="mnpRepeatOne">1</span>
+          </button>
+        </div>
+
+        <!-- Alt Araçlar: Sanatçı Hakkında & Canlı Akış -->
+        <div class="mnp-footer-row">
+          <button class="mnp-pill-btn" id="mnpStoryToggleBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Sanatçı Hakkında</span>
+          </button>
+
+          <div class="mnp-stream-badge">
+            <span class="mnp-stream-dot"></span>
+            <span>Canlı Boğaziçi Akışı</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 5. Sanatçı Hakkında Açılır Kartı (Artist Monograph Overlay Sheet) -->
+      <div class="mnp-story-sheet" id="mnpStorySheet">
+        <div class="mnp-story-head">
+          <h4>Sanatçı ve Eser Hakkında</h4>
+          <button class="mnp-story-close" id="mnpStoryCloseBtn" title="Kapat">&times;</button>
+        </div>
+        <div class="mnp-story-body" id="mnpStoryBody">
+          <!-- Dinamik Sanatçı ve Parça Bilgisi -->
+        </div>
+        <div class="mnp-story-foot">
+          <button class="mnp-view-artist-btn" id="mnpViewArtistBtn">
+            <span>Bu Sanatçının Tüm Eserleri</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       6. ODAKLANMA MODU (ZEN FOCUS SCREEN - TAM KARARTMA & SAF MÜZİK)
+       ========================================================================== -->
+  <div class="zen-focus-screen" id="zenFocusScreen" aria-hidden="true">
+    <div class="zen-ambient-glow" id="zenAmbientGlow"></div>
+
+    <!-- Üst Zarif Başlık & Kapatma Butonu -->
+    <div class="zen-topbar">
+      <div class="zen-mode-badge">
+        <span class="zen-dot"></span>
+        <span>ODAKLANMA MODU</span>
+      </div>
+      <button class="zen-close-btn" id="zenCloseBtn" title="Odaklanma Modundan Çık">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Merkez: Şık Minimalist Tipografi & Punto -->
+    <div class="zen-center-stage">
+      <div class="zen-typography">
+        <h2 class="zen-song-title" id="zenSongTitle">Eser Seçilmedi</h2>
+        <p class="zen-song-artist" id="zenSongArtist">Barış Manço</p>
+      </div>
+
+      <!-- İnce Estetik İlerleme Çizgisi & Süre -->
+      <div class="zen-progress-wrap">
+        <div class="zen-progress-bar" id="zenProgressBar">
+          <div class="zen-progress-played" id="zenProgressPlayed"></div>
+        </div>
+        <div class="zen-time-row">
+          <span id="zenTimeCur">00:00</span>
+          <span id="zenTimeDur">00:00</span>
+        </div>
+      </div>
+
+      <!-- Saf Minimalist Kontroller: Önceki, Play/Pause, Sonraki -->
+      <div class="zen-controls">
+        <button class="zen-btn zen-btn-prev" id="zenPrevBtn" title="Önceki Eser">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="19 20 9 12 19 4 19 20"></polygon>
+            <line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></line>
+          </svg>
+        </button>
+
+        <button class="zen-btn zen-btn-play" id="zenPlayPauseBtn" title="Oynat / Duraklat">
+          <svg class="zen-play-icon" width="34" height="34" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="6 3 20 12 6 21 6 3"></polygon>
+          </svg>
+          <svg class="zen-pause-icon" width="34" height="34" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+            <rect x="6" y="4" width="4" height="16" rx="1.5"></rect>
+            <rect x="14" y="4" width="4" height="16" rx="1.5"></rect>
+          </svg>
+        </button>
+
+        <button class="zen-btn zen-btn-next" id="zenNextBtn" title="Sonraki Eser">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5 4 15 12 5 20 5 4"></polygon>
+            <line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Alt Dinlendirici Not -->
+    <div class="zen-footer">
+      <span class="zen-quiet-hint">Müziğe odaklanmak için ekran karartıldı • Çıkmak için kapat butonuna dokunun</span>
+    </div>
+  </div>
+
+  <!-- AYARLAR MODALI (Gelecek Özellikler İçin Rezerve) -->
+  <div class="modal-backdrop" id="serverSettingsModal" style="display: none;">
+    <div class="modal-card" style="max-width: 440px; text-align: center;">
+      <div class="modal-header">
+        <h4>Ayarlar</h4>
+        <button class="modal-close-cross" id="closeSettingsModalBtn">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 36px 20px;">
+        <p style="font-size: 0.95rem; color: var(--text-sub); line-height: 1.6;">
+          Ayarlar paneli güncelleniyor.
+        </p>
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button class="btn-editorial-pill" id="closeSettingsModalFooterBtn">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST BİLDİRİM KAPSAYICISI -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- HTML5 Audio Motoru -->
+  <audio id="audioEngine" preload="auto" playsinline webkit-playsinline></audio>
+
+  <!-- Uygulama Scripti -->
+  <script src="app.js?v=3.8"></script>
+</body>
+</html>
