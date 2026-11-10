@@ -9142,381 +9142,6 @@
     "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/652"
   },
   {
-    "id": 9607,
-    "messageId": 607,
-    "title": "Merhaba",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "02:07",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Görkemli bir alkış tufanı eşliğinde Livaneli'nin 'Merhaba' diyerek binleri selamladığı, kardeşlik ve barış umudunun canlı konser açılışı.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/607"
-  },
-  {
-    "id": 9608,
-    "messageId": 608,
-    "title": "Saat Dört Yoksun",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "06:49",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Nazım Hikmet'in hapishane ranzasında Piraye için yazdığı hasret dolu dizelerin yaklaşık 7 dakikalık canlı orkestrasyonla büyülediği efsane yorum.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/608"
-  },
-  {
-    "id": 9609,
-    "messageId": 609,
-    "title": "Memleket Kokulu Yarim",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "03:08",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Uzak diyarlarda duyulan vatan ve sevda hasretini bağlamanın kıvrak ve içli nağmeleriyle seyircinin hep bir ağızdan söylediği parça.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/609"
-  },
-  {
-    "id": 9610,
-    "messageId": 610,
-    "title": "Sevdalı Başım",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "04:11",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Sabahattin Ali'nin 'Başım dağ, saçlarım kardır' haykırışını senfonik bir başkaldırıya dönüştüren Livaneli klasiği.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/610"
-  },
-  {
-    "id": 9611,
-    "messageId": 611,
-    "title": "Kardeşim Duymaz",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "03:21",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Yürek burkan bir kardeşlik ve vicdan muhasebesi; salondaki binlerin sessiz gözyaşlarıyla eşlik ettiği derin bir ağıt.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/611"
-  },
-  {
-    "id": 9612,
-    "messageId": 612,
-    "title": "Karlı Kayın Ormanı",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "04:23",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Nazım Hikmet'in sürgün yıllarında yazdığı ve Türk müziğinin en büyük ortak hafızası haline gelen ölümsüz orman serenadı.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/612"
-  },
-  {
-    "id": 9613,
-    "messageId": 613,
-    "title": "Nefesim Nefesine",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "05:57",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Aşık Veysel ve tasavvuf nefeslerinin Livaneli'nin kadife sesi ve senfonik yaylılarıyla harmanlandığı mistik bir canlı performans.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/613"
-  },
-  {
-    "id": 9614,
-    "messageId": 614,
-    "title": "Memik Oğlan",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "05:08",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Gül dikensiz olmaz diyen, Anadolu'nun genç fidanlarına yakılmış içli ve isyankar bir halk türküsü.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/614"
-  },
-  {
-    "id": 9615,
-    "messageId": 615,
-    "title": "Sevdalım Hayat",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "04:43",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Tüm baskılara, acılara ve sürgünlere rağmen aşka ve hayata sımsıkı sarılmayı öğütleyen hayat dolu bir marş.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/615"
-  },
-  {
-    "id": 9616,
-    "messageId": 616,
-    "title": "Yiğidim Aslanım",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "04:19",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Uğur Mumcu'dan Nazım'a, bu toprakların yitip giden aydınlarına ve yiğitlerine yüz binlerin tek bir ağızdan yaktığı tarihi anıt ağıt.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/616"
-  },
-  {
-    "id": 9617,
-    "messageId": 617,
-    "title": "Atlı",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "03:14",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Dörtnala koşan atların ritminde Anadolu bozkırlarını ve özgürlük rüzgarını sahneye taşıyan enstrümantal ve vokal şöleni.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/617"
-  },
-  {
-    "id": 9618,
-    "messageId": 618,
-    "title": "Gözlerin",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "03:43",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Aşkın ve tutkunun en saf halini lirik bir melodiyle anlatan, dinleyicinin kalbine dokunan sıcak bir konser kaydı.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/618"
-  },
-  {
-    "id": 9619,
-    "messageId": 619,
-    "title": "Sevda Değil",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "03:28",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "'Sevda değil bu bir yangın' diyerek aşkın kavurucu ateşini orkestranın görkemli ritmiyle buluşturan unutulmaz parça.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/619"
-  },
-  {
-    "id": 9620,
-    "messageId": 620,
-    "title": "Kız Çocuğu",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "04:12",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Hiroşima'da buharlaşan 7 yaşındaki küçük kızın 'Kapıları çalan benim, bana şeker bile yiyemez demeyin' diyen evrensel barış feryadı.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/620"
-  },
-  {
-    "id": 9621,
-    "messageId": 621,
-    "title": "Belalım",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "05:13",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Zülfü Livaneli bestesiyle Sezen Aksu'dan dinlemeye alıştığımız, Livaneli'nin kendi sesinden hırçın ve tutkulu canlı yorumu.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/621"
-  },
-  {
-    "id": 9622,
-    "messageId": 622,
-    "title": "Duvarlar",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "03:09",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Dört duvar arasına sığmayan düşüncelerin ve özgürlüğün engellenemez yürüyüşünü anlatan coşkulu bir eser.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/622"
-  },
-  {
-    "id": 9623,
-    "messageId": 623,
-    "title": "Gün Olur",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "03:08",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Orhan Veli'nin 'Gün olur alır başımı giderim' şiirine Livaneli'nin bestelediği, rüzgara kapılıp gitme arzusunu fısıldayan şarkı.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/623"
-  },
-  {
-    "id": 9624,
-    "messageId": 624,
-    "title": "Özgürlük",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "03:18",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Paul Éluard'ın 'Ey Özgürlük' şiirinin Türkçe bestesi; stadyumları inleten ve umudu diri tutan evrensel özgürlük andı.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/624"
-  },
-  {
-    "id": 9625,
-    "messageId": 625,
-    "title": "Bilmem Şu Feleğin",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "06:52",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Halk ozanlarının kederini ve kadere sitemini modern bir armonizasyonla doruğa çıkaran 7 dakikalık canlı ağıt.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/625"
-  },
-  {
-    "id": 9626,
-    "messageId": 626,
-    "title": "Kan Çiçekleri",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "04:25",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Dostluğun, mücadelenin ve toprağa düşen canların anısına adanmış hüzünlü ve asil bir konser klasiği.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/626"
-  },
-  {
-    "id": 9627,
-    "messageId": 627,
-    "title": "Böyledir Bizim Sevdamız",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "04:28",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Ahmet Arif şiirinin dağları aşan lirizmini, meydanları dolduran coşkulu kalabalıkların marşına dönüştüren beste.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/627"
-  },
-  {
-    "id": 9628,
-    "messageId": 628,
-    "title": "Leylim Ley",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "04:00",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Sabahattin Ali'nin dillerden düşmeyen başyapıtının binlerce kişiyle koro halinde söylendiği konserlerin doruk noktası.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/628"
-  },
-  {
-    "id": 9629,
-    "messageId": 629,
-    "title": "Sus Söyleme",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "04:09",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Duyguların kelimelere sığmadığı anlarda sessizliğin ve bakışların derinliğini anlatan duygusal bir balad.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/629"
-  },
-  {
-    "id": 9630,
-    "messageId": 630,
-    "title": "Güneş Topla Benim İçin",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "03:11",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Ülkü Tamer'in dizeleriyle, gecenin karanlığını yırtıp aydınlık sabahlar vadeden ölümsüz umut meşalesi.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/630"
-  },
-  {
-    "id": 9631,
-    "messageId": 631,
-    "title": "Akdeniz",
-    "artist": "Zülfü Livaneli",
-    "album": "Livaneli Efsane Konserler",
-    "category": "turkce",
-    "categoryTitle": "Özgün Müzik & Canlı Konser",
-    "duration": "03:37",
-    "cover": "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-    "story": "Akdeniz'in masmavi sularını, zeytin ağaçlarını ve sıcak dostluğunu selamlayan coşkulu konser kapanışı.",
-    "aura1": "rgba(225, 29, 72, 0.28)",
-    "aura2": "rgba(217, 119, 6, 0.22)",
-    "demoAudio": "https://radyo-kirkyama-stream.onrender.com/stream/631"
-  },
-  {
     "id": 9680,
     "messageId": 680,
     "title": "Becoming One with \"The People\" Becoming One with Neytiri",
@@ -11600,19 +11225,6 @@
       aura2: "rgba(59, 130, 246, 0.22)"
     },
     {
-      id: "zulfu-livaneli-efsane-konserler",
-      title: "Livaneli Efsane Konserler",
-      artist: "Zülfü Livaneli",
-      year: "Canlı Konser Antolojisi",
-      sub: "cult",
-      badge: "Efsane Konserler",
-      filterKey: "Livaneli Efsane Konserler",
-      cover: "assets/zulfu-livaneli-efsane-konserler-cover.jpg",
-      story: "Türkiye'nin dört bir yanında ve dünya başkentlerinde yüz binlerin tek bir yürek olarak katıldığı tarihi konserlerin canlı kayıtları. Yiğidim Aslanım, Karlı Kayın Ormanı, Leylim Ley, Güneş Topla Benim İçin ve Özgürlük gibi ölümsüz marşların stadyum coşkusu.",
-      aura1: "rgba(225, 29, 72, 0.28)",
-      aura2: "rgba(217, 119, 6, 0.22)"
-    },
-    {
       id: "sivan-perwer-zembilfiros",
       title: "Zembîlfiroş",
       artist: "Şivan Perwer",
@@ -11966,14 +11578,201 @@
   }
 
   // ==========================================================================
-  // AUDIO MOTORU
+  // AUDIO MOTORU & DAYANIKLILIK (OTOMATİK KURTARMA & ÖN ISITMA)
   // ==========================================================================
+  const audioRecovery = {
+    loadToken: 0,
+    retryCount: 0,
+    consecutiveFailures: 0,
+    stallTimer: null,
+    lastProgressTime: 0,
+    wantsToPlay: false,
+    prewarmedMsgIds: new Set(),
+    nextShuffleCandidate: null,
+    pendingResumeTime: 0
+  };
+
+  function clearStallTimer() {
+    if (audioRecovery.stallTimer) {
+      clearTimeout(audioRecovery.stallTimer);
+      audioRecovery.stallTimer = null;
+    }
+  }
+
+  function armStallTimer(expectedToken) {
+    if (audioRecovery.stallTimer) return;
+    audioRecovery.stallTimer = setTimeout(() => {
+      audioRecovery.stallTimer = null;
+      if (expectedToken !== audioRecovery.loadToken) return;
+      if (!audioRecovery.wantsToPlay || audio.paused || audio.ended) return;
+
+      console.warn('[Audio Stall] 15 saniyedir akış ilerlemedi, yeniden bağlanılıyor...');
+      recoverCurrentTrack('Akış yavaşladı, bağlantı yenileniyor...');
+    }, 15000);
+  }
+
+  function buildStreamUrl(song, cacheBust = '') {
+    const serverUrl = (state.streamServerUrl || LIVE_RENDER_URL).replace(/\/+$/, '');
+    const effectiveMsgId = song.messageId || song.telegramMsgId;
+    let url = '';
+
+    if (state.playMode === 'demoOnly') {
+      url = song.demoAudio || song.url || (effectiveMsgId ? `${serverUrl}/stream/${effectiveMsgId}` : '');
+    } else {
+      if (effectiveMsgId) {
+        url = `${serverUrl}/stream/${effectiveMsgId}`;
+      } else if (song.demoAudio) {
+        url = song.demoAudio;
+      } else if (song.url) {
+        url = song.url;
+      }
+    }
+
+    if (url && cacheBust) {
+      url += (url.includes('?') ? '&' : '?') + cacheBust;
+    }
+    return url;
+  }
+
+  function getUpcomingSongCandidate() {
+    if (state.queue.length > 0) {
+      return state.queue[0];
+    }
+    const list = state.filteredSongs.length > 0 ? state.filteredSongs : state.allSongs;
+    if (list.length === 0) return null;
+
+    if (state.isShuffle) {
+      if (!audioRecovery.nextShuffleCandidate || (state.currentSong && audioRecovery.nextShuffleCandidate.id === state.currentSong.id && list.length > 1)) {
+        let idx = Math.floor(Math.random() * list.length);
+        if (state.currentSong && list[idx].id === state.currentSong.id && list.length > 1) {
+          idx = (idx + 1) % list.length;
+        }
+        audioRecovery.nextShuffleCandidate = list[idx];
+      }
+      return audioRecovery.nextShuffleCandidate;
+    }
+
+    const currentListIndex = list.findIndex(s => s.id === (state.currentSong ? state.currentSong.id : -1));
+    let nextIndex = currentListIndex + 1;
+    if (nextIndex >= list.length) {
+      if (state.repeatMode === 'all') {
+        nextIndex = 0;
+      } else {
+        return null;
+      }
+    }
+    return list[nextIndex];
+  }
+
+  function prewarmNextTrack() {
+    const nextSong = getUpcomingSongCandidate();
+    if (!nextSong) return;
+    const msgId = nextSong.messageId || nextSong.telegramMsgId;
+    if (!msgId || audioRecovery.prewarmedMsgIds.has(msgId)) return;
+
+    audioRecovery.prewarmedMsgIds.add(msgId);
+    if (audioRecovery.prewarmedMsgIds.size > 40) {
+      const oldest = audioRecovery.prewarmedMsgIds.values().next().value;
+      audioRecovery.prewarmedMsgIds.delete(oldest);
+    }
+
+    const url = buildStreamUrl(nextSong);
+    if (!url) return;
+
+    fetch(url, {
+      headers: { Range: 'bytes=0-131071' },
+      signal: AbortSignal.timeout(12000)
+    }).catch(() => {
+      audioRecovery.prewarmedMsgIds.delete(msgId);
+    });
+  }
+
+  function recoverCurrentTrack(toastMsg) {
+    const song = state.currentSong;
+    if (!song) return;
+
+    if (audioRecovery.retryCount >= 3) {
+      handleUnrecoverableTrack(song, 'Bağlantı zaman aşımına uğradı');
+      return;
+    }
+
+    audioRecovery.retryCount += 1;
+    const resumePos = (!isNaN(audio.currentTime) && audio.currentTime > 2) ? audio.currentTime : 0;
+    audioRecovery.pendingResumeTime = resumePos;
+    const token = ++audioRecovery.loadToken;
+
+    if (toastMsg) {
+      showToast(`${toastMsg} (${audioRecovery.retryCount}/3)`, 'info');
+    }
+
+    const retryUrl = buildStreamUrl(song, `retry=${audioRecovery.retryCount}&t=${Date.now()}`);
+    audio.src = retryUrl;
+    audio.load();
+    audio.play().catch(err => {
+      if (token === audioRecovery.loadToken) {
+        console.warn('[Recover Play Hatası]:', err);
+      }
+    });
+  }
+
+  function handleUnrecoverableTrack(song, reason) {
+    clearStallTimer();
+    audioRecovery.consecutiveFailures += 1;
+    audioRecovery.retryCount = 0;
+    audioRecovery.pendingResumeTime = 0;
+
+    if (audioRecovery.consecutiveFailures >= 5) {
+      audioRecovery.wantsToPlay = false;
+      updatePlayPauseUI(false);
+      updateZenPlayPauseIcon(false);
+      showToast('Arka arkaya 5 parça yüklenemedi. İnternet bağlantınızı veya formatı kontrol edin.', 'error');
+      return;
+    }
+
+    showToast(`"${song.title}" atlanıyor (${reason})...`, 'info');
+    const tokenAtSchedule = audioRecovery.loadToken;
+    setTimeout(() => {
+      if (tokenAtSchedule === audioRecovery.loadToken && audioRecovery.wantsToPlay) {
+        playNextSong();
+      }
+    }, 900);
+  }
+
   function initAudioEngine() {
     audio.volume = state.volume;
     volumeSlider.value = state.volume;
 
+    audio.addEventListener('loadedmetadata', () => {
+      audio.playbackRate = state.playbackSpeed;
+      if (audioRecovery.pendingResumeTime > 2 && !isNaN(audio.duration) && audioRecovery.pendingResumeTime < audio.duration - 2) {
+        try {
+          audio.currentTime = audioRecovery.pendingResumeTime;
+        } catch (_) {}
+      }
+      audioRecovery.pendingResumeTime = 0;
+    });
+
+    audio.addEventListener('playing', () => {
+      clearStallTimer();
+      audioRecovery.retryCount = 0;
+      audioRecovery.consecutiveFailures = 0;
+      audio.playbackRate = state.playbackSpeed;
+      updateServerStatusUI('connected');
+    });
+
     audio.addEventListener('timeupdate', () => {
       if (!isNaN(audio.duration) && audio.duration > 0) {
+        if (Math.abs(audio.currentTime - audioRecovery.lastProgressTime) > 0.25) {
+          audioRecovery.lastProgressTime = audio.currentTime;
+          clearStallTimer();
+        }
+
+        // Parçanın %70'ine gelindiğinde veya son 25 saniyede bir sonraki şarkıyı önceden ısıt
+        const remaining = audio.duration - audio.currentTime;
+        if (audio.currentTime > 6 && (remaining <= 25 || (audio.currentTime / audio.duration) >= 0.7)) {
+          prewarmNextTrack();
+        }
+
         const percent = (audio.currentTime / audio.duration) * 100;
         progressPlayed.style.width = `${percent}%`;
         progressSeek.value = percent;
@@ -12004,7 +11803,20 @@
       }
     });
 
+    audio.addEventListener('waiting', () => {
+      if (audioRecovery.wantsToPlay && !audio.paused) {
+        armStallTimer(audioRecovery.loadToken);
+      }
+    });
+
+    audio.addEventListener('stalled', () => {
+      if (audioRecovery.wantsToPlay && !audio.paused) {
+        armStallTimer(audioRecovery.loadToken);
+      }
+    });
+
     audio.addEventListener('ended', () => {
+      clearStallTimer();
       if (state.repeatMode === 'one') {
         audio.currentTime = 0;
         audio.play().catch(e => console.error(e));
@@ -12022,6 +11834,7 @@
     });
 
     audio.addEventListener('pause', () => {
+      clearStallTimer();
       state.isPlaying = false;
       updatePlayPauseUI(false);
       updateZenPlayPauseIcon(false);
@@ -12029,11 +11842,69 @@
       if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
     });
 
-    audio.addEventListener('error', (e) => {
-      const code = audio.error ? audio.error.code : 'Bilinmeyen';
-      console.warn('[Audio Hatası]:', code, 'Kaynak:', audio.src);
-      showToast(`Ses yükleme sorunu (Kod: ${code}). Çal butonuna tekrar dokunun.`, 'error');
-      updatePlayPauseUI(false);
+    audio.addEventListener('error', async () => {
+      clearStallTimer();
+      const song = state.currentSong;
+      const code = audio.error ? audio.error.code : 0;
+      const tokenAtError = audioRecovery.loadToken;
+      const failedSrc = audio.src;
+      console.warn('[Audio Hatası]:', code, 'Kaynak:', failedSrc);
+
+      if (!song || !audioRecovery.wantsToPlay) {
+        updatePlayPauseUI(false);
+        return;
+      }
+
+      // Kaynağı HEAD isteğiyle hızlıca teşhis et (desteklenmeyen format vs sunucu uyanması)
+      let headStatus = 0;
+      let headContentType = '';
+      try {
+        const probe = await fetch(failedSrc, {
+          method: 'HEAD',
+          signal: AbortSignal.timeout(8000)
+        });
+        headStatus = probe.status;
+        headContentType = (probe.headers.get('content-type') || '').toLowerCase();
+      } catch (_) {
+        headStatus = 0;
+      }
+
+      if (tokenAtError !== audioRecovery.loadToken || !audioRecovery.wantsToPlay) return;
+
+      // 1. Tarayıcının çözemediği format (ör. audio/x-ms-wma) -> Beklemeden sonraki şarkıya geç
+      if (headStatus === 200 && headContentType && (headContentType.includes('wma') || headContentType.includes('asf') || (audio.canPlayType && audio.canPlayType(headContentType) === ''))) {
+        handleUnrecoverableTrack(song, 'tarayıcı bu ses formatını desteklemiyor');
+        return;
+      }
+
+      // 2. Render uyanıyor (502/503) veya geçici sunucu/ağ hatası -> kademeli bekleme ile yeniden dene
+      if (audioRecovery.retryCount < 3) {
+        audioRecovery.retryCount += 1;
+        const waitMs = audioRecovery.retryCount * 2200;
+        const msg = (headStatus === 503 || headStatus === 502 || headStatus === 0)
+          ? `Yayın sunucusu hazırlanıyor, tekrar deneniyor (${audioRecovery.retryCount}/3)...`
+          : `Bağlantı yenileniyor (${audioRecovery.retryCount}/3)...`;
+        showToast(msg, 'info');
+
+        setTimeout(() => {
+          if (tokenAtError !== audioRecovery.loadToken || !audioRecovery.wantsToPlay) return;
+          const retryUrl = buildStreamUrl(song, `retry=${audioRecovery.retryCount}&t=${Date.now()}`);
+          audio.src = retryUrl;
+          audio.load();
+          audio.play().catch(() => {});
+        }, waitMs);
+        return;
+      }
+
+      // 3. 3 deneme sonunda hâlâ açılmadıysa akışı durdurma, sonraki şarkıya geç
+      handleUnrecoverableTrack(song, `yükleme hatası (Kod: ${code})`);
+    });
+
+    // Arka plan sekmesi uyutulduysa sekme tekrar görünür olduğunda çalmayı sürdür
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && audioRecovery.wantsToPlay && audio.paused && !audio.ended && state.currentSong) {
+        audio.play().catch(() => {});
+      }
     });
   }
 
@@ -12043,28 +11914,21 @@
   function playSong(song, autoPlay = true) {
     if (!song) return;
 
+    clearStallTimer();
+    const token = ++audioRecovery.loadToken;
+    audioRecovery.retryCount = 0;
+    audioRecovery.pendingResumeTime = 0;
+    audioRecovery.lastProgressTime = 0;
+    audioRecovery.wantsToPlay = !!autoPlay;
+    audioRecovery.nextShuffleCandidate = null;
+
     state.currentSong = song;
     state.currentIndex = state.allSongs.findIndex(s => s.id === song.id);
 
-    // Canlı Telegram Stream Adresi
-    const serverUrl = (state.streamServerUrl || LIVE_RENDER_URL).replace(/\/+$/, '');
-    let audioSrc = '';
-
-    const effectiveMsgId = song.messageId || song.telegramMsgId;
-
-    if (state.playMode === 'demoOnly') {
-      audioSrc = song.demoAudio || song.url || (effectiveMsgId ? `${serverUrl}/stream/${effectiveMsgId}` : '');
-    } else {
-      if (effectiveMsgId) {
-        audioSrc = `${serverUrl}/stream/${effectiveMsgId}`;
-      } else if (song.demoAudio) {
-        audioSrc = song.demoAudio;
-      } else if (song.url) {
-        audioSrc = song.url;
-      }
-    }
+    const audioSrc = buildStreamUrl(song);
 
     audio.src = audioSrc;
+    audio.load();
     audio.playbackRate = state.playbackSpeed;
 
     // Alt Swiss Player Bilgilerini Güncelle
@@ -12099,11 +11963,22 @@
     updateMediaSessionMetadata(song);
 
     if (autoPlay) {
+      armStallTimer(token);
       showToast(`"${song.title}" çalınıyor...`, 'info');
       audio.play().then(() => {
-        console.log('[Play] Akış başladı:', audio.src);
+        if (token === audioRecovery.loadToken) {
+          console.log('[Play] Akış başladı:', audio.src);
+        }
       }).catch(err => {
+        if (token !== audioRecovery.loadToken) return;
+        if (err && err.name === 'AbortError') return; // Kullanıcı hızlıca başka şarkıya geçti
         console.warn('Oynatma tarayıcı politikasına takıldı:', err);
+        if (err && err.name === 'NotAllowedError') {
+          audioRecovery.wantsToPlay = false;
+          clearStallTimer();
+          updatePlayPauseUI(false);
+          showToast('Tarayıcı otomatik oynatmayı duraklattı, devam etmek için Çal butonuna dokunun.', 'info');
+        }
       });
     }
 
@@ -12119,8 +11994,11 @@
     }
 
     if (audio.paused) {
+      audioRecovery.wantsToPlay = true;
       audio.play().catch(e => console.error('Play hatası:', e));
     } else {
+      audioRecovery.wantsToPlay = false;
+      clearStallTimer();
       audio.pause();
     }
   }
@@ -12137,8 +12015,10 @@
     if (list.length === 0) return;
 
     if (state.isShuffle) {
-      const randomIndex = Math.floor(Math.random() * list.length);
-      playSong(list[randomIndex], true);
+      const candidate = audioRecovery.nextShuffleCandidate && list.some(s => s.id === audioRecovery.nextShuffleCandidate.id)
+        ? audioRecovery.nextShuffleCandidate
+        : list[Math.floor(Math.random() * list.length)];
+      playSong(candidate, true);
       return;
     }
 
@@ -12149,6 +12029,7 @@
       if (state.repeatMode === 'all') {
         nextIndex = 0;
       } else {
+        audioRecovery.wantsToPlay = false;
         audio.pause();
         return;
       }
@@ -12913,6 +12794,8 @@
       navigator.mediaSession.setActionHandler('play', () => togglePlayPause());
       navigator.mediaSession.setActionHandler('pause', () => togglePlayPause());
       navigator.mediaSession.setActionHandler('stop', () => {
+        audioRecovery.wantsToPlay = false;
+        clearStallTimer();
         audio.pause();
         audio.currentTime = 0;
         state.isPlaying = false;
@@ -13004,23 +12887,51 @@
   }
 
   // ==========================================================================
-  // SUNUCU SAĞLIK KONTROLÜ
+  // SUNUCU SAĞLIK KONTROLÜ & UYANIK TUTMA (KEEP-ALIVE)
   // ==========================================================================
-  async function checkServerHealthQuiet() {
+  let serverKeepAliveTimer = null;
+
+  async function checkServerHealthQuiet(attempt = 0) {
     const serverUrl = (state.streamServerUrl || LIVE_RENDER_URL).replace(/\/+$/, '');
     try {
-      const res = await fetch(`${serverUrl}/health`, { signal: AbortSignal.timeout(3500) });
+      const res = await fetch(`${serverUrl}/health`, { signal: AbortSignal.timeout(12000) });
       if (res.ok) {
         const data = await res.json();
-        if (data.status === 'ok') {
+        if (data.status === 'ok' && data.telegramConnected) {
           updateServerStatusUI('connected');
+          startServerKeepAlive();
           return;
         }
       }
-      updateServerStatusUI('offline');
+      updateServerStatusUI('waking');
     } catch (err) {
-      updateServerStatusUI('offline');
+      updateServerStatusUI('waking');
     }
+
+    // Render Free Tier uyku modundaysa uyanana kadar kademeli tekrar kontrol et
+    if (attempt < 4) {
+      setTimeout(() => checkServerHealthQuiet(attempt + 1), 4000 * (attempt + 1));
+    } else {
+      updateServerStatusUI('offline');
+      startServerKeepAlive();
+    }
+  }
+
+  function startServerKeepAlive() {
+    if (serverKeepAliveTimer) return;
+    serverKeepAliveTimer = setInterval(() => {
+      if (document.visibilityState === 'visible' || audioRecovery.wantsToPlay) {
+        const serverUrl = (state.streamServerUrl || LIVE_RENDER_URL).replace(/\/+$/, '');
+        fetch(`${serverUrl}/health`, { signal: AbortSignal.timeout(10000) })
+          .then(r => r.ok ? r.json() : null)
+          .then(data => {
+            if (data && data.status === 'ok' && data.telegramConnected) {
+              updateServerStatusUI('connected');
+            }
+          })
+          .catch(() => {});
+      }
+    }, 4 * 60 * 1000); // Her 4 dakikada bir sunucuyu uyanık tut
   }
 
   function updateServerStatusUI(status) {
@@ -13028,6 +12939,10 @@
       serverStatusIndicator.style.background = '#10b981';
       serverStatusIndicator.style.boxShadow = '0 0 8px #10b981';
       serverStatusTitle.textContent = 'CANLI YAYIN: AKTİF';
+    } else if (status === 'waking') {
+      serverStatusIndicator.style.background = '#f59e0b';
+      serverStatusIndicator.style.boxShadow = '0 0 8px #f59e0b';
+      serverStatusTitle.textContent = 'SUNUCU UYANIYOR...';
     } else {
       serverStatusIndicator.style.background = '#f59e0b';
       serverStatusIndicator.style.boxShadow = '0 0 8px #f59e0b';
@@ -13046,6 +12961,7 @@
 
     function handleToggleShuffle() {
       state.isShuffle = !state.isShuffle;
+      audioRecovery.nextShuffleCandidate = null;
       shuffleBtn.classList.toggle('active', state.isShuffle);
       if (mnpShuffleBtn) mnpShuffleBtn.classList.toggle('active', state.isShuffle);
       showToast(state.isShuffle ? 'Karışık çalma açık' : 'Karışık çalma kapalı', 'info');
