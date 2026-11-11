@@ -1,54 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0f172a" />
-      <stop offset="50%" stop-color="#1e1b4b" />
-      <stop offset="100%" stop-color="#0284c7" />
-    </linearGradient>
-    <linearGradient id="neonGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8" />
-      <stop offset="50%" stop-color="#818cf8" />
-      <stop offset="100%" stop-color="#c084fc" />
-    </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="8" result="blur" />
-      <feMerge>
-        <feMergeNode in="blur" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
-  </defs>
-  
-  <!-- Arka Plan Yuvarlatılmış Kare -->
-  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
-  
-  <!-- İnce Glassmorphic İç Kenarlık -->
-  <rect x="16" y="16" width="480" height="480" rx="96" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3" />
-  
-  <!-- Ses Dalgaları (Patchwork / Kırkyama Geometrisi) -->
-  <g filter="url(#glow)">
-    <!-- Kulaklık Çemberi -->
-    <path d="M 140 260 A 116 116 0 0 1 372 260" fill="none" stroke="url(#neonGlow)" stroke-width="24" stroke-linecap="round" />
-    
-    <!-- Kulaklık Yastıkları -->
-    <rect x="116" y="240" width="36" height="76" rx="18" fill="url(#neonGlow)" />
-    <rect x="360" y="240" width="36" height="76" rx="18" fill="url(#neonGlow)" />
+  <!-- Mat Obsidyen Plak Mührü & İnce Şampanya Altını Çerçeve -->
+  <circle cx="256" cy="256" r="242" fill="#11131a" stroke="#d4a373" stroke-opacity="0.78" stroke-width="8" />
 
-    <!-- Dinamik Ses Dalgaları (Equalizer Barları) -->
-    <rect x="180" y="230" width="16" height="60" rx="8" fill="#38bdf8" />
-    <rect x="210" y="200" width="16" height="120" rx="8" fill="#60a5fa" />
-    <rect x="240" y="170" width="16" height="180" rx="8" fill="#818cf8" />
-    <rect x="270" y="190" width="16" height="140" rx="8" fill="#a855f7" />
-    <rect x="300" y="220" width="16" height="80" rx="8" fill="#c084fc" />
+  <!-- Sessiz Plak Oluk Yayları (Minimal Analog Doku) -->
+  <path d="M 104 180 A 170 170 0 0 1 326 100" fill="none" stroke="#f3efe9" stroke-opacity="0.18" stroke-width="4.5" stroke-linecap="round" />
+  <path d="M 408 332 A 170 170 0 0 1 186 412" fill="none" stroke="#f3efe9" stroke-opacity="0.18" stroke-width="4.5" stroke-linecap="round" />
+
+  <!-- Klasik Konservatuvar Oranlarında Sekizlik Çift Nota (Keten Fildişi & Şampanya Altını) -->
+  <g transform="translate(5, 6)">
+    <rect x="210" y="160" width="13" height="178" fill="#f3efe9" />
+    <rect x="342" y="132" width="13" height="178" fill="#f3efe9" />
+    <polygon points="210,152 355,122 355,149 210,179" fill="#d4a373" />
+    <ellipse cx="184" cy="340" rx="39" ry="26" transform="rotate(-24 184 340)" fill="#f3efe9" />
+    <ellipse cx="316" cy="312" rx="39" ry="26" transform="rotate(-24 316 312)" fill="#f3efe9" />
   </g>
-
-  <!-- Küçük Kırkyama Yıldız Efekti -->
-  <polygon points="256,70 262,90 282,96 262,102 256,122 250,102 230,96 250,90" fill="#38bdf8" opacity="0.9" />
-  <polygon points="120,130 124,142 136,146 124,150 120,162 116,150 104,146 116,142" fill="#c084fc" opacity="0.8" />
-  <polygon points="390,130 394,142 406,146 394,150 390,162 386,150 374,146 386,142" fill="#818cf8" opacity="0.8" />
-  
-  <!-- Taban Işıltısı -->
-  <circle cx="256" cy="420" r="16" fill="#38bdf8" opacity="0.8" filter="url(#glow)" />
-  <circle cx="216" cy="420" r="10" fill="#60a5fa" opacity="0.6" />
-  <circle cx="296" cy="420" r="10" fill="#a855f7" opacity="0.6" />
 </svg>

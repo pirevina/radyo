@@ -1,4 +1,4 @@
-const CACHE_NAME = 'radyo-kirkyama-v6.1';
+const CACHE_NAME = 'radyo-kirkyama-v8.7';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -6,7 +6,17 @@ const STATIC_ASSETS = [
   './app.js',
   './songs.json',
   './manifest.json',
-  './assets/logo.svg'
+  './assets/logo.svg',
+  './assets/logo.svg?v=4',
+  './assets/favicon-32.png',
+  './assets/favicon-32.png?v=4',
+  './assets/apple-touch-icon.png',
+  './assets/apple-touch-icon.png?v=4',
+  './assets/icon-192.png',
+  './assets/icon-512.png',
+  './assets/icon-512.png?v=4',
+  './assets/icon-maskable-512.png',
+  './assets/player-idle-cover.svg'
 ];
 
 self.addEventListener('install', (event) => {

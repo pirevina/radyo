@@ -45,6 +45,7 @@
 
 html {
   height: 100%;
+  overflow: hidden;
   overscroll-behavior-y: none;
   -webkit-text-size-adjust: 100%;
 }
@@ -117,7 +118,8 @@ body {
   display: flex;
   flex-direction: column;
   height: calc(100vh - var(--player-height));
-  width: 100vw;
+  height: calc(100dvh - var(--player-height));
+  width: 100%;
   overflow: hidden;
 }
 
@@ -126,7 +128,7 @@ body {
    ========================================================================== */
 .masthead {
   height: var(--masthead-height);
-  padding: 0 40px;
+  padding: 0 clamp(16px, 2.5vw, 40px);
   background: rgba(13, 14, 18, 0.85);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
@@ -134,6 +136,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   flex-shrink: 0;
   z-index: 20;
 }
@@ -141,16 +144,25 @@ body {
 .masthead-brand {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
+  min-width: 0;
 }
 .brand-insignia {
   width: 38px;
   height: 38px;
-  filter: drop-shadow(0 2px 10px rgba(212, 163, 115, 0.3));
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+  transition: filter 0.25s ease;
+}
+.masthead-brand:hover .brand-insignia {
+  filter: drop-shadow(0 0 10px rgba(212, 163, 115, 0.24));
 }
 .brand-typography {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 .brand-masthead {
   font-family: var(--serif);
@@ -173,7 +185,9 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-  width: 380px;
+  flex: 0 1 380px;
+  width: auto;
+  min-width: 180px;
 }
 .quill-icon {
   position: absolute;
@@ -220,7 +234,8 @@ body {
 .masthead-actions {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: clamp(8px, 1vw, 14px);
+  flex-shrink: 0;
 }
 
 .live-signal-badge {
@@ -445,7 +460,8 @@ body.study-mode .mnp-stream-dot {
   pointer-events: none;
   visibility: hidden;
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -544,17 +560,19 @@ body.study-mode .mnp-stream-dot {
 
 .zen-typography {
   margin-bottom: 38px;
+  min-width: 0;
 }
 
 .zen-song-title {
   font-family: var(--serif);
-  font-size: clamp(2rem, 6vw, 3.2rem);
+  font-size: clamp(1.45rem, 4.5vw, 2.85rem);
   font-weight: 300;
-  line-height: 1.2;
+  line-height: 1.22;
   color: #fbf7ee;
   margin-bottom: 14px;
   letter-spacing: 0.5px;
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.9);
+  overflow-wrap: anywhere;
 }
 
 .zen-song-artist {
@@ -565,6 +583,7 @@ body.study-mode .mnp-stream-dot {
   letter-spacing: 3px;
   text-transform: uppercase;
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .zen-progress-wrap {
@@ -687,7 +706,7 @@ body.study-mode .mnp-stream-dot {
 .journal-stage {
   flex: 1;
   display: grid;
-  grid-template-columns: 460px 1fr;
+  grid-template-columns: clamp(350px, 27vw, 420px) 1fr;
   overflow: hidden;
   position: relative;
 }
@@ -696,7 +715,8 @@ body.study-mode .mnp-stream-dot {
 .stage-curator {
   background: var(--bg-column-left);
   border-right: 1px solid var(--border-thin);
-  padding: 36px 40px 100px 40px;
+  padding: 32px 28px 100px 28px;
+  min-width: 0;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -714,6 +734,7 @@ body.study-mode .mnp-stream-dot {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
 }
 .curator-rule {
   width: 24px;
@@ -731,9 +752,10 @@ body.study-mode .mnp-stream-dot {
 /* Büyük Kare Afiş */
 .feature-artwork-canvas {
   position: relative;
-  width: 100%;
-  max-width: 380px;
+  width: min(100%, 340px, 36vh);
+  max-width: 100%;
   aspect-ratio: 1 / 1;
+  flex-shrink: 0;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.75), 0 0 30px rgba(212, 163, 115, 0.1);
@@ -760,20 +782,24 @@ body.study-mode .mnp-stream-dot {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  min-width: 0;
+  flex-shrink: 0;
 }
 .feature-headline {
   font-family: var(--serif);
-  font-size: 2.5rem;
+  font-size: clamp(1.55rem, 2.1vw, 2.2rem);
   font-weight: 600;
-  line-height: 1.15;
+  line-height: 1.18;
   color: var(--text-pure);
-  letter-spacing: -0.5px;
+  letter-spacing: -0.4px;
+  overflow-wrap: anywhere;
 }
 .feature-byline {
   font-family: var(--serif);
   font-style: italic;
-  font-size: 1.15rem;
+  font-size: clamp(0.98rem, 1.2vw, 1.12rem);
   color: var(--gold-accent);
+  overflow-wrap: anywhere;
 }
 
 .curator-liner-notes {
@@ -799,6 +825,7 @@ body.study-mode .mnp-stream-dot {
 .feature-actions {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 12px;
   margin-top: 10px;
 }
@@ -848,7 +875,8 @@ body.study-mode .mnp-stream-dot {
    ========================================================================== */
 .stage-repertoire {
   background: var(--bg-column-right);
-  padding: 36px 48px 120px 48px;
+  padding: 32px clamp(20px, 2.8vw, 40px) 120px clamp(20px, 2.8vw, 40px);
+  min-width: 0;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -866,19 +894,24 @@ body.study-mode .mnp-stream-dot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 12px 16px;
   border-bottom: 1px solid var(--border-thin);
   padding-bottom: 14px;
 }
 .repertoire-tab-toggle {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
+  flex-wrap: wrap;
+  row-gap: 4px;
+  column-gap: 12px;
+  flex-shrink: 1;
+  min-width: 0;
 }
 .repertoire-quick-controls {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
   flex-shrink: 0;
 }
@@ -957,6 +990,7 @@ body.study-mode .mnp-stream-dot {
   border: 1px solid var(--border-thin);
   border-radius: 18px;
   padding: 22px 18px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -990,7 +1024,8 @@ body.study-mode .mnp-stream-dot {
   font-weight: 600;
   color: var(--text-pure);
   margin-bottom: 4px;
-  line-height: 1.2;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 .artist-card-genre {
   font-size: 0.72rem;
@@ -1010,7 +1045,7 @@ body.study-mode .mnp-stream-dot {
 }
 
 /* ==========================================================================
-   SEVDİĞİM ALBÜMLER & SOUNDTRACK VİTRİNİ
+   ALBÜMLER & SOUNDTRACK VİTRİNİ
    ========================================================================== */
 .albums-archive-header {
   margin-bottom: 22px;
@@ -1028,8 +1063,8 @@ body.study-mode .mnp-stream-dot {
 .albums-filter-pills {
   display: flex;
   align-items: center;
-  gap: 10px;
-  overflow-x: auto;
+  flex-wrap: wrap;
+  gap: 8px 10px;
   padding-bottom: 4px;
 }
 .albums-filter-pills::-webkit-scrollbar {
@@ -1073,6 +1108,7 @@ body.study-mode .mnp-stream-dot {
   border: 1px solid var(--border-thin);
   border-radius: 16px;
   padding: 14px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   cursor: pointer;
@@ -1149,38 +1185,89 @@ body.study-mode .mnp-stream-dot {
   transform: scale(1);
 }
 .album-card-info {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 .album-card-title {
   font-family: var(--serif);
-  font-size: 1.15rem;
+  font-size: 1.12rem;
   font-weight: 600;
   color: var(--text-pure);
-  line-height: 1.25;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.28;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  overflow-wrap: anywhere;
 }
 .album-card-artist {
   font-size: 0.82rem;
   color: var(--text-linen);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  overflow-wrap: anywhere;
+  line-height: 1.32;
 }
 .album-card-meta {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
-  margin-top: 6px;
+  margin-top: auto;
+  padding-top: 8px;
   font-size: 0.74rem;
   color: var(--text-sub);
 }
 .album-card-count {
   color: var(--gold-accent);
   font-weight: 600;
+}
+
+/* ==========================================================================
+   LİSTELER & KÜRATÖR SEÇKİLERİ
+   ========================================================================== */
+.lists-archive-intro {
+  margin-bottom: 18px;
+}
+.lists-archive-intro p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--text-sub);
+  line-height: 1.5;
+}
+.lists-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+  gap: 18px;
+  padding-bottom: 30px;
+}
+.empty-state-editorial {
+  grid-column: 1 / -1;
+  padding: 56px 24px;
+  text-align: center;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(212, 163, 115, 0.24);
+}
+.empty-state-editorial-title {
+  font-family: var(--serif);
+  font-size: 1.32rem;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--text-pure);
+  margin-bottom: 8px;
+}
+.empty-state-editorial-desc {
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  max-width: 440px;
+  margin: 0 auto;
+  line-height: 1.55;
 }
 
 .btn-editorial-pill {
@@ -1205,7 +1292,9 @@ body.study-mode .mnp-stream-dot {
 /* İndeks Tablo Başlığı */
 .index-table-head {
   display: grid;
-  grid-template-columns: 44px 5fr 3fr 2.5fr 70px 80px;
+  grid-template-columns: 34px minmax(210px, 5.2fr) minmax(150px, 3.2fr) minmax(110px, 1.8fr) 52px 72px;
+  column-gap: 16px;
+  align-items: center;
   padding: 6px 14px;
   font-size: 0.68rem;
   font-weight: 700;
@@ -1223,7 +1312,8 @@ body.study-mode .mnp-stream-dot {
 
 .track-manuscript-row {
   display: grid;
-  grid-template-columns: 44px 5fr 3fr 2.5fr 70px 80px;
+  grid-template-columns: 34px minmax(210px, 5.2fr) minmax(150px, 3.2fr) minmax(110px, 1.8fr) 52px 72px;
+  column-gap: 16px;
   align-items: center;
   padding: 12px 14px;
   border-radius: 12px;
@@ -1287,7 +1377,7 @@ body.study-mode .mnp-stream-dot {
   display: flex;
   align-items: center;
   gap: 14px;
-  overflow: hidden;
+  min-width: 0;
 }
 .row-stamp-cover {
   width: 44px;
@@ -1301,30 +1391,38 @@ body.study-mode .mnp-stream-dot {
 .row-titles-wrap {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
 }
 .row-primary-title {
-  font-size: 0.95rem;
+  font-size: 0.94rem;
   font-weight: 600;
   color: var(--text-pure);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  overflow-wrap: anywhere;
+  line-height: 1.32;
 }
 .track-manuscript-row.playing .row-primary-title {
   font-family: var(--serif);
-  font-size: 1.05rem;
+  font-size: 1.03rem;
+  line-height: 1.32;
   color: var(--gold-accent);
 }
 .row-composer-name {
   font-size: 0.8rem;
   color: var(--text-sub);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  overflow-wrap: anywhere;
+  line-height: 1.3;
   cursor: pointer;
   transition: color 0.18s ease;
   display: inline-block;
+  align-self: flex-start;
 }
 .row-composer-name:hover {
   color: var(--gold-accent);
@@ -1336,15 +1434,19 @@ body.study-mode .mnp-stream-dot {
 .row-album-cell {
   font-size: 0.84rem;
   color: var(--text-sub);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: 12px;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+  min-width: 0;
+  padding-right: 0;
 }
 
 /* Kolon 4: Kuşak Etiketi */
 .row-genre-cell {
-  padding-right: 12px;
+  min-width: 0;
+  padding-right: 0;
 }
 .edition-tag-mini {
   display: inline-block;
@@ -1352,6 +1454,7 @@ body.study-mode .mnp-stream-dot {
   border-radius: 6px;
   font-size: 0.7rem;
   font-weight: 600;
+  line-height: 1.3;
   background: rgba(255, 255, 255, 0.04);
   color: var(--text-sub);
   border: 1px solid var(--border-thin);
@@ -1534,6 +1637,7 @@ body.study-mode .mnp-stream-dot {
   height: 44px;
   border-radius: 8px;
   object-fit: cover;
+  flex-shrink: 0;
 }
 .drawer-np-tag {
   font-size: 0.65rem;
@@ -1544,13 +1648,16 @@ body.study-mode .mnp-stream-dot {
 .drawer-np-title {
   font-size: 0.88rem;
   font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  overflow-wrap: anywhere;
+  line-height: 1.3;
 }
 .drawer-np-artist {
   font-size: 0.75rem;
   color: var(--text-sub);
+  overflow-wrap: anywhere;
 }
 
 .drawer-section-label {
@@ -1593,6 +1700,7 @@ body.study-mode .mnp-stream-dot {
   height: 36px;
   border-radius: 6px;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
 /* ==========================================================================
@@ -1603,7 +1711,8 @@ body.study-mode .mnp-stream-dot {
   bottom: 0;
   left: 0;
   right: 0;
-  height: var(--player-height);
+  min-height: var(--player-height);
+  height: auto;
   background: rgba(13, 14, 18, 0.94);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
@@ -1662,7 +1771,8 @@ body.study-mode .mnp-stream-dot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
+  gap: 16px;
+  padding: 10px clamp(16px, 2.8vw, 40px);
 }
 
 /* Sol Eser Künyesi */
@@ -1670,36 +1780,45 @@ body.study-mode .mnp-stream-dot {
   display: flex;
   align-items: center;
   gap: 14px;
-  width: 320px;
+  flex: 1 1 320px;
+  width: auto;
+  max-width: 480px;
+  min-width: 0;
 }
 .swiss-thumb {
   width: 48px;
   height: 48px;
   border-radius: 8px;
   object-fit: cover;
+  flex-shrink: 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
   border: 1px solid var(--border-thin);
 }
 .swiss-meta {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  flex: 1;
+  min-width: 0;
 }
 .swiss-track-name {
   font-family: var(--serif);
-  font-size: 1.05rem;
+  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
   font-weight: 600;
+  line-height: 1.24;
   color: var(--text-pure);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  overflow-wrap: anywhere;
 }
 .swiss-track-artist {
   font-size: 0.78rem;
+  line-height: 1.25;
   color: var(--text-sub);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  overflow-wrap: anywhere;
 }
 .swiss-fav-btn {
   background: transparent;
@@ -1707,6 +1826,7 @@ body.study-mode .mnp-stream-dot {
   color: var(--text-muted);
   cursor: pointer;
   margin-left: 6px;
+  flex-shrink: 0;
   transition: var(--transition-fast);
 }
 .swiss-fav-btn:hover {
@@ -1717,14 +1837,54 @@ body.study-mode .mnp-stream-dot {
   color: #ef4444;
 }
 
+/* Bekleme / Yayına Hazır Durumu (Editorial Idle Showcase) */
+.swiss-player.is-idle .swiss-progress-rail {
+  pointer-events: none;
+}
+.swiss-player.is-idle .swiss-thumb {
+  border-color: rgba(212, 163, 115, 0.35);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.65), 0 0 18px rgba(212, 163, 115, 0.14);
+}
+.swiss-player.is-idle .swiss-track-name {
+  color: var(--text-linen);
+  letter-spacing: 0.25px;
+}
+.swiss-player.is-idle .swiss-track-artist {
+  color: rgba(212, 163, 115, 0.9);
+}
+.swiss-player.is-idle .swiss-track-artist::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold-accent);
+  box-shadow: 0 0 8px rgba(212, 163, 115, 0.85);
+  margin-right: 7px;
+  margin-bottom: 1.5px;
+  vertical-align: middle;
+  animation: idle-signal-pulse 2.6s ease-in-out infinite;
+}
+.swiss-player.is-idle .swiss-fav-btn {
+  display: none;
+}
+.swiss-player.is-idle .swiss-time-track {
+  color: var(--text-sub);
+  opacity: 0.72;
+}
+@keyframes idle-signal-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.95; }
+  50% { transform: scale(1.3); opacity: 0.45; }
+}
+
 /* Orta Oynatma Kontrolleri */
 .swiss-center {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  flex: 1;
-  max-width: 460px;
+  flex: 0 0 auto;
+  max-width: none;
 }
 .swiss-controls {
   display: flex;
@@ -1804,7 +1964,9 @@ body.study-mode .mnp-stream-dot {
   align-items: center;
   justify-content: flex-end;
   gap: 16px;
-  width: 320px;
+  flex: 0 1 250px;
+  width: auto;
+  min-width: 190px;
 }
 .swiss-speed-trigger {
   font-size: 0.75rem;
@@ -2005,20 +2167,25 @@ body.study-mode .mnp-stream-dot {
   position: fixed;
   top: 24px;
   right: 24px;
+  max-width: calc(100vw - 32px);
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 8px;
   z-index: 2000;
   pointer-events: none;
 }
 .toast {
   padding: 12px 20px;
+  max-width: min(440px, calc(100vw - 32px));
   background: rgba(18, 20, 26, 0.96);
   border: 1px solid var(--border-medium);
   border-radius: 12px;
   color: var(--text-pure);
   font-size: 0.85rem;
   font-weight: 500;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(15px);
   display: flex;
@@ -2034,23 +2201,47 @@ body.study-mode .mnp-stream-dot {
 /* ==========================================================================
    7. MOBİL VE TABLET UYUMLULUK (RESPONSIVE & APP-LIKE PWA)
    ========================================================================== */
-@media (max-width: 1024px) {
+@media (max-width: 1240px) {
   .journal-stage {
-    grid-template-columns: 360px 1fr;
+    grid-template-columns: 330px 1fr;
   }
   .stage-curator {
-    padding: 28px 20px 100px 20px;
+    padding: 26px 22px 100px 22px;
   }
   .stage-repertoire {
-    padding: 28px 24px 100px 24px;
+    padding: 26px 24px 100px 24px;
+  }
+  .tab-title-serif {
+    font-size: clamp(1.22rem, 1.8vw, 1.45rem);
   }
   .index-table-head,
   .track-manuscript-row {
-    grid-template-columns: 36px 4fr 3fr 60px 70px;
+    grid-template-columns: 30px minmax(0, 1.55fr) minmax(0, 1fr) 48px 68px;
+    column-gap: 12px;
   }
   .th-genre,
   .row-genre-cell {
     display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .journal-stage {
+    grid-template-columns: 290px 1fr;
+  }
+  .stage-curator {
+    padding: 24px 18px 100px 18px;
+  }
+  .stage-repertoire {
+    padding: 24px 20px 100px 20px;
+  }
+  .tab-title-serif {
+    font-size: 1.24rem;
+  }
+  .index-table-head,
+  .track-manuscript-row {
+    grid-template-columns: 28px minmax(0, 1.5fr) minmax(0, 1fr) 46px 64px;
+    column-gap: 10px;
   }
 }
 
@@ -2074,8 +2265,9 @@ body.study-mode .mnp-stream-dot {
     padding-right: max(16px, env(safe-area-inset-right, 0px));
   }
   .brand-insignia {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
   }
   .brand-masthead {
     font-size: 1.25rem;
@@ -2236,7 +2428,7 @@ body.study-mode .mnp-stream-dot {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
-    padding: 16px max(16px, env(safe-area-inset-right, 0px)) calc(88px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+    padding: 16px max(16px, env(safe-area-inset-right, 0px)) calc(104px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
   }
 
   .repertoire-header {
@@ -2245,8 +2437,30 @@ body.study-mode .mnp-stream-dot {
     padding-bottom: 10px;
     margin-bottom: 12px;
   }
+  .repertoire-tab-toggle {
+    flex-wrap: wrap;
+    row-gap: 6px;
+    column-gap: 8px;
+    flex-shrink: 1;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .rep-nav-tab {
+    gap: 5px;
+    padding: 5px 2px;
+  }
+  .tab-divider {
+    display: none;
+  }
   .tab-title-serif {
-    font-size: 1.28rem;
+    font-size: 1.03rem;
+  }
+  .tab-count-tag {
+    font-size: 0.68rem;
+    padding: 1px 7px;
+  }
+  .rep-nav-tab.active::after {
+    bottom: -4px;
   }
   .repertoire-quick-controls {
     width: 100%;
@@ -2262,16 +2476,28 @@ body.study-mode .mnp-stream-dot {
     display: none;
   }
 
-  /* Şarkı Satırları: Dokunmatik & Kompakt */
+  /* Şarkı Satırları: Dokunmatik & Taşmayan Düzen */
   .track-manuscript-row {
-    grid-template-columns: 28px 1fr 64px;
-    padding: 10px 8px;
-    gap: 10px;
+    grid-template-columns: 24px minmax(0, 1fr) auto;
+    column-gap: 8px;
+    row-gap: 3px;
+    padding: 10px 6px;
     min-height: 52px;
     border-radius: 12px;
   }
+  .row-index-cell {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
   .row-num-text {
     font-size: 0.72rem;
+  }
+  .row-title-cell {
+    grid-column: 2;
+    grid-row: 1;
+    gap: 10px;
+    align-items: center;
   }
   .row-stamp-cover {
     width: 38px;
@@ -2279,23 +2505,40 @@ body.study-mode .mnp-stream-dot {
     border-radius: 6px;
   }
   .row-primary-title {
-    font-size: 0.88rem;
-    line-height: 1.25;
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+  .track-manuscript-row.playing .row-primary-title {
+    font-size: 0.96rem;
+    line-height: 1.3;
   }
   .row-composer-name {
-    font-size: 0.75rem;
+    font-size: 0.76rem;
+    line-height: 1.28;
   }
-  .row-album-cell,
+  .row-album-cell {
+    display: block;
+    grid-column: 2;
+    grid-row: 2;
+    padding-left: 48px;
+    padding-right: 0;
+    font-size: 0.72rem;
+    color: rgba(166, 160, 150, 0.78);
+    line-height: 1.25;
+  }
   .row-genre-cell,
   .row-time-cell {
     display: none;
   }
   .row-actions-cell {
-    gap: 4px;
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: center;
+    gap: 2px;
   }
   .action-glyph {
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 36px;
+    min-height: 40px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -2304,7 +2547,7 @@ body.study-mode .mnp-stream-dot {
 
   /* Sanatçı Galerisi Grid'i Mobilde 2 Kolon */
   .artists-gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }
   .artist-card-box {
@@ -2327,20 +2570,26 @@ body.study-mode .mnp-stream-dot {
     padding: 2px 8px;
   }
 
-  /* Albüm Galerisi Grid'i Mobilde 2 Kolon */
-  .albums-gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
+  /* Albüm & Liste Galerisi Grid'i Mobilde 2 Kolon */
+  .albums-gallery-grid,
+  .lists-gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
+  }
+  .empty-state-editorial {
+    padding: 36px 16px;
   }
   .album-card-box {
     padding: 10px;
     border-radius: 14px;
   }
   .album-card-title {
-    font-size: 0.98rem;
+    font-size: 0.96rem;
+    line-height: 1.26;
   }
   .album-card-artist {
-    font-size: 0.76rem;
+    font-size: 0.75rem;
+    line-height: 1.28;
   }
   .album-play-overlay {
     opacity: 1;
@@ -2364,10 +2613,11 @@ body.study-mode .mnp-stream-dot {
     bottom: 0;
     left: 0;
     right: 0;
-    height: calc(64px + env(safe-area-inset-bottom, 0px));
+    height: auto;
+    min-height: calc(64px + env(safe-area-inset-bottom, 0px));
     padding-bottom: env(safe-area-inset-bottom, 0px);
-    padding-left: max(16px, env(safe-area-inset-left, 0px));
-    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-left: 0;
+    padding-right: 0;
     background: rgba(18, 20, 26, 0.96);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
@@ -2393,16 +2643,20 @@ body.study-mode .mnp-stream-dot {
   }
 
   .swiss-player-hull {
-    height: 60px;
-    padding: 0 16px;
+    height: auto;
+    min-height: 60px;
+    padding: 8px max(14px, env(safe-area-inset-right, 0px)) 8px max(14px, env(safe-area-inset-left, 0px));
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
   }
 
   .swiss-left {
-    flex: 1;
-    max-width: calc(100% - 110px);
+    flex: 1 1 0;
+    max-width: none;
+    width: auto;
+    min-width: 0;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -2415,19 +2669,24 @@ body.study-mode .mnp-stream-dot {
     flex-shrink: 0;
   }
   .swiss-meta {
-    overflow: hidden;
+    flex: 1;
+    min-width: 0;
   }
   .swiss-track-name {
     font-size: 0.88rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    line-height: 1.24;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    overflow-wrap: anywhere;
   }
   .swiss-track-artist {
     font-size: 0.74rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    line-height: 1.24;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    overflow-wrap: anywhere;
   }
   .swiss-fav-btn {
     display: none;
@@ -2435,9 +2694,11 @@ body.study-mode .mnp-stream-dot {
 
   .swiss-center {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
+    gap: 4px;
+    flex: 0 0 auto;
+    max-width: none;
   }
   .swiss-controls {
     gap: 8px;
@@ -2480,6 +2741,50 @@ body.study-mode .mnp-stream-dot {
     align-items: center;
     justify-content: center;
   }
+
+  .toast-container {
+    top: 14px;
+    left: 16px;
+    right: 16px;
+    max-width: none;
+    align-items: stretch;
+  }
+  .toast {
+    width: 100%;
+    max-width: none;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .brand-masthead {
+    font-size: 1.08rem;
+  }
+  .masthead-brand {
+    gap: 10px;
+  }
+  .masthead-actions {
+    gap: 8px;
+  }
+  .action-monocle,
+  .mobile-search-btn {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+  }
+  .row-stamp-cover {
+    width: 34px;
+    height: 34px;
+  }
+  .row-album-cell {
+    padding-left: 44px;
+  }
+  .action-glyph {
+    min-width: 32px;
+    min-height: 36px;
+  }
 }
 
 /* Masaüstünde Mobil Öğeler Gizlenir */
@@ -2508,6 +2813,17 @@ body.study-mode .mnp-stream-dot {
 
 .mobile-now-playing.open {
   transform: translateY(0);
+}
+
+.mobile-now-playing.is-idle .mnp-fav-btn,
+.mobile-now-playing.is-idle .mnp-story-foot {
+  display: none;
+}
+.mobile-now-playing.is-idle .mnp-scrub-rail {
+  pointer-events: none;
+}
+.mobile-now-playing.is-idle .mnp-artwork-wrapper {
+  border-color: rgba(212, 163, 115, 0.32);
 }
 
 /* Dinamik Bulanık Arka Plan */
@@ -2646,7 +2962,7 @@ body.study-mode .mnp-stream-dot {
 .mnp-artwork-wrapper {
   width: min(78vw, 320px);
   height: min(78vw, 320px);
-  max-height: 42vh;
+  max-height: 38vh;
   aspect-ratio: 1 / 1;
   border-radius: 24px;
   position: relative;
@@ -2697,28 +3013,31 @@ body.study-mode .mnp-stream-dot {
 
 .mnp-titles {
   flex: 1;
-  overflow: hidden;
+  min-width: 0;
 }
 
 .mnp-track-title {
   font-family: var(--serif);
-  font-size: clamp(1.4rem, 5.5vw, 1.85rem);
+  font-size: clamp(1.22rem, 4.8vw, 1.75rem);
   font-weight: 600;
   color: #ffffff;
-  line-height: 1.15;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.2;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  overflow-wrap: anywhere;
 }
 
 .mnp-track-subtitle {
   font-family: var(--sans);
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   color: var(--gold-accent);
-  margin-top: 3px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin-top: 4px;
+  line-height: 1.32;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  overflow-wrap: anywhere;
 }
 
 /* Favori Butonu (Lüks Frosted Glass Monocle) */
@@ -3134,7 +3453,8 @@ body.study-mode .mnp-stream-dot {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  overflow: hidden;
+  flex: 1;
+  min-width: 0;
 }
 
 .mnp-artist-name {
@@ -3142,9 +3462,11 @@ body.study-mode .mnp-stream-dot {
   font-size: 1.2rem;
   font-weight: 600;
   color: #ffffff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
 }
 
 .mnp-artist-genre {
