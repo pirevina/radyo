@@ -2867,10 +2867,12 @@ body.study-mode .mnp-stream-dot {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: clamp(6px, 1.2dvh, 12px);
   height: 100%;
   height: 100dvh;
-  padding: calc(12px + env(safe-area-inset-top, 0px)) max(22px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(22px, env(safe-area-inset-left, 0px));
+  padding: calc(12px + env(safe-area-inset-top, 0px)) max(22px, env(safe-area-inset-right, 0px)) calc(18px + env(safe-area-inset-bottom, 0px)) max(22px, env(safe-area-inset-left, 0px));
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 /* Üst Bar */
@@ -2878,7 +2880,8 @@ body.study-mode .mnp-stream-dot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 48px;
+  gap: 8px;
+  min-height: 48px;
   flex-shrink: 0;
 }
 
@@ -2905,11 +2908,13 @@ body.study-mode .mnp-stream-dot {
 }
 
 .mnp-header-center {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  padding: 4px 16px;
+  padding: 4px 8px;
 }
 
 .mnp-grab-pill {
@@ -2926,6 +2931,9 @@ body.study-mode .mnp-stream-dot {
   letter-spacing: 2px;
   color: var(--gold-accent);
   text-transform: uppercase;
+  text-align: center;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .mnp-queue-btn {
@@ -2951,46 +2959,59 @@ body.study-mode .mnp-stream-dot {
 
 /* Orta: Dev Kapak Alanı */
 .mnp-artwork-stage {
-  flex: 1;
+  flex: 1 1 0%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 0;
+  padding: 4px 0;
   min-height: 0;
+  width: 100%;
+  container-type: size;
 }
 
 .mnp-artwork-wrapper {
-  width: min(78vw, 320px);
-  height: min(78vw, 320px);
-  max-height: 38vh;
+  --mnp-art-size: min(76vw, 34vh, 320px);
+  --mnp-art-size: min(76vw, 34dvh, 320px);
+  width: var(--mnp-art-size);
+  height: var(--mnp-art-size);
+  max-width: 100%;
+  max-height: 100%;
   aspect-ratio: 1 / 1;
-  border-radius: 24px;
+  flex-shrink: 0;
+  border-radius: clamp(16px, 4.5vw, 24px);
+  overflow: hidden;
   position: relative;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(212, 163, 115, 0.18);
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.85), 0 0 38px rgba(212, 163, 115, 0.18);
   border: 1px solid rgba(255, 255, 255, 0.14);
-  transform: scale(0.92);
+  transform: scale(0.94);
   opacity: 0.88;
   transition: transform 0.48s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.48s ease, opacity 0.48s ease;
+}
+
+@supports (container-type: size) {
+  .mnp-artwork-wrapper {
+    --mnp-art-size: min(86cqw, 92cqh, 320px);
+  }
 }
 
 .mobile-now-playing.playing .mnp-artwork-wrapper {
   transform: scale(1);
   opacity: 1;
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.95), 0 0 55px rgba(212, 163, 115, 0.28);
+  box-shadow: 0 26px 64px rgba(0, 0, 0, 0.95), 0 0 48px rgba(212, 163, 115, 0.28);
 }
 
 .mnp-artwork-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 24px;
+  border-radius: inherit;
   display: block;
 }
 
 .mnp-artwork-gloss {
   position: absolute;
   inset: 0;
-  border-radius: 24px;
+  border-radius: inherit;
   background: linear-gradient(140deg, rgba(255, 255, 255, 0.16) 0%, transparent 45%);
   pointer-events: none;
 }
@@ -3000,7 +3021,7 @@ body.study-mode .mnp-stream-dot {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: clamp(10px, 1.8dvh, 16px);
 }
 
 /* Eser Künyesi & Favori */
