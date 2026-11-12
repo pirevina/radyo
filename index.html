@@ -7,23 +7,50 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Radyo Kırkyama">
+  <meta name="description" content="Boğaziçi Koleji Kültür ve Müzik Yayını — Anadolu'dan evrensele özenle seçilmiş kült eserler, albümler ve tematik seçkiler.">
   <title>radyo kırkyama</title>
+  <link rel="canonical" href="https://pirevina.github.io/">
   
   <!-- Favicon & PWA Manifest -->
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg?v=4">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=4">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=4">
   <link rel="manifest" href="manifest.json">
+
+  <!-- Open Graph & Sosyal Medya Önizleme Kartları -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="Radyo Kırkyama Journal">
+  <meta property="og:url" content="https://pirevina.github.io/">
   <meta property="og:title" content="Radyo Kırkyama Journal — Boğaziçi Koleji">
-  <meta property="og:description" content="Boğaziçi Koleji Kültür ve Müzik Yayını">
-  <meta property="og:image" content="assets/icon-512.png?v=4">
+  <meta property="og:description" content="Boğaziçi Koleji Kültür ve Müzik Yayını — Anadolu'dan evrensele özenle seçilmiş kült eserler, albümler ve tematik seçkiler.">
+  <meta property="og:image" content="https://pirevina.github.io/assets/icon-512.png?v=4">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Radyo Kırkyama Journal">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Radyo Kırkyama Journal — Boğaziçi Koleji">
+  <meta name="twitter:description" content="Boğaziçi Koleji Kültür ve Müzik Yayını — Anadolu'dan evrensele özenle seçilmiş kült eserler, albümler ve tematik seçkiler.">
+  <meta name="twitter:image" content="https://pirevina.github.io/assets/icon-512.png?v=4">
 
   <!-- Google Fonts: Cormorant Garamond (Lüks Dergi Serif) & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css?v=7.0">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('kirkyama_theme');
+        if (t === 'paper' || t === 'oled' || t === 'night') {
+          document.documentElement.setAttribute('data-theme', t);
+          var mc = document.querySelector('meta[name="theme-color"]');
+          if (mc) mc.setAttribute('content', t === 'paper' ? '#f4ede2' : (t === 'oled' ? '#000000' : '#0d0e12'));
+        }
+      } catch (_) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="style.css?v=7.5">
 </head>
 <body>
 
@@ -59,11 +86,12 @@
         </button>
 
         <!-- Odaklanma Modu (Zen Focus) -->
-        <button class="action-monocle study-mode-btn" id="studyModeToggleBtn" title="Odaklanma Modu (Zen Focus)">
+        <button class="action-monocle study-mode-btn" id="studyModeToggleBtn" title="Odaklanma Modu & Müzikal Pomodoro">
           <svg class="study-moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
           <span class="study-pulse-dot" id="studyPulseDot"></span>
+          <span class="study-timer-badge" id="studyTimerMiniBadge" style="display: none;">25:00</span>
         </button>
 
         <div class="live-signal-badge" id="serverStatusBadge" title="Canlı Telegram Stream Durumu">
@@ -71,8 +99,13 @@
           <span class="live-signal-text" id="serverStatusTitle">CANLI YAYIN</span>
         </div>
 
-        <button class="action-monocle" id="serverSettingsBtn" title="Yayın Sunucusu Ayarları">
+        <button class="action-monocle passport-trigger-btn" id="passportBtn" title="Kişisel Müzik Pasaportum">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+        </button>
+
+        <button class="action-monocle settings-trigger-btn" id="serverSettingsBtn" title="Yayın ve Oynatma Ayarları">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span class="settings-sleep-dot" id="settingsSleepDot" aria-hidden="true"></span>
         </button>
 
         <button class="action-monocle queue-trigger" id="toggleQueueBtn" title="Çalma Sırası">
@@ -116,10 +149,18 @@
           <div class="feature-byline" id="heroArtist">Boğaziçi Koleji &bull; Kültür &amp; Müzik Yayını</div>
           
           <div class="curator-liner-notes">
-            <h4 class="liner-notes-heading">Küratörün Parça Notu (Liner Notes)</h4>
+            <h4 class="liner-notes-heading">Eser Notu</h4>
             <p class="liner-notes-text" id="heroDesc">
               Anadolu'dan evrensele uzanan özel seçkiler, unutulmaz plaklar ve sinematik film müzikleriyle özenle derlenmiş küratör arşivi.
             </p>
+            <div class="timed-commentary-box" id="curatorTimedNoteBox" style="display: none;">
+              <div class="timed-commentary-head">
+                <span class="timed-note-badge" id="curatorTimedBadge">00:00</span>
+                <span class="timed-note-kicker">ZAMAN DAMGALI NOT</span>
+              </div>
+              <p class="timed-note-text" id="curatorTimedText"></p>
+              <div class="timed-note-chips" id="curatorTimedChips"></div>
+            </div>
           </div>
 
           <div class="feature-actions">
@@ -130,6 +171,14 @@
             <button class="btn-editorial-queue" id="heroQueueBtn" title="Sıraya Ekle">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               <span>Sıraya Ekle</span>
+            </button>
+            <button class="btn-editorial-share" id="heroShareBtn" title="Bağlantıyı Kopyala / Paylaş">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              <span>Paylaş</span>
+            </button>
+            <button class="btn-editorial-card" id="heroStoryCardBtn" title="9:16 Hikaye / Alıntı Kartı Oluştur">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>Kart Oluştur</span>
             </button>
           </div>
         </div>
@@ -169,10 +218,34 @@
             <button class="btn-editorial-pill" id="clearSearchResultsBtn" style="display: none;">
               <span>&larr; Aramadan Çık</span>
             </button>
+            <button class="btn-editorial-pill" id="clearMoodBtn" style="display: none;">
+              <span>&larr; Ruh Hali Filtresini Temizle</span>
+            </button>
             <button class="btn-editorial-pill" id="playAllBtn" style="display: none;">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
               <span>Baştan Çal</span>
             </button>
+            <button class="btn-editorial-pill" id="shareCollectionBtn" style="display: none;" title="Bu Seçkinin Bağlantısını Paylaş">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              <span>Paylaş</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- AKILLI KEŞİF & HIZLI RUH HALİ SEÇİCİSİ -->
+        <div class="discovery-mood-bar" id="discoveryMoodBar">
+          <button type="button" class="surprise-pick-btn" id="surprisePickBtn" title="Küratör arşivinden senin için rastgele seçkin bir eser başlat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>
+            <span>Bana Bir Eser Seç</span>
+          </button>
+
+          <div class="mood-selector-cluster">
+            <span class="mood-prompt-label">Şu an ne yapıyorsun?</span>
+            <div class="mood-pills-row" id="moodFilterGroup" role="group" aria-label="Ruh hali filtreleri">
+              <button type="button" class="mood-pill" data-mood="study">Ders Çalışıyorum</button>
+              <button type="button" class="mood-pill" data-mood="relax">Dinleniyorum</button>
+              <button type="button" class="mood-pill" data-mood="read">Okuyorum</button>
+            </div>
           </div>
         </div>
 
@@ -258,7 +331,10 @@
       <!-- Şu an çalan özet -->
     </div>
 
-    <div class="drawer-section-label">SIRADAKİ ESERLER</div>
+    <div class="drawer-section-label">
+      <span>SIRADAKİ ESERLER</span>
+      <span class="drawer-section-hint">Sürükleyip sıralayın</span>
+    </div>
     <div class="drawer-scroll-list" id="queueItemsList">
       <!-- Kuyruk listesi -->
     </div>
@@ -270,6 +346,7 @@
     <div class="swiss-progress-rail" id="progressBarContainer">
       <div class="swiss-progress-buffered" id="progressBuffered"></div>
       <div class="swiss-progress-played" id="progressPlayed"></div>
+      <div class="timed-markers-layer" id="progressTimedMarkers"></div>
       <input type="range" class="swiss-seek-slider" id="progressSeek" min="0" max="100" value="0" step="0.1">
     </div>
 
@@ -399,12 +476,17 @@
             <div class="mnp-scrub-track">
               <div class="mnp-scrub-buffered" id="mnpScrubBuffered"></div>
               <div class="mnp-scrub-played" id="mnpScrubPlayed"></div>
+              <div class="timed-markers-layer" id="mnpTimedMarkers"></div>
             </div>
             <input type="range" class="mnp-scrub-slider" id="mnpScrubSlider" min="0" max="100" value="0" step="0.1">
           </div>
           <div class="mnp-time-row">
             <span class="mnp-time-cur" id="mnpTimeCur">00:00</span>
             <span class="mnp-time-dur" id="mnpTimeDur">--:--</span>
+          </div>
+          <div class="mnp-timed-pill" id="mnpTimedPill" style="display: none;">
+            <span class="mnp-timed-badge" id="mnpTimedBadge">00:00</span>
+            <span class="mnp-timed-text" id="mnpTimedText"></span>
           </div>
         </div>
 
@@ -433,12 +515,20 @@
           </button>
         </div>
 
-        <!-- Alt Araçlar: Sanatçı Hakkında & Canlı Akış -->
+        <!-- Alt Araçlar: Sanatçı Hakkında, Paylaş & Canlı Akış -->
         <div class="mnp-footer-row">
-          <button class="mnp-pill-btn" id="mnpStoryToggleBtn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span>Sanatçı Hakkında</span>
-          </button>
+          <div class="mnp-footer-actions">
+            <button class="mnp-pill-btn" id="mnpStoryToggleBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>Sanatçı Hakkında</span>
+            </button>
+            <button class="mnp-pill-btn mnp-pill-icon" id="mnpShareBtn" title="Eseri Paylaş">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            </button>
+            <button class="mnp-pill-btn mnp-pill-icon" id="mnpStoryCardBtn" title="9:16 Hikaye Kartı Oluştur">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </button>
+          </div>
 
           <div class="mnp-stream-badge">
             <span class="mnp-stream-dot"></span>
@@ -488,8 +578,33 @@
       </button>
     </div>
 
-    <!-- Merkez: Şık Minimalist Tipografi & Punto -->
+    <!-- Merkez: Müzikal Pomodoro + Şık Minimalist Tipografi & Punto -->
     <div class="zen-center-stage">
+      <!-- Müzikal Pomodoro Sayacı -->
+      <div class="zen-pomodoro-dock" id="zenPomodoroDock">
+        <div class="zen-pomo-modes" role="group" aria-label="Pomodoro modu">
+          <button type="button" class="zen-pomo-mode-btn active" id="zenPomoFocusModeBtn" data-pomo-mode="focus">25 dk Çalışma</button>
+          <button type="button" class="zen-pomo-mode-btn" id="zenPomoBreakModeBtn" data-pomo-mode="break">5 dk Mola</button>
+          <button type="button" class="zen-pomo-auto-btn active" id="zenPomoAutoMusicBtn" aria-pressed="true" title="Çalışma süresince otomatik enstrümantal, klasik veya soundtrack çalar">
+            <span class="zen-pomo-auto-dot"></span>
+            <span>Enstrümantal Akış</span>
+          </button>
+        </div>
+
+        <div class="zen-pomo-readout-row">
+          <div class="zen-pomo-clock" id="zenPomodoroTime">25:00</div>
+          <div class="zen-pomo-meta">
+            <span class="zen-pomo-phase-label" id="zenPomodoroPhaseLabel">ÇALIŞMA KUŞAĞI</span>
+            <span class="zen-pomo-status-text" id="zenPomodoroStatusText">Başlatıldığında enstrümantal odak müziği çalar</span>
+          </div>
+        </div>
+
+        <div class="zen-pomo-actions">
+          <button type="button" class="zen-pomo-btn zen-pomo-btn-primary" id="zenPomodoroStartBtn">Başlat</button>
+          <button type="button" class="zen-pomo-btn" id="zenPomodoroResetBtn">Sıfırla</button>
+        </div>
+      </div>
+
       <div class="zen-typography">
         <h2 class="zen-song-title" id="zenSongTitle">Radyo Kırkyama</h2>
         <p class="zen-song-artist" id="zenSongArtist">Dinlemeye Hazır &bull; Eser Seçin</p>
@@ -540,20 +655,166 @@
     </div>
   </div>
 
-  <!-- AYARLAR MODALI (Gelecek Özellikler İçin Rezerve) -->
+  <!-- AYARLAR MODALI (Crossfade, Uyku Zamanlayıcısı, Veri Tasarrufu & Yayın) -->
   <div class="modal-backdrop" id="serverSettingsModal" style="display: none;">
-    <div class="modal-card" style="max-width: 440px; text-align: center;">
+    <div class="modal-card settings-modal-card">
       <div class="modal-header">
-        <h4>Ayarlar</h4>
+        <h4>Yayın ve Oynatma Ayarları</h4>
         <button class="modal-close-cross" id="closeSettingsModalBtn">&times;</button>
       </div>
-      <div class="modal-body" style="padding: 36px 20px;">
-        <p style="font-size: 0.95rem; color: var(--text-sub); line-height: 1.6;">
-          Ayarlar paneli güncelleniyor.
-        </p>
+      <div class="modal-body settings-modal-body">
+        <!-- 0. Görünüm Teması -->
+        <div class="settings-section">
+          <div class="settings-section-head">
+            <span class="settings-label">Görünüm Teması</span>
+            <span class="settings-value-badge" id="themeStatusLabel">Gece Yayını</span>
+          </div>
+          <p class="settings-hint">Dergi okuma atmosferini ve ekran parlaklığını seçin. Dinamik albüm rengi aura ve vurguları çalan kapağa uyarlar.</p>
+          <div class="settings-pills theme-pills-grid" id="themeOptionsGroup" role="group" aria-label="Görünüm teması">
+            <button type="button" class="settings-pill theme-pill active" data-theme="night">
+              <span class="theme-swatch theme-swatch-night" aria-hidden="true"></span>
+              <span>Gece Yayını</span>
+            </button>
+            <button type="button" class="settings-pill theme-pill" data-theme="paper">
+              <span class="theme-swatch theme-swatch-paper" aria-hidden="true"></span>
+              <span>Kağıt Dergi</span>
+            </button>
+            <button type="button" class="settings-pill theme-pill" data-theme="oled">
+              <span class="theme-swatch theme-swatch-oled" aria-hidden="true"></span>
+              <span>OLED Siyah</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 1. Crossfade (Otomatik Geçiş) -->
+        <div class="settings-section">
+          <div class="settings-section-head">
+            <span class="settings-label">Otomatik Geçiş (Crossfade)</span>
+            <span class="settings-value-badge" id="crossfadeStatusLabel">2 sn</span>
+          </div>
+          <p class="settings-hint">Eserler arası geçişte seslerin birbirine yumuşakça karışma süresini belirler.</p>
+          <div class="settings-pills" id="crossfadeOptionsGroup" role="group" aria-label="Crossfade süresi">
+            <button type="button" class="settings-pill" data-crossfade="0">Kapalı</button>
+            <button type="button" class="settings-pill" data-crossfade="2">2 sn</button>
+            <button type="button" class="settings-pill" data-crossfade="4">4 sn</button>
+            <button type="button" class="settings-pill" data-crossfade="6">6 sn</button>
+          </div>
+        </div>
+
+        <!-- 2. Uyku Zamanlayıcısı (Sleep Timer) -->
+        <div class="settings-section">
+          <div class="settings-section-head">
+            <span class="settings-label">Uyku Zamanlayıcısı</span>
+            <span class="settings-value-badge" id="sleepTimerStatusLabel">Kapalı</span>
+          </div>
+          <p class="settings-hint">Belirlenen süre sonunda ses yumuşakça kısılarak yayın otomatik durdurulur.</p>
+          <div class="settings-pills" id="sleepTimerOptionsGroup" role="group" aria-label="Uyku zamanlayıcısı">
+            <button type="button" class="settings-pill" data-sleep="off">Kapalı</button>
+            <button type="button" class="settings-pill" data-sleep="15">15 dk</button>
+            <button type="button" class="settings-pill" data-sleep="30">30 dk</button>
+            <button type="button" class="settings-pill" data-sleep="45">45 dk</button>
+            <button type="button" class="settings-pill" data-sleep="60">60 dk</button>
+            <button type="button" class="settings-pill" data-sleep="track">Eser Bitince</button>
+          </div>
+        </div>
+
+        <!-- 3. Veri Tasarrufu & Ön-Yükleme -->
+        <div class="settings-section">
+          <label class="settings-toggle-row" for="dataSaverToggle">
+            <div class="settings-toggle-text">
+              <span class="settings-label">Veri Tasarrufu Modu</span>
+              <span class="settings-hint">Sıradaki eseri arka planda önceden yüklemeyi kapatarak internet tüketimini azaltır. (Yayınlar orijinal akış kalitesinde çalınır.)</span>
+            </div>
+            <span class="settings-switch">
+              <input type="checkbox" id="dataSaverToggle">
+              <span class="settings-switch-slider"></span>
+            </span>
+          </label>
+        </div>
+
+        <!-- 4. Akış Motoru Durumu & Pasaport -->
+        <div class="settings-section settings-section-compact">
+          <div class="settings-section-head">
+            <span class="settings-label">Yayın Motoru</span>
+            <span class="settings-engine-status" id="settingsEngineStatus">Çift Deck &bull; Aktif</span>
+          </div>
+        </div>
+        <div class="settings-section settings-section-compact">
+          <div class="settings-section-head">
+            <span class="settings-label">Kişisel Müzik Pasaportu</span>
+            <button type="button" class="settings-pill" id="openPassportFromSettingsBtn">Pasaportumu Aç</button>
+          </div>
+        </div>
       </div>
-      <div class="modal-footer" style="justify-content: center;">
-        <button class="btn-editorial-pill" id="closeSettingsModalFooterBtn">Kapat</button>
+      <div class="modal-footer" style="justify-content: flex-end;">
+        <button class="btn-editorial-save" id="closeSettingsModalFooterBtn">Tamam</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALINTI / HİKAYE KARTI MODALI (9:16 LINER NOTES CARD) -->
+  <div class="modal-backdrop" id="storyCardModal" style="display: none;">
+    <div class="modal-card story-card-modal-card">
+      <div class="modal-header">
+        <h4>Alıntı &amp; Hikaye Kartı</h4>
+        <button class="modal-close-cross" id="closeStoryCardModalBtn">&times;</button>
+      </div>
+      <div class="story-card-modal-body">
+        <div class="story-card-preview-frame">
+          <canvas id="storyCardCanvas" width="1080" height="1920"></canvas>
+        </div>
+        <p class="story-card-hint">Instagram Hikayesi veya WhatsApp durumu için 9:16 dikey formatında hazırlandı.</p>
+      </div>
+      <div class="modal-footer story-card-modal-footer">
+        <button type="button" class="btn-editorial-cancel" id="storyCardCopyLinkBtn">Bağlantıyı Kopyala</button>
+        <button type="button" class="btn-editorial-cancel" id="storyCardWebShareBtn" style="display: none;">Görseli Paylaş</button>
+        <button type="button" class="btn-editorial-save" id="storyCardDownloadBtn">PNG İndir</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- KİŞİSEL MÜZİK PASAPORTU MODALI -->
+  <div class="modal-backdrop" id="musicPassportModal" style="display: none;">
+    <div class="modal-card passport-modal-card">
+      <div class="modal-header">
+        <div>
+          <h4>Kişisel Müzik Pasaportu</h4>
+          <span class="passport-since-text" id="passportSinceLabel">Tarayıcında güvenle saklanır</span>
+        </div>
+        <button class="modal-close-cross" id="closePassportModalBtn">&times;</button>
+      </div>
+      <div class="passport-modal-body">
+        <div class="passport-stats-grid">
+          <div class="passport-stat-tile">
+            <span class="passport-stat-label">Toplam Dinleme</span>
+            <strong class="passport-stat-value" id="passportTotalTime">0 dk</strong>
+          </div>
+          <div class="passport-stat-tile">
+            <span class="passport-stat-label">Favori Kuşak</span>
+            <strong class="passport-stat-value passport-stat-value-sm" id="passportTopCategory">Henüz Yok</strong>
+          </div>
+          <div class="passport-stat-tile">
+            <span class="passport-stat-label">Keşfedilen Sanatçı</span>
+            <strong class="passport-stat-value" id="passportArtistCount">0</strong>
+          </div>
+          <div class="passport-stat-tile">
+            <span class="passport-stat-label">Dinlenen Eser</span>
+            <strong class="passport-stat-value" id="passportTrackCount">0</strong>
+          </div>
+        </div>
+
+        <div class="passport-summary-card">
+          <p class="passport-summary-text" id="passportSummaryText"></p>
+        </div>
+
+        <div class="passport-breakdown-box" id="passportBreakdownBox">
+          <span class="passport-breakdown-title">En Çok Vakit Geçirilen Kuşaklar</span>
+          <div class="passport-breakdown-list" id="passportTopCategoriesList"></div>
+        </div>
+      </div>
+      <div class="modal-footer passport-modal-footer">
+        <button type="button" class="btn-editorial-cancel passport-reset-btn" id="passportResetBtn">Sıfırla</button>
+        <button type="button" class="btn-editorial-save" id="closePassportModalFooterBtn">Tamam</button>
       </div>
     </div>
   </div>
@@ -561,10 +822,11 @@
   <!-- TOAST BİLDİRİM KAPSAYICISI -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <!-- HTML5 Audio Motoru -->
+  <!-- ÇİFT DECK HTML5 AUDIO MOTORU (Smart Preload + Crossfade) -->
   <audio id="audioEngine" preload="auto" playsinline webkit-playsinline></audio>
+  <audio id="audioEngineB" preload="auto" playsinline webkit-playsinline></audio>
 
   <!-- Uygulama Scripti -->
-  <script src="app.js?v=8.3"></script>
+  <script src="app.js?v=8.8"></script>
 </body>
 </html>
