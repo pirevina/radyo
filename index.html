@@ -47,10 +47,26 @@
           var mc = document.querySelector('meta[name="theme-color"]');
           if (mc) mc.setAttribute('content', t === 'paper' ? '#f4ede2' : (t === 'oled' ? '#000000' : '#0d0e12'));
         }
-      } catch (_) {}
+        var tok = localStorage.getItem('kirkyama_stream_token');
+        var hasValidTok = false;
+        if (tok && tok.indexOf('.') > 0) {
+          var b64 = tok.split('.')[0].replace(/-/g, '+').replace(/_/g, '/');
+          var padded = b64 + '==='.slice((b64.length + 3) % 4);
+          var payload = JSON.parse(atob(padded));
+          if (payload && typeof payload.exp === 'number' && payload.exp > Math.floor(Date.now() / 1000)) {
+            hasValidTok = true;
+          }
+        }
+        if (!hasValidTok) {
+          document.documentElement.classList.add('auth-locked');
+        }
+      } catch (_) {
+        document.documentElement.classList.add('auth-locked');
+      }
     })();
   </script>
-  <link rel="stylesheet" href="style.css?v=7.5">
+  <link rel="stylesheet" href="style.css?v=7.6">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
@@ -58,6 +74,52 @@
   <div class="editorial-aura" id="editorialAura">
     <div class="aura-orb orb-1" id="auraOrb1"></div>
     <div class="aura-orb orb-2" id="auraOrb2"></div>
+  </div>
+
+  <!-- GOOGLE + TEK SEFERLİK OKUL DAVET KODU KİLİT EKRANI -->
+  <div class="auth-gate-overlay" id="authGateOverlay" aria-modal="true" role="dialog" aria-labelledby="authGateTitle">
+    <div class="auth-gate-card">
+      <div class="auth-gate-crest">
+        <img src="assets/logo.svg?v=4" alt="Radyo Kırkyama" width="44" height="44">
+      </div>
+      <span class="auth-gate-kicker">BOĞAZİÇİ KOLEJİ &bull; ÖZEL ERİŞİM</span>
+      <h2 class="auth-gate-title" id="authGateTitle">Radyo Kırkyama</h2>
+      <p class="auth-gate-subtitle" id="authGateSubtitle">Okul müzik arşivine ve canlı yayına erişmek için Google hesabınla oturum aç.</p>
+
+      <!-- Adım 1: Google ile Giriş -->
+      <div class="auth-step" id="authStepGoogle">
+        <div class="auth-google-btn-wrap">
+          <div id="googleSignInBtnHost" class="google-signin-host"></div>
+          <p class="auth-loading-note" id="authGoogleLoadingNote">Google giriş butonu hazırlanıyor...</p>
+        </div>
+      </div>
+
+      <!-- Adım 2: İlk Giriş Tek Seferlik Okul Davet Kodu -->
+      <form class="auth-step auth-step-invite" id="authStepInvite" style="display: none;">
+        <div class="auth-user-pill">
+          <img id="authPendingAvatar" class="auth-user-avatar" src="assets/logo.svg?v=4" alt="" style="display: none;">
+          <div class="auth-user-meta">
+            <strong id="authPendingName">Öğrenci</strong>
+            <span id="authPendingEmail"></span>
+          </div>
+        </div>
+        <label class="auth-invite-label" for="authInviteCodeInput">Tek Seferlik Okul Davet Kodu</label>
+        <input
+          type="text"
+          id="authInviteCodeInput"
+          class="auth-invite-input"
+          placeholder="Davet kodunu yazın..."
+          autocomplete="off"
+          autocapitalize="none"
+          spellcheck="false"
+        >
+        <button type="submit" class="auth-invite-submit-btn" id="authInviteSubmitBtn">Doğrula ve Giriş Yap</button>
+        <button type="button" class="auth-switch-account-btn" id="authSwitchAccountBtn">Farklı hesapla giriş yap</button>
+      </form>
+
+      <div class="auth-status-feedback" id="authStatusFeedback" style="display: none;"></div>
+      <p class="auth-gate-footnote">İlk onaydan sonra sonraki girişlerinde tek tıkla açılır.</p>
+    </div>
   </div>
 
   <div class="journal-wrapper">
@@ -745,6 +807,15 @@
             <button type="button" class="settings-pill" id="openPassportFromSettingsBtn">Pasaportumu Aç</button>
           </div>
         </div>
+        <div class="settings-section settings-section-compact">
+          <div class="settings-section-head">
+            <div class="settings-auth-info">
+              <span class="settings-label">Hesap Oturumu</span>
+              <span class="settings-auth-email" id="settingsAuthUserLabel">Giriş yapılmadı</span>
+            </div>
+            <button type="button" class="settings-pill settings-logout-btn" id="authLogoutBtn">Çıkış Yap</button>
+          </div>
+        </div>
       </div>
       <div class="modal-footer" style="justify-content: flex-end;">
         <button class="btn-editorial-save" id="closeSettingsModalFooterBtn">Tamam</button>
@@ -827,6 +898,6 @@
   <audio id="audioEngineB" preload="auto" playsinline webkit-playsinline></audio>
 
   <!-- Uygulama Scripti -->
-  <script src="app.js?v=8.8"></script>
+  <script src="app.js?v=8.9"></script>
 </body>
 </html>

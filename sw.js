@@ -1,4 +1,4 @@
-const CACHE_NAME = 'radyo-kirkyama-v9.3';
+const CACHE_NAME = 'radyo-kirkyama-v9.4';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -46,8 +46,16 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Audio stream veya range istekleri tarayıcı tarafında doğrudan network'e gitsin
-  if (event.request.headers.get('range') || url.pathname.includes('/stream/') || url.pathname.endsWith('.mp3')) {
+  // Audio stream, auth API veya Google GSI istekleri doğrudan network'e gitsin
+  if (
+    event.request.method !== 'GET' ||
+    event.request.headers.get('range') ||
+    url.pathname.includes('/stream/') ||
+    url.pathname.includes('/api/') ||
+    url.hostname.includes('accounts.google.com') ||
+    url.hostname.includes('oauth2.googleapis.com') ||
+    url.pathname.endsWith('.mp3')
+  ) {
     return;
   }
 

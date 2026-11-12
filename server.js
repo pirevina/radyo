@@ -1,5 +1,8 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 const express = require('express');
 const cors = require('cors');
@@ -9,13 +12,14 @@ const { StringSession } = require('telegram/sessions');
 
 const app = express();
 
-// Full CORS support for cross-origin streaming, Range requests and mobile WebKit/ExoPlayer
+// Full CORS support for cross-origin streaming, Auth API, Range requests and mobile WebKit/ExoPlayer
 app.use(cors({
     origin: '*',
-    methods: ['GET', 'HEAD', 'OPTIONS'],
+    methods: ['GET', 'HEAD', 'POST', 'OPTIONS'],
     allowedHeaders: ['Range', 'Content-Type', 'Accept', 'Authorization'],
     exposedHeaders: ['Content-Range', 'Accept-Ranges', 'Content-Length', 'X-Cache']
 }));
+app.use(express.json({ limit: '64kb' }));
 
 const PORT = process.env.PORT || 3001;
 const SESSION_FILE = path.join(__dirname, 'session.txt');
@@ -24,6 +28,141 @@ const apiId = parseInt(process.env.API_ID, 10);
 const apiHash = process.env.API_HASH || '';
 const botToken = process.env.BOT_TOKEN || '';
 const channelIdRaw = process.env.CHANNEL_ID || '';
+
+// Google Auth + Tek Seferlik Okul Davet Kodu + HMAC Yayın Bileti Ayarları
+const GOOGLE_CLIENT_ID = (process.env.GOOGLE_CLIENT_ID || '').trim();
+const SHEET_AUTH_URL = (process.env.SHEET_AUTH_URL || '').trim();
+const INVITE_CODE = (process.env.INVITE_CODE || '').trim();
+const TOKEN_SECRET = (process.env.TOKEN_SECRET || '').trim();
+const STREAM_TOKEN_TTL_SEC = 7 * 24 * 60 * 60; // 7 gün
+
+if (!GOOGLE_CLIENT_ID || !SHEET_AUTH_URL || !INVITE_CODE || !TOKEN_SECRET) {
+    console.warn('[Auth Uyarısı] GOOGLE_CLIENT_ID, SHEET_AUTH_URL, INVITE_CODE veya TOKEN_SECRET eksik. Auth ve korumalı stream istekleri reddedilecektir.');
+}
+
+function safeEqualText(a, b) {
+    const bufA = Buffer.from(String(a || '').normalize('NFC'), 'utf8');
+    const bufB = Buffer.from(String(b || '').normalize('NFC'), 'utf8');
+    if (bufA.length === 0 || bufA.length !== bufB.length) return false;
+    return crypto.timingSafeEqual(bufA, bufB);
+}
+
+function signStreamToken(user) {
+    if (!TOKEN_SECRET) {
+        throw new Error('TOKEN_SECRET tanımlı değil.');
+    }
+    const nowSec = Math.floor(Date.now() / 1000);
+    const expSec = nowSec + STREAM_TOKEN_TTL_SEC;
+    const payload = {
+        email: String(user.email || '').trim().toLowerCase(),
+        name: String(user.name || '').trim(),
+        iat: nowSec,
+        exp: expSec
+    };
+    const payloadB64 = Buffer.from(JSON.stringify(payload), 'utf8').toString('base64url');
+    const sigB64 = crypto.createHmac('sha256', TOKEN_SECRET).update(payloadB64).digest('base64url');
+    return {
+        token: `${payloadB64}.${sigB64}`,
+        expiresAt: expSec * 1000
+    };
+}
+
+function verifyStreamToken(token) {
+    if (!TOKEN_SECRET || !token || typeof token !== 'string') return null;
+    const dotIdx = token.indexOf('.');
+    if (dotIdx <= 0 || dotIdx === token.length - 1 || token.indexOf('.', dotIdx + 1) !== -1) {
+        return null;
+    }
+    const payloadB64 = token.slice(0, dotIdx);
+    const sigB64 = token.slice(dotIdx + 1);
+    const expectedSig = crypto.createHmac('sha256', TOKEN_SECRET).update(payloadB64).digest('base64url');
+    const sigBuf = Buffer.from(sigB64, 'utf8');
+    const expectedBuf = Buffer.from(expectedSig, 'utf8');
+    if (sigBuf.length !== expectedBuf.length || !crypto.timingSafeEqual(sigBuf, expectedBuf)) {
+        return null;
+    }
+    try {
+        const parsed = JSON.parse(Buffer.from(payloadB64, 'base64url').toString('utf8'));
+        if (!parsed || typeof parsed.email !== 'string' || !parsed.email) return null;
+        if (typeof parsed.exp !== 'number' || parsed.exp <= Math.floor(Date.now() / 1000)) {
+            return null;
+        }
+        return parsed;
+    } catch (_) {
+        return null;
+    }
+}
+
+function extractRequestToken(req) {
+    if (req.query && typeof req.query.token === 'string' && req.query.token.trim()) {
+        return req.query.token.trim();
+    }
+    const authHeader = req.headers && req.headers.authorization;
+    if (typeof authHeader === 'string' && authHeader.startsWith('Bearer ')) {
+        return authHeader.slice(7).trim();
+    }
+    return '';
+}
+
+function requireStreamToken(req, res, next) {
+    const token = extractRequestToken(req);
+    const verified = verifyStreamToken(token);
+    if (!verified) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Cache-Control', 'no-store');
+        if (req.method === 'HEAD') {
+            return res.status(401).end();
+        }
+        return res.status(401).json({ error: 'Yetkisiz erişim. Geçerli bir yayın bileti gerekli.' });
+    }
+    req.authUser = verified;
+    return next();
+}
+
+async function verifyGoogleIdToken(credential) {
+    const tokenInfoUrl = `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(credential)}`;
+    const response = await fetch(tokenInfoUrl, {
+        method: 'GET',
+        signal: AbortSignal.timeout(10000)
+    });
+    if (!response.ok) {
+        return null;
+    }
+    const data = await response.json();
+    if (!data || !data.email) return null;
+    if (data.aud !== GOOGLE_CLIENT_ID) return null;
+    if (data.email_verified !== true && data.email_verified !== 'true') return null;
+    if (data.exp && Number(data.exp) <= Math.floor(Date.now() / 1000)) return null;
+
+    return {
+        email: String(data.email).trim().toLowerCase(),
+        name: String(data.name || data.email.split('@')[0]).trim(),
+        picture: String(data.picture || '').trim()
+    };
+}
+
+async function querySheetAuth(payload) {
+    const response = await fetch(SHEET_AUTH_URL, {
+        method: 'POST',
+        redirect: 'follow',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(12000)
+    });
+    const rawText = await response.text();
+    let parsed = null;
+    try {
+        parsed = JSON.parse(rawText);
+    } catch (_) {
+        throw new Error(`Apps Script geçersiz JSON döndü (HTTP ${response.status}).`);
+    }
+    if (!response.ok) {
+        throw new Error((parsed && parsed.error) || `Apps Script hatası (HTTP ${response.status}).`);
+    }
+    return parsed || {};
+}
 
 // RAM-bounded caches (Render Free Tier = 512 MB limit)
 const messageMetadataCache = new Map();
@@ -362,6 +501,7 @@ app.get('/health', (req, res) => {
         status: 'ok',
         telegramConnected: !!(client && client.connected && telegramReady),
         channelConfigured: !!channelIdRaw,
+        authConfigured: !!(GOOGLE_CLIENT_ID && SHEET_AUTH_URL && INVITE_CODE && TOKEN_SECRET),
         rssMB: Math.round(mem.rss / (1024 * 1024)),
         caches: {
             meta: messageMetadataCache.size,
@@ -372,8 +512,107 @@ app.get('/health', (req, res) => {
     });
 });
 
-// HEAD endpoint for mobile browsers / AVPlayer probe
-app.head('/stream/:messageId', async (req, res) => {
+// Google Sign-In + Tek Seferlik Okul Davet Kodu + Sheet Doğrulama
+app.post('/api/auth/google', async (req, res) => {
+    try {
+        if (!GOOGLE_CLIENT_ID || !SHEET_AUTH_URL || !INVITE_CODE || !TOKEN_SECRET) {
+            return res.status(500).json({ error: 'Sunucu kimlik doğrulama ortam değişkenleri eksik.' });
+        }
+
+        const credential = req.body && typeof req.body.credential === 'string' ? req.body.credential.trim() : '';
+        const inviteCodeRaw = req.body && typeof req.body.inviteCode === 'string' ? req.body.inviteCode.trim() : '';
+
+        if (!credential) {
+            return res.status(400).json({ error: 'Google kimlik belirteci (credential) gerekli.' });
+        }
+
+        const googleUser = await verifyGoogleIdToken(credential);
+        if (!googleUser) {
+            return res.status(401).json({ error: 'Google oturumu doğrulanamadı veya süresi doldu.' });
+        }
+
+        const checkRes = await querySheetAuth({
+            action: 'check',
+            email: googleUser.email
+        });
+
+        if (checkRes.blocked === true) {
+            return res.status(403).json({
+                status: 'blocked',
+                error: 'Bu hesabın radyo yayınına erişimi kısıtlanmış.'
+            });
+        }
+
+        if (checkRes.approved === true) {
+            const { token, expiresAt } = signStreamToken(googleUser);
+            return res.json({
+                status: 'ok',
+                token,
+                expiresAt,
+                user: googleUser
+            });
+        }
+
+        // İlk kez giriş yapan öğrenci: tek seferlik okul davet kodu gerekli
+        if (!inviteCodeRaw) {
+            return res.json({
+                status: 'need_invite_code',
+                user: googleUser
+            });
+        }
+
+        if (!safeEqualText(inviteCodeRaw, INVITE_CODE)) {
+            return res.status(403).json({
+                status: 'invalid_invite_code',
+                error: 'Okul davet kodu hatalı. Lütfen kontrol edip tekrar deneyin.'
+            });
+        }
+
+        const registerRes = await querySheetAuth({
+            action: 'register',
+            email: googleUser.email,
+            name: googleUser.name
+        });
+
+        if (registerRes && registerRes.blocked === true) {
+            return res.status(403).json({
+                status: 'blocked',
+                error: 'Bu hesabın erişimi engellenmiş.'
+            });
+        }
+
+        const { token, expiresAt } = signStreamToken(googleUser);
+        return res.json({
+            status: 'ok',
+            token,
+            expiresAt,
+            user: googleUser
+        });
+    } catch (err) {
+        console.error('[Auth /api/auth/google Hatası]:', err.message || err);
+        return res.status(502).json({ error: 'Kimlik doğrulama servisine ulaşılamadı. Lütfen tekrar deneyin.' });
+    }
+});
+
+// Mevcut yayın biletinin sunucu tarafında hızlı kontrolü
+app.get('/api/auth/verify', (req, res) => {
+    const token = extractRequestToken(req);
+    const verified = verifyStreamToken(token);
+    if (!verified) {
+        return res.status(401).json({ valid: false, error: 'Oturum geçersiz veya süresi dolmuş.' });
+    }
+    return res.json({
+        valid: true,
+        user: {
+            name: verified.name,
+            email: verified.email
+        },
+        expiresAt: verified.exp * 1000
+    });
+});
+
+// HEAD endpoint for mobile browsers / AVPlayer probe (token korumalı)
+app.head('/stream/:messageId', requireStreamToken, async (req, res) => {
     try {
         const ready = await ensureTelegramReady(15000).catch(() => false);
         if (!ready) {
@@ -395,7 +634,7 @@ app.head('/stream/:messageId', async (req, res) => {
             'Accept-Ranges': 'bytes',
             'Content-Length': data.fileSize,
             'Content-Type': data.mimeType || 'audio/mpeg',
-            'Cache-Control': 'public, max-age=3600',
+            'Cache-Control': 'private, max-age=3600',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
             'Access-Control-Allow-Headers': 'Range, Content-Type, Accept',
@@ -408,7 +647,7 @@ app.head('/stream/:messageId', async (req, res) => {
     }
 });
 
-app.get('/stream/:messageId', async (req, res) => {
+app.get('/stream/:messageId', requireStreamToken, async (req, res) => {
     try {
         const ready = await ensureTelegramReady(15000).catch(() => false);
         if (!ready) {
@@ -467,7 +706,7 @@ app.get('/stream/:messageId', async (req, res) => {
         const commonHeaders = {
             'Accept-Ranges': 'bytes',
             'Content-Type': data.mimeType || 'audio/mpeg',
-            'Cache-Control': 'public, max-age=3600',
+            'Cache-Control': 'private, max-age=3600',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
             'Access-Control-Allow-Headers': 'Range, Content-Type, Accept',
