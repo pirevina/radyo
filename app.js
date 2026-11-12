@@ -33814,7 +33814,14 @@
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        const errMsg = data.error || 'Giriş doğrulanamadı. Lütfen tekrar deneyin.';
+        let errMsg = data.error;
+        if (!errMsg) {
+          if (response.status === 404) {
+            errMsg = 'Sunucuda /api/auth/google uç noktası bulunamadı (HTTP 404). Render servisine güncel server.js dağıtımını yapın.';
+          } else {
+            errMsg = `Giriş doğrulanamadı (HTTP ${response.status}). Lütfen tekrar deneyin.`;
+          }
+        }
         if (response.status === 401) {
           switchAuthStep('google');
         }
