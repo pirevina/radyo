@@ -11,7 +11,6 @@
   // CANLI YAYIN SUNUCUSU VE BAĞLANTI AYARLARI
   // ==========================================================================
   const LIVE_RENDER_URL = 'https://radyo-kirkyama-stream.onrender.com';
-  const GOOGLE_CLIENT_ID = '442413701257-pkatr4cnr5d3kdorqmmhr3agv6imj5c9.apps.googleusercontent.com';
   let initialServerUrl = localStorage.getItem('kirkyama_server_url');
   if (!initialServerUrl || initialServerUrl.includes('localhost')) {
     initialServerUrl = LIVE_RENDER_URL;
@@ -33300,21 +33299,6 @@
   const passportTopCategoriesList = document.getElementById('passportTopCategoriesList');
   const passportResetBtn = document.getElementById('passportResetBtn');
 
-  // Google Auth & Davet Kodu Kilit Ekranı DOM Referansları
-  const authGateOverlay = document.getElementById('authGateOverlay');
-  const authStepGoogle = document.getElementById('authStepGoogle');
-  const googleSignInBtnHost = document.getElementById('googleSignInBtnHost');
-  const authGoogleLoadingNote = document.getElementById('authGoogleLoadingNote');
-  const authStepInvite = document.getElementById('authStepInvite');
-  const authPendingAvatar = document.getElementById('authPendingAvatar');
-  const authPendingName = document.getElementById('authPendingName');
-  const authPendingEmail = document.getElementById('authPendingEmail');
-  const authInviteCodeInput = document.getElementById('authInviteCodeInput');
-  const authInviteSubmitBtn = document.getElementById('authInviteSubmitBtn');
-  const authSwitchAccountBtn = document.getElementById('authSwitchAccountBtn');
-  const authStatusFeedback = document.getElementById('authStatusFeedback');
-  const settingsAuthUserLabel = document.getElementById('settingsAuthUserLabel');
-  const authLogoutBtn = document.getElementById('authLogoutBtn');
   const crossfadeStatusLabel = document.getElementById('crossfadeStatusLabel');
   const sleepTimerOptionsGroup = document.getElementById('sleepTimerOptionsGroup');
   const sleepTimerStatusLabel = document.getElementById('sleepTimerStatusLabel');
@@ -33588,329 +33572,8 @@
     crossfade: 'kirkyama_crossfade',
     dataSaver: 'kirkyama_data_saver',
     theme: 'kirkyama_theme',
-    passport: 'kirkyama_passport_v1',
-    streamToken: 'kirkyama_stream_token',
-    authUser: 'kirkyama_auth_user'
+    passport: 'kirkyama_passport_v1'
   };
-
-  // ==========================================================================
-  // GOOGLE İLE GİRİŞ + TEK SEFERLİK OKUL DAVET KODU GÜVENLİK DUVARI
-  // ==========================================================================
-  const authState = {
-    token: '',
-    user: null,
-    isAuthenticated: false,
-    pendingCredential: '',
-    pendingUser: null,
-    gsiInitialized: false,
-    postAuthDone: false
-  };
-
-  function getAuthServerUrl() {
-    return (state.streamServerUrl || LIVE_RENDER_URL).replace(/\/+$/, '');
-  }
-
-  function parseClientTokenPayload(token) {
-    if (!token || typeof token !== 'string') return null;
-    const dotIdx = token.indexOf('.');
-    if (dotIdx <= 0) return null;
-    try {
-      const b64 = token.slice(0, dotIdx).replace(/-/g, '+').replace(/_/g, '/');
-      const padded = b64 + '==='.slice((b64.length + 3) % 4);
-      const parsed = JSON.parse(atob(padded));
-      if (!parsed || typeof parsed.exp !== 'number' || parsed.exp <= Math.floor(Date.now() / 1000)) {
-        return null;
-      }
-      return parsed;
-    } catch (_) {
-      return null;
-    }
-  }
-
-  function syncSettingsAuthUI() {
-    if (!settingsAuthUserLabel) return;
-    if (authState.isAuthenticated && authState.user) {
-      const label = authState.user.name
-        ? `${authState.user.name} (${authState.user.email || ''})`
-        : (authState.user.email || 'Onaylı Öğrenci');
-      settingsAuthUserLabel.textContent = label;
-    } else {
-      settingsAuthUserLabel.textContent = 'Giriş yapılmadı';
-    }
-  }
-
-  function showAuthFeedback(message = '', type = 'error') {
-    if (!authStatusFeedback) return;
-    if (!message) {
-      authStatusFeedback.style.display = 'none';
-      authStatusFeedback.textContent = '';
-      authStatusFeedback.classList.remove('info');
-      return;
-    }
-    authStatusFeedback.textContent = message;
-    authStatusFeedback.classList.toggle('info', type === 'info');
-    authStatusFeedback.style.display = 'block';
-  }
-
-  function switchAuthStep(step, userInfo = null) {
-    if (step === 'invite') {
-      if (authStepGoogle) authStepGoogle.style.display = 'none';
-      if (authStepInvite) authStepInvite.style.display = 'flex';
-      if (authPendingName) authPendingName.textContent = (userInfo && userInfo.name) || 'Öğrenci';
-      if (authPendingEmail) authPendingEmail.textContent = (userInfo && userInfo.email) || '';
-      if (authPendingAvatar) {
-        if (userInfo && userInfo.picture) {
-          authPendingAvatar.src = userInfo.picture;
-          authPendingAvatar.style.display = 'block';
-        } else {
-          authPendingAvatar.style.display = 'none';
-        }
-      }
-      if (authInviteCodeInput) {
-        authInviteCodeInput.value = '';
-        setTimeout(() => authInviteCodeInput.focus(), 80);
-      }
-    } else {
-      authState.pendingCredential = '';
-      authState.pendingUser = null;
-      if (authStepInvite) authStepInvite.style.display = 'none';
-      if (authStepGoogle) authStepGoogle.style.display = 'flex';
-      if (authInviteCodeInput) authInviteCodeInput.value = '';
-    }
-  }
-
-  function saveAuthSession(token, user) {
-    authState.token = token;
-    authState.user = user || null;
-    authState.isAuthenticated = true;
-    authState.pendingCredential = '';
-    authState.pendingUser = null;
-    try {
-      localStorage.setItem(STORAGE_KEYS.streamToken, token);
-      if (user) {
-        localStorage.setItem(STORAGE_KEYS.authUser, JSON.stringify(user));
-      }
-    } catch (_) {}
-    document.documentElement.classList.remove('auth-locked');
-    showAuthFeedback('');
-    switchAuthStep('google');
-    syncSettingsAuthUI();
-  }
-
-  function clearAuthSession(feedbackMessage = '', feedbackType = 'error') {
-    authState.token = '';
-    authState.user = null;
-    authState.isAuthenticated = false;
-    authState.pendingCredential = '';
-    authState.pendingUser = null;
-    authState.postAuthDone = false;
-
-    try {
-      localStorage.removeItem(STORAGE_KEYS.streamToken);
-      localStorage.removeItem(STORAGE_KEYS.authUser);
-    } catch (_) {}
-
-    audioRecovery.wantsToPlay = false;
-    clearStallTimer();
-    stopActiveCrossfade(true);
-    decks.forEach((d) => {
-      if (!d) return;
-      try {
-        d.pause();
-        d.removeAttribute('src');
-        d.load();
-      } catch (_) {}
-    });
-    updatePlayPauseUI(false);
-
-    if (serverSettingsModal && serverSettingsModal.style.display === 'flex') {
-      serverSettingsModal.style.display = 'none';
-    }
-    document.documentElement.classList.add('auth-locked');
-    switchAuthStep('google');
-    showAuthFeedback(feedbackMessage, feedbackType);
-    syncSettingsAuthUI();
-    initGoogleSignInGate();
-  }
-
-  function restoreAuthFromStorage() {
-    try {
-      const savedToken = localStorage.getItem(STORAGE_KEYS.streamToken) || '';
-      const payload = parseClientTokenPayload(savedToken);
-      if (!payload) {
-        localStorage.removeItem(STORAGE_KEYS.streamToken);
-        authState.token = '';
-        authState.user = null;
-        authState.isAuthenticated = false;
-        document.documentElement.classList.add('auth-locked');
-        syncSettingsAuthUI();
-        return false;
-      }
-      let savedUser = null;
-      try {
-        savedUser = JSON.parse(localStorage.getItem(STORAGE_KEYS.authUser) || 'null');
-      } catch (_) {}
-      authState.token = savedToken;
-      authState.user = savedUser || { email: payload.email, name: payload.name || '' };
-      authState.isAuthenticated = true;
-      document.documentElement.classList.remove('auth-locked');
-      syncSettingsAuthUI();
-      return true;
-    } catch (_) {
-      authState.token = '';
-      authState.user = null;
-      authState.isAuthenticated = false;
-      document.documentElement.classList.add('auth-locked');
-      syncSettingsAuthUI();
-      return false;
-    }
-  }
-
-  async function verifyAuthTokenWithServer() {
-    if (!authState.token) return false;
-    try {
-      const res = await fetch(`${getAuthServerUrl()}/api/auth/verify?token=${encodeURIComponent(authState.token)}`, {
-        method: 'GET',
-        cache: 'no-store',
-        signal: AbortSignal.timeout(10000)
-      });
-      if (res.status === 401 || res.status === 403) {
-        clearAuthSession('Oturum süreniz doldu veya geçersiz. Lütfen Google ile tekrar giriş yapın.');
-        return false;
-      }
-      if (res.ok) {
-        const data = await res.json().catch(() => null);
-        if (data && data.valid === true) {
-          return true;
-        }
-      }
-    } catch (_) {
-      // Sunucu soğuk başlangıçta olabilir; akış isteğinde sunucu tekrar doğrulayacaktır
-    }
-    return authState.isAuthenticated;
-  }
-
-  async function submitGoogleAuthRequest(credential, inviteCode = '') {
-    if (!credential) return;
-    showAuthFeedback('Kimlik doğrulanıyor, lütfen bekleyin...', 'info');
-    if (authInviteSubmitBtn) {
-      authInviteSubmitBtn.disabled = true;
-      authInviteSubmitBtn.textContent = 'Doğrulanıyor...';
-    }
-
-    try {
-      const response = await fetch(`${getAuthServerUrl()}/api/auth/google`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          credential,
-          ...(inviteCode ? { inviteCode } : {})
-        }),
-        signal: AbortSignal.timeout(20000)
-      });
-
-      const data = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        let errMsg = data.error;
-        if (!errMsg) {
-          if (response.status === 404) {
-            errMsg = 'Sunucuda /api/auth/google uç noktası bulunamadı (HTTP 404). Render servisine güncel server.js dağıtımını yapın.';
-          } else {
-            errMsg = `Giriş doğrulanamadı (HTTP ${response.status}). Lütfen tekrar deneyin.`;
-          }
-        }
-        if (response.status === 401) {
-          switchAuthStep('google');
-        }
-        showAuthFeedback(errMsg, 'error');
-        return;
-      }
-
-      if (data.status === 'need_invite_code') {
-        authState.pendingCredential = credential;
-        authState.pendingUser = data.user || null;
-        showAuthFeedback('');
-        switchAuthStep('invite', data.user);
-        return;
-      }
-
-      if (data.status === 'ok' && data.token) {
-        saveAuthSession(data.token, data.user);
-        await completePostAuthInit();
-        const welcomeName = (data.user && data.user.name) ? data.user.name.split(' ')[0] : 'Hoş geldin';
-        showToast(`Hoş geldin, ${welcomeName}!`, 'success');
-        return;
-      }
-
-      showAuthFeedback('Beklenmeyen doğrulama yanıtı alındı.', 'error');
-    } catch (err) {
-      showAuthFeedback('Sunucuya bağlanılamadı (uyku modundan uyanıyor olabilir). Birkaç saniye sonra tekrar deneyin.', 'error');
-    } finally {
-      if (authInviteSubmitBtn) {
-        authInviteSubmitBtn.disabled = false;
-        authInviteSubmitBtn.textContent = 'Doğrula ve Giriş Yap';
-      }
-    }
-  }
-
-  function renderGoogleSignInButton() {
-    if (!googleSignInBtnHost || !window.google || !window.google.accounts || !window.google.accounts.id) {
-      return false;
-    }
-    try {
-      if (!authState.gsiInitialized) {
-        window.google.accounts.id.initialize({
-          client_id: GOOGLE_CLIENT_ID,
-          callback: (resp) => {
-            if (resp && resp.credential) {
-              submitGoogleAuthRequest(resp.credential);
-            } else {
-              showAuthFeedback('Google giriş yanıtı alınamadı.', 'error');
-            }
-          },
-          auto_select: false,
-          cancel_on_tap_outside: true
-        });
-        authState.gsiInitialized = true;
-      }
-      googleSignInBtnHost.innerHTML = '';
-      const isPaper = document.documentElement.getAttribute('data-theme') === 'paper';
-      window.google.accounts.id.renderButton(googleSignInBtnHost, {
-        type: 'standard',
-        theme: isPaper ? 'outline' : 'filled_black',
-        size: 'large',
-        text: 'signin_with',
-        shape: 'pill',
-        logo_alignment: 'left',
-        width: 280
-      });
-      if (authGoogleLoadingNote) authGoogleLoadingNote.style.display = 'none';
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  function initGoogleSignInGate() {
-    if (renderGoogleSignInButton()) return;
-    let attempts = 0;
-    const timer = setInterval(() => {
-      attempts += 1;
-      if (authState.isAuthenticated || renderGoogleSignInButton()) {
-        clearInterval(timer);
-        return;
-      }
-      if (attempts >= 25) {
-        clearInterval(timer);
-        if (authGoogleLoadingNote) {
-          authGoogleLoadingNote.textContent = 'Google giriş servisi yüklenemedi. Reklam engelleyici varsa kapatıp sayfayı yenileyin.';
-        }
-      }
-    }, 400);
-  }
 
   // ==========================================================================
   // FAZ 5: ZAMAN DAMGALI NOTLAR, MÜZİK PASAPORTU VE HİKAYE KARTI (<canvas>)
@@ -34983,9 +34646,18 @@
   // ==========================================================================
   // BAŞLATMA
   // ==========================================================================
-  async function completePostAuthInit() {
-    if (!authState.isAuthenticated || authState.postAuthDone) return;
-    authState.postAuthDone = true;
+  async function init() {
+    prepareCatalogIndexes(state.allSongs);
+    loadPassportData();
+    setupEventListeners();
+    setupMediaSession();
+    registerServiceWorker();
+    initAudioEngine();
+    initSettingsUI();
+    syncMoodPillsUI();
+    syncPomodoroUI();
+    setPlayerIdleState();
+    updateMobileNowPlayingUI(state.currentSong);
 
     if (state.allSongs.length > 0 && !state.currentSong) {
       setupFeature(state.allSongs[0]);
@@ -35005,9 +34677,6 @@
     if (!hadDeepLink) {
       restoreSavedPlaybackState();
     }
-
-    // Sunucudan gelen yayın biletini arka planda doğrula (iptal/süre dolduysa kilitle)
-    verifyAuthTokenWithServer();
 
     // 2. Eğer web sunucusu altındaysak güncel songs.json'ı kontrol et (aynıysa gereksiz yeniden çizim yapma)
     try {
@@ -35045,28 +34714,6 @@
     }
 
     checkServerHealthQuiet();
-  }
-
-  async function init() {
-    prepareCatalogIndexes(state.allSongs);
-    loadPassportData();
-    setupEventListeners();
-    setupMediaSession();
-    registerServiceWorker();
-    initAudioEngine();
-    initSettingsUI();
-    syncMoodPillsUI();
-    syncPomodoroUI();
-    setPlayerIdleState();
-    updateMobileNowPlayingUI(state.currentSong);
-
-    const hasLocalSession = restoreAuthFromStorage();
-    if (!hasLocalSession) {
-      initGoogleSignInGate();
-      return;
-    }
-
-    await completePostAuthInit();
   }
 
   // ==========================================================================
@@ -35126,9 +34773,6 @@
   }
 
   function buildStreamUrl(song, cacheBust = '') {
-    if (!authState.isAuthenticated || !authState.token) {
-      return '';
-    }
     const serverUrl = (state.streamServerUrl || LIVE_RENDER_URL).replace(/\/+$/, '');
     const effectiveMsgId = song.messageId || song.telegramMsgId;
     let url = '';
@@ -35145,9 +34789,6 @@
       }
     }
 
-    if (url && url.includes('/stream/')) {
-      url += (url.includes('?') ? '&' : '?') + `token=${encodeURIComponent(authState.token)}`;
-    }
     if (url && cacheBust) {
       url += (url.includes('?') ? '&' : '?') + cacheBust;
     }
@@ -35348,11 +34989,7 @@
 
   function recoverCurrentTrack(toastMsg) {
     const song = state.currentSong;
-    if (!song || !authState.isAuthenticated) return;
-
-    if (audioRecovery.retryCount === 0) {
-      verifyAuthTokenWithServer();
-    }
+    if (!song) return;
 
     if (audioRecovery.retryCount >= 3) {
       handleUnrecoverableTrack(song, 'Bağlantı zaman aşımına uğradı');
@@ -35997,7 +35634,7 @@
   // ŞARKI YÜKLEME VE ÇALMA (ÇİFT DECK + SMART PRELOAD + CROSSFADE)
   // ==========================================================================
   function playSong(song, autoPlay = true, options = {}) {
-    if (!song || !authState.isAuthenticated) return;
+    if (!song) return;
 
     clearStallTimer();
     if (typeof stopPomodoroFade === 'function') {
@@ -36172,7 +35809,6 @@
   }
 
   function togglePlayPause() {
-    if (!authState.isAuthenticated) return;
     const curDeck = activeAudio();
     if (!state.currentSong || !curDeck || !curDeck.getAttribute('src')) {
       const list = state.filteredSongs.length > 0 ? state.filteredSongs : state.allSongs;
@@ -38927,7 +38563,6 @@
     }
 
     window.addEventListener('hashchange', () => {
-      if (!authState.isAuthenticated) return;
       applyLocationHash();
     });
 
@@ -39210,44 +38845,10 @@
       passportResetBtn.addEventListener('click', resetMusicPassportData);
     }
 
-    // Google Auth & Tek Seferlik Okul Davet Kodu Dinleyicileri
-    if (authStepInvite) {
-      authStepInvite.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const code = authInviteCodeInput ? authInviteCodeInput.value.trim() : '';
-        if (!code) {
-          showAuthFeedback('Lütfen tek seferlik okul davet kodunu yazın.', 'error');
-          if (authInviteCodeInput) authInviteCodeInput.focus();
-          return;
-        }
-        if (!authState.pendingCredential) {
-          showAuthFeedback('Google oturumu süresi doldu. Lütfen tekrar Google ile giriş yapın.', 'error');
-          switchAuthStep('google');
-          return;
-        }
-        submitGoogleAuthRequest(authState.pendingCredential, code);
-      });
-    }
-
-    if (authSwitchAccountBtn) {
-      authSwitchAccountBtn.addEventListener('click', () => {
-        showAuthFeedback('');
-        switchAuthStep('google');
-        renderGoogleSignInButton();
-      });
-    }
-
-    if (authLogoutBtn) {
-      authLogoutBtn.addEventListener('click', () => {
-        clearAuthSession('Oturumdan çıkış yapıldı.', 'info');
-      });
-    }
-
     window.addEventListener('pagehide', savePassportData);
 
     // Klavye Kısayolları (Space: Play/Pause)
     window.addEventListener('keydown', (e) => {
-      if (!authState.isAuthenticated || document.documentElement.classList.contains('auth-locked')) return;
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
       if (e.key === 'Escape') {
