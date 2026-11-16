@@ -1,4 +1,4 @@
-const CACHE_NAME = 'radyo-kirkyama-v9.6';
+const CACHE_NAME = 'radyo-kirkyama-v9.7';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -16,7 +16,8 @@ const STATIC_ASSETS = [
   './assets/icon-512.png',
   './assets/icon-512.png?v=4',
   './assets/icon-maskable-512.png',
-  './assets/player-idle-cover.svg'
+  './assets/player-idle-cover.svg',
+  './assets/le-vent-le-cri-radio-cover.jpg'
 ];
 
 self.addEventListener('install', (event) => {
